@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:background="@color/azul"
+    android:weightSum="5"
+    >
+
+    <ImageButton
+        android:layout_weight="1"
+        android:contentDescription="qwdasd"
+        android:id="@+id/info_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/info"
+        android:background="@drawable/round_button_background"
+        />
+    <ImageButton
+        android:layout_weight="1"
+        android:id="@+id/map_button"
+        android:contentDescription="weq"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/map"
+        android:background="@drawable/round_button_background"
+        />
+    <ImageButton
+        android:layout_weight="1"
+        android:id="@+id/home_button"
+        android:contentDescription="asd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/home"
+        android:background="@drawable/round_button_background"
+        />
+    <ImageButton
+        android:layout_weight="1"
+        android:id="@+id/media_button"
+        android:contentDescription="asdas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/gallery"
+        android:background="@drawable/round_button_background"
+        />
+    <ImageButton
+        android:layout_weight="1"
+        android:id="@+id/settings_button"
+        android:contentDescription="sadjhgsad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/settings"
+        android:background="@drawable/round_button_background"
+        />
+
+</LinearLayout>

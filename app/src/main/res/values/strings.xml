@@ -1,6 +1,18 @@
 <resources>
-    <string name="app_name">My Application</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">Pintia</string>
+    <string name="titulo_principal">Centro de Estudios Vacceos Federico Wattenberg</string>
+    <string name="header">%s</string>
+    <string name="info">Sobre nosotros</string>
+    <string name="map">Mapa</string>
+    <string name="home">Ciudad de Pintia</string>
+    <string name="gallery">Galería</string>
+    <string name="settings">Configuración</string>
+    <string name="tamButton">30dp</string>
+    <string name="description">Descripción</string>
+    <string name="description_content">%s</string>
+    <string name="more_info_title">Información Adicional</string>
+    <string name="more_info_content">%s</string>
+    <string name="challenges_title">Retos</string>
+    <string name="challenges_content">%s</string>
+    <string name="lore">Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.</string>
 </resources>
