@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:key="language"
+        android:title="Idioma"
+        android:summary="%s"
+        android:entries="@array/language_entries"
+        android:entryValues="@array/language_values"
+        android:defaultValue="es" />
+
+    <ListPreference
+        android:key="font_size"
+        android:title="Tamaño de letra"
+        android:summary="%s"
+        android:entries="@array/font_size_entries"
+        android:entryValues="@array/font_size_values"
+        android:defaultValue="medium" />
+
+    <SwitchPreferenceCompat
+        android:key="dark_mode"
+        android:title="Modo oscuro"
+        android:defaultValue="false" />
+</PreferenceScreen>

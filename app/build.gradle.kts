@@ -39,6 +39,7 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.retrofit)
     implementation(libs.glide)
+    implementation("androidx.preference:preference-ktx:1.2.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

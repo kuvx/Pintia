@@ -1,12 +1,14 @@
 package com.example.pintia.components
 
 import android.content.Context
+import android.content.Intent
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import com.example.pintia.MainMap
 import com.example.pintia.R
 
 class Header @JvmOverloads constructor(
@@ -31,6 +33,8 @@ class Header @JvmOverloads constructor(
         val backButton:ImageButton = findViewById(R.id.back_button_header)
         backButton.setOnClickListener {
             Toast.makeText(context, "Botton redondo presionado", Toast.LENGTH_SHORT).show()
+            val intent = Intent(context, MainMap::class.java)
+            context.startActivity(intent)
         }
     }
 }
