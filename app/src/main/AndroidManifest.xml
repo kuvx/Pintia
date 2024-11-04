@@ -28,6 +28,9 @@
             android:name=".MainMap"
             android:exported="false" />
         <activity
+            android:name=".RequestVisitActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
