@@ -30,6 +30,7 @@
         >
 
         <LinearLayout
+            android:id="@+id/leyend_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -39,7 +40,8 @@
             android:showDividers="middle"
             >
 
-            <!-- Elementos de la leyenda (cambia según lo que necesites) -->
+            <!-- Contenido dinámico -->
+            <!--
             <TextView
                 android:id="@+id/point_1"
                 android:layout_width="wrap_content"
@@ -51,55 +53,7 @@
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
             />
-
-            <TextView
-                android:id="@+id/point_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Elemento 2"
-                android:textColor="@android:color/white"
-                android:drawableStart="@drawable/point"
-                android:drawablePadding="8dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"
-                />
-
-            <TextView
-                android:id="@+id/point_3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Elemento 3"
-                android:textColor="@android:color/white"
-                android:drawableStart="@drawable/point"
-                android:drawablePadding="8dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"
-                />
-
-            <TextView
-                android:id="@+id/point_4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Elemento 4"
-                android:textColor="@android:color/white"
-                android:drawableStart="@drawable/point"
-                android:drawablePadding="8dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"
-                />
-
-            <TextView
-                android:id="@+id/point_5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Elemento 5"
-                android:textColor="@android:color/white"
-                android:drawableStart="@drawable/point"
-                android:drawablePadding="8dp"
-                android:gravity="center"
-                />
-
-            <!-- Agrega más elementos de leyenda según sea necesario -->
+            -->
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
