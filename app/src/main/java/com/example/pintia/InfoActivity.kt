@@ -22,9 +22,9 @@ class InfoActivity : AppCompatActivity() {
         val header = findViewById<Header>(R.id.header)
         header.title = getString(R.string.info)
         val descriptionContent = findViewById<TextView>(R.id.description_content)
-        descriptionContent.text = getString(R.string.lore)
+        descriptionContent.text = getString(R.string.lore) + getString(R.string.lore) + getString(R.string.lore) + getString(R.string.lore)
         val moreInfoContent = findViewById<TextView>(R.id.more_info_content)
-        moreInfoContent.text = getString(R.string.lore)
+        moreInfoContent.text = getString(R.string.lore) + getString(R.string.lore) + getString(R.string.lore) + getString(R.string.lore)
 
         mediaPlayer = MediaPlayer.create(this,R.raw.audio)
 

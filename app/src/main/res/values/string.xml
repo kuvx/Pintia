@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Pintia</string>
     <string name="titulo_principal">Centro de Estudios Vacceos Federico Wattenberg</string>
     <string name="header">%s</string>
     <string name="info">Sobre nosotros</string>
     <string name="map">Mapa</string>
     <string name="home">Ciudad de Pintia</string>
     <string name="gallery">Galería</string>
-    <string name="settings">Configuración</string>
+    <string name="settings">Settings</string>
     <string name="tamButton">30dp</string>
     <string name="description">Descripción</string>
-    <string name="request">Formulario</string>
     <string name="description_content">%s</string>
     <string name="more_info_title">Información Adicional</string>
     <string name="more_info_content">%s</string>
