@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tamaño del botón por defecto -->
+    <dimen name="default_button_size">48dp</dimen>
+    <!-- Tamaño del botón activo (más grande) -->
+    <dimen name="active_button_size">64dp</dimen>
+</resources>

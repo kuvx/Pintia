@@ -35,7 +35,18 @@ class Footer @JvmOverloads constructor(
         )
     }
 
-    fun changeView(index:Int) {
+    private fun setActive() {
+        val activeIndex = listOf<String>(
+            InfoActivity::class.java.simpleName,
+            MapActivity::class.java.simpleName,
+            MainMap::class.java.simpleName,
+            GalleryActivity::class.java.simpleName,
+            SettingsActivity::class.java.simpleName
+        ).indexOf(context::class.simpleName)
+        if (activeIndex != -1) updateButtonSizes(activeIndex)
+    }
+
+    fun changeView(index: Int) {
         val activityClass: Class<out AppCompatActivity> = when (index) {
             0 -> InfoActivity::class.java
             1 -> MapActivity::class.java
@@ -47,9 +58,29 @@ class Footer @JvmOverloads constructor(
         }
         val intent = Intent(context, activityClass)
         context.startActivity(intent)
+        // Ajusta el tamaño del botón seleccionado
+    }
+
+    private fun updateButtonSizes(activeIndex: Int) {
+        // Reestablece el tamaño de todos los botones
+        buttons.forEach { button ->
+            button.layoutParams.width = resources.getDimensionPixelSize(R.dimen.default_button_size)
+            button.layoutParams.height =
+                resources.getDimensionPixelSize(R.dimen.default_button_size)
+            button.requestLayout()
+        }
+
+        // Agranda el botón activo
+        buttons[activeIndex].layoutParams.width =
+            resources.getDimensionPixelSize(R.dimen.active_button_size)
+        buttons[activeIndex].layoutParams.height =
+            resources.getDimensionPixelSize(R.dimen.active_button_size)
+        buttons[activeIndex].setBackgroundResource(R.drawable.round_button_selected_background)
+        buttons[activeIndex].requestLayout()
     }
 
     init {
+
         LayoutInflater.from(context).inflate(R.layout.component_footer, this, true)
 
         buttons.forEachIndexed { index, button ->
@@ -58,5 +89,6 @@ class Footer @JvmOverloads constructor(
             }
         }
 
+        setActive()
     }
 }

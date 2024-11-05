@@ -8,7 +8,6 @@
     android:background="@color/azul"
     android:weightSum="5"
     >
-
     <ImageButton
         android:layout_weight="1"
         android:contentDescription="qwdasd"
