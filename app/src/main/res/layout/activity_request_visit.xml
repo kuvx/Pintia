@@ -57,7 +57,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="Fecha de la visita (dd/mm/yyyy)"
-                android:inputType="date" />
+                android:inputType="date"
+                android:focusable="false"
+                android:clickable="true"
+                />
+
+            <EditText
+                android:id="@+id/et_time"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Hora de la visita (opcional) (hh:mm)"
+                android:inputType="time"
+                android:focusable="false"
+                android:clickable="true"
+                />
 
             <Button
                 android:id="@+id/btn_submit"

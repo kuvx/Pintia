@@ -10,6 +10,7 @@
     <string name="settings">Configuración</string>
     <string name="tamButton">30dp</string>
     <string name="description">Descripción</string>
+    <string name="request">Solicitud de Visita</string>
     <string name="description_content">%s</string>
     <string name="more_info_title">Información Adicional</string>
     <string name="more_info_content">%s</string>

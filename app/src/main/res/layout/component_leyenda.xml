@@ -12,8 +12,8 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/ic_menu"
-        android:backgroundTint="@color/orange"
+        android:src="@drawable/expand"
+        android:backgroundTint="@color/naranja"
         android:contentDescription="Toggle Legend" />
 
     <!-- Contenedor de la leyenda (CardView) -->
@@ -26,30 +26,78 @@
         android:layout_marginTop="72dp"
         android:padding="16dp"
         android:visibility="gone"
-        android:backgroundTint="@color/orange"
-        app:cardCornerRadius="8dp">
+        android:backgroundTint="@color/naranja"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:divider="@android:color/transparent"
+            android:dividerPadding="20dp"
+            android:showDividers="middle"
+            >
 
             <!-- Elementos de la leyenda (cambia según lo que necesites) -->
             <TextView
+                android:id="@+id/point_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Elemento 1"
                 android:textColor="@android:color/white"
-                android:drawableStart="@drawable/ic_marker1"
-                android:drawablePadding="8dp"/>
+                android:drawableStart="@drawable/point"
+                android:drawablePadding="8dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+            />
 
             <TextView
+                android:id="@+id/point_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Elemento 2"
                 android:textColor="@android:color/white"
-                android:drawableStart="@drawable/ic_marker2"
-                android:drawablePadding="8dp"/>
+                android:drawableStart="@drawable/point"
+                android:drawablePadding="8dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/point_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Elemento 3"
+                android:textColor="@android:color/white"
+                android:drawableStart="@drawable/point"
+                android:drawablePadding="8dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/point_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Elemento 4"
+                android:textColor="@android:color/white"
+                android:drawableStart="@drawable/point"
+                android:drawablePadding="8dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/point_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Elemento 5"
+                android:textColor="@android:color/white"
+                android:drawableStart="@drawable/point"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                />
 
             <!-- Agrega más elementos de leyenda según sea necesario -->
 

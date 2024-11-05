@@ -157,7 +157,13 @@
                     android:text="@string/challenges_content"
                     />
             </LinearLayout>
-
+        <Button
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reserva"
+            android:id="@+id/visit_request_button"
+            />
         </FrameLayout>
     </ScrollView>
 </RelativeLayout>

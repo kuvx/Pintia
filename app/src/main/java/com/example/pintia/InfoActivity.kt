@@ -1,8 +1,10 @@
 package com.example.pintia
 
+import android.content.Intent
 import android.media.Image
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -35,6 +37,12 @@ class InfoActivity : AppCompatActivity() {
             } else {
                 mediaPlayer.start()
             }
+        }
+
+        val requestButton = findViewById<Button>(R.id.visit_request_button)
+        requestButton.setOnClickListener {
+            val intent = Intent(this, RequestVisitActivity::class.java)
+            startActivity(intent)
         }
     }
 
