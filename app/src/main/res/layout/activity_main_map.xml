@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/satelite_map_view">
+
+    <ImageView
+        android:id="@+id/satelite_background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="Mapa principal"
+        android:src="@drawable/mapa"/>
 
     <com.example.pintia.components.Header
         android:id="@+id/header"
@@ -14,17 +23,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" />
-<FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginVertical="90dp"
-    >
-    <com.example.pintia.components.Leyenda
-        android:id="@+id/leyenda_main"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="match_parent"
+        android:layout_marginVertical="90dp"
+        >
+        <com.example.pintia.components.Leyenda
+            android:id="@+id/leyenda_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
 
-</FrameLayout>
+    </FrameLayout>
 
 </RelativeLayout>
