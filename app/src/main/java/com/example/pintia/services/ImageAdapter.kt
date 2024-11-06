@@ -1,4 +1,4 @@
-package com.example.pintia
+package com.example.pintia.services
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
+import com.example.pintia.R
 
 class ImageAdapter(private val imageUrls: List<String>) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 

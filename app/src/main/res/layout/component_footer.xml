@@ -4,54 +4,44 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/azul"
+    android:gravity="center"
     android:orientation="horizontal"
     android:paddingHorizontal="16dp"
-    android:paddingBottom="26dp"
-    android:weightSum="5">
+    android:paddingVertical="10dp">
 
-    <ImageButton
-        android:id="@+id/info_button"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/round_button_background"
-        android:contentDescription="qwdasd"
-        android:src="@drawable/info" />
+        android:gravity="center">
 
-    <ImageButton
-        android:id="@+id/map_button"
-        android:layout_width="wrap_content"
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_button_background" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/active_button_size"
+        android:layout_weight="1"
+        android:gravity="center">
+
+        <ImageButton
+            android:layout_width="@dimen/active_button_size"
+            android:layout_height="@dimen/active_button_size"
+            android:background="@drawable/round_button_background" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@drawable/round_button_background"
-        android:contentDescription="weq"
-        android:src="@drawable/map" />
+        android:gravity="center">
 
-    <ImageButton
-        android:id="@+id/home_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/round_button_background"
-        android:contentDescription="asd"
-        android:src="@drawable/home" />
-
-    <ImageButton
-        android:id="@+id/media_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/round_button_background"
-        android:contentDescription="asdas"
-        android:src="@drawable/gallery" />
-
-    <ImageButton
-        android:id="@+id/settings_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@drawable/round_button_background"
-        android:contentDescription="sadjhgsad"
-        android:src="@drawable/settings" />
-
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_button_background" />
+    </RelativeLayout>
 </LinearLayout>

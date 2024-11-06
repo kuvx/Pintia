@@ -17,7 +17,6 @@ class RequestVisitActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_request_visit)
         val header = findViewById<Header>(R.id.header)
         header.title = getString(R.string.request)

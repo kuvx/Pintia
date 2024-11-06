@@ -1,20 +1,18 @@
 package com.example.pintia.components
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
-import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
-import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pintia.GalleryActivity
 import com.example.pintia.InfoActivity
-import com.example.pintia.MainActivity
 import com.example.pintia.MainMap
 import com.example.pintia.MapActivity
 import com.example.pintia.R
@@ -46,34 +44,65 @@ class Footer @JvmOverloads constructor(
         linearLayout.weightSum = footerEntries.size.toFloat()
 
         footerEntries.forEach { (drawable, activity) ->
-            val item: ImageButton = inflater.inflate(
+            val layout = inflater.inflate(
                 R.layout.component_footer_entry,
                 linearLayout,
                 false
-            ) as ImageButton
+            ) as RelativeLayout
+            val selected = activity.simpleName.equals(context::class.simpleName)
 
+            val layoutParams = layout.layoutParams
+            if (selected) {
+                layoutParams.height = resources.getDimensionPixelSize(R.dimen.active_button_size)
+            }
+            layout.layoutParams = layoutParams
+
+
+            val item = newImageButton(selected, activity)
             item.setImageResource(drawable)
-            linearLayout.addView(item)
 
-            item.setOnClickListener {
-                val intent = Intent(context, activity)
-                context.startActivity(intent)
-            }
-
-            if (activity.simpleName.equals(context::class.simpleName)) {
-                // Reajuste para indicar que está seleccionado
-                item.layoutParams.width =
-                    resources.getDimensionPixelSize(R.dimen.active_button_size)
-                item.layoutParams.height =
-                    resources.getDimensionPixelSize(R.dimen.active_button_size)
-                item.setBackgroundResource(R.drawable.round_button_selected_background)
-            } else {
-                item.layoutParams.width =
-                    resources.getDimensionPixelSize(R.dimen.default_button_size)
-                item.layoutParams.height =
-                    resources.getDimensionPixelSize(R.dimen.default_button_size)
-            }
-            item.requestLayout()
+            layout.addView(item)
+            linearLayout.addView(layout)
+            layout.requestLayout()
         }
     }
+
+    private fun newImageButton(
+        selected: Boolean,
+        activity: Class<out AppCompatActivity>
+    ): ImageButton {
+        // Crear una nueva instancia de ImageButton
+        val imageButton = ImageButton(context)
+
+        imageButton.scaleType = ImageView.ScaleType.CENTER_INSIDE
+        imageButton.adjustViewBounds = true
+
+
+        val resource =
+            if (selected)
+                R.drawable.round_button_selected_background
+            else
+                R.drawable.round_button_background
+        imageButton.setBackgroundResource(resource)
+
+        // Configura un OnClickListener para el botón
+        imageButton.setOnClickListener {
+            val intent = Intent(context, activity)
+            context.startActivity(intent)
+        }
+
+        val size =
+            if (selected) resources.getDimensionPixelSize(R.dimen.active_button_size)
+            else RelativeLayout.LayoutParams.WRAP_CONTENT
+
+        val layoutParams = LayoutParams(size, size).apply {
+            weight = 1f
+            gravity = Gravity.CENTER_HORIZONTAL
+        }
+
+        imageButton.layoutParams = layoutParams
+        imageButton.requestLayout()
+        return imageButton
+    }
+
 }

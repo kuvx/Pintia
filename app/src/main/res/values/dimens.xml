@@ -3,5 +3,5 @@
     <!-- Tamaño del botón por defecto -->
     <dimen name="default_button_size">48dp</dimen>
     <!-- Tamaño del botón activo (más grande) -->
-    <dimen name="active_button_size">64dp</dimen>
+    <dimen name="active_button_size">70dp</dimen>
 </resources>
