@@ -3,19 +3,15 @@ package com.example.pintia
 import android.content.Intent
 import android.graphics.PointF
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout.LayoutParams
-import android.widget.LinearLayout.inflate
 import android.widget.RelativeLayout
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pintia.components.Header
 import com.example.pintia.components.Leyenda
-import com.example.pintia.components.SateliteMapView
 import com.example.pintia.models.Punto
+import kotlin.math.abs
 
 class MainMap : AppCompatActivity() {
 
@@ -24,10 +20,10 @@ class MainMap : AppCompatActivity() {
     }
 
     // Parámetros del archivo .jgw (ajusta estos valores a los de tu archivo real)
-    private val pixelSizeX = 20.17541326219043
-    private val pixelSizeY = -20.17541326219043
-    private val originX = 455900.0
-    private val originY = 4743700.0
+    private val pixelSizeX = 4.721207156775379
+    private val pixelSizeY = -4.721207156775843
+    private val originX = -467173.0910876456
+    private val originY = 5105407.453628538
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,17 +42,25 @@ class MainMap : AppCompatActivity() {
         // Crear la lista de puntos
         val points = listOf(
             Punto(
-                latitude =  402973.80,
-                longitude = 4608151.83,
+                latitude =  41.6227296884,
+                longitude = -4.1695402615,
+                icon = R.color.black, // Reemplaza con tu icono
+                destinationActivity = InfoActivity::class.java // Actividad de destino para este punto
+            ),/*
+            Punto(
+                latitude =  originY,
+                longitude = originX,
                 icon = R.drawable.round_button_selected_background, // Reemplaza con tu icono
                 destinationActivity = InfoActivity::class.java // Actividad de destino para este punto
             ),
+            *
             Punto(
                 latitude = 4743600.0,
                 longitude = 455930.0,
                 icon = R.drawable.round_button_selected_background,
                 destinationActivity = GalleryActivity::class.java
             )
+            */
             // Añade más puntos según necesites
         )
 
@@ -83,7 +87,9 @@ class MainMap : AppCompatActivity() {
 
     private fun geoToPixel(latitude: Double, longitude: Double): PointF {
         val pixelX = ((longitude - originX) / pixelSizeX).toFloat()
-        val pixelY = ((originY - latitude) / -pixelSizeY).toFloat()
+        val pixelY = ((originY - latitude) / abs(pixelSizeY)).toFloat()
+        val a = PointF(pixelX, pixelY)
+        println(a.x.toString() + " " + a.y)
         return PointF(pixelX, pixelY)
     }
 
