@@ -25,6 +25,14 @@ class MainMap : AppCompatActivity() {
     private val originX = -467173.0910876456
     private val originY = 5105407.453628538
 
+    fun dmsToDecimal(degress:Int, minutes:Int, seconds:Double, direction:Char):Double{
+        var decimal = degress + (minutes/60.0) + (seconds/3600.0)
+        if (direction == 'S' || direction == 'W'){
+            decimal*=-1
+        }
+        return decimal
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // enableEdgeToEdge()
@@ -42,8 +50,10 @@ class MainMap : AppCompatActivity() {
         // Crear la lista de puntos
         val points = listOf(
             Punto(
-                latitude =  41.6227296884,
-                longitude = -4.1695402615,
+                //latitude =  dmsToDecimal(41,37,22.32, 'N'),
+                //longitude = dmsToDecimal(4,10,10.61,'W'),
+                latitude = originX,
+                longitude = originY,
                 icon = R.color.black, // Reemplaza con tu icono
                 destinationActivity = InfoActivity::class.java // Actividad de destino para este punto
             ),/*
@@ -100,6 +110,7 @@ class MainMap : AppCompatActivity() {
         points.forEach { point ->
             // Convierte las coordenadas geográficas a píxeles
             val position = geoToPixel(point.latitude, point.longitude)
+            //val position = geoToPixel(originX,originY)
 
             // Crea un ImageButton para representar el punto
             val pointButton = ImageButton(this).apply {
