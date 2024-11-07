@@ -47,7 +47,7 @@ class MainMap : AppCompatActivity() {
         }
         setBackgroundFromDrawable()
 
-        // Crear la lista de puntos
+        /*// Crear la lista de puntos
         val points = listOf(
             Punto(
                 //latitude =  dmsToDecimal(41,37,22.32, 'N'),
@@ -56,7 +56,7 @@ class MainMap : AppCompatActivity() {
                 longitude = originY,
                 icon = R.color.black, // Reemplaza con tu icono
                 destinationActivity = InfoActivity::class.java // Actividad de destino para este punto
-            ),/*
+            ),
             Punto(
                 latitude =  originY,
                 longitude = originX,
@@ -70,12 +70,12 @@ class MainMap : AppCompatActivity() {
                 icon = R.drawable.round_button_selected_background,
                 destinationActivity = GalleryActivity::class.java
             )
-            */
+
             // Añade más puntos según necesites
         )
 
         // Añadir los puntos al componente
-        addPoints(points)
+        addPoints(points)*/
 
 
         val leyenda = findViewById<Leyenda>(R.id.leyenda_main)
