@@ -1,6 +1,7 @@
 package com.example.pintia
 
-import android.content.Context
+import android.content.res.Configuration
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pintia.components.Header
@@ -9,7 +10,6 @@ import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
 import java.util.*
-import android.content.res.Configuration
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -31,7 +31,7 @@ class SettingsActivity : AppCompatActivity() {
 
             val languagePref = findPreference<ListPreference>("language")
             val nativeLanguage = context?.resources?.configuration?.locales?.get(0)?.language
-            println("Nati:$nativeLanguage")
+            println("Native Language:$nativeLanguage")
             languagePref?.setValueIndex(arrayOf("es", "en").indexOf(nativeLanguage))
             languagePref?.setOnPreferenceChangeListener { _, newValue ->
                 updateLanguage(newValue as String)
@@ -45,7 +45,13 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             val darkModePref = findPreference<SwitchPreferenceCompat>("dark_mode")
-            darkModePref?.setDefaultValue(AppCompatDelegate.getDefaultNightMode())
+            val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+            val darkMode = when (currentNightMode) {
+                Configuration.UI_MODE_NIGHT_YES -> true // Dark mode is active
+                else -> false // Light mode or undefined
+            }
+            darkModePref?.isChecked =darkMode
+            println("Dark Mode:$darkMode")
             darkModePref?.setOnPreferenceChangeListener { _, newValue ->
                 updateDarkMode(newValue as Boolean)
                 true
@@ -58,6 +64,22 @@ class SettingsActivity : AppCompatActivity() {
             val config = resources.configuration
             config.setLocale(locale)
             resources.updateConfiguration(config, resources.displayMetrics)
+
+
+            val configuration = Configuration(resources.configuration)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                configuration.setLocale(locale)  // API 26 y superior
+            } else {
+                configuration.locale = locale  // API menor a 26
+            }
+
+            // Cambiar el idioma a español, por ejemplo
+            val contextoConIdioma = context?.createConfigurationContext(configuration)
+            // Para usar el nuevo contexto
+            val configuracionContextual = contextoConIdioma!!.resources.configuration
+
+
+
             activity?.recreate()
         }
 
