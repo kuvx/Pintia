@@ -1,11 +1,14 @@
 package com.example.pintia
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.pintia.components.Header
+import com.example.pintia.models.Punto
 import com.google.android.gms.maps.model.Marker
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
@@ -47,29 +50,34 @@ class MapActivity : AppCompatActivity() {
         mapController.setZoom(16.8)
         mapController.setCenter(GeoPoint(latitud, longitud))  // Pintia
 
-        // Configura un área de latitudes y longitudes específicas
-        val quintana = GeoPoint(41.6239590929, -4.1734857708)  // Coordenada Quinanas
-        val uva = GeoPoint(41.6130494436, -4.1640258634)  // Coordenada Edificio UVa
-        val ruedas = GeoPoint(latitud, longitud)  // Coordenada Edificio UVa
+        // Define la lista de puntos para los marcadores
+        val puntos = listOf(
+            Punto("Las Quintana", 41.6239590929, -4.1734857708, R.drawable.ciudad, GalleryActivity::class.java),
+            Punto("Edificio UVa", 41.6130494436, -4.1640258634, R.drawable.uva, SettingsActivity::class.java),
+            Punto("Las Ruedas", latitud, longitud, R.drawable.cementerio, RequestVisitActivity::class.java),
+            Punto("La Muralla", latitud, longitud, R.drawable.defensa, RequestVisitActivity::class.java),
+            Punto("Las Ataque", latitud, longitud, R.drawable.ataque, RequestVisitActivity::class.java)
+        )
 
-        // Añadir marcadores en las coordenadas especificadas
-        val marker1 = Marker(mapView)
-        marker1.position = quintana
-        marker1.title = "Las Quintana"
-        marker1.icon = resources.getDrawable(R.drawable.ciudad)
-        mapView.overlays.add(marker1)
+        // Crea y configura los marcadores dinámicamente a partir de la lista de puntos
+        for (punto in puntos) {
+            val marker = Marker(mapView)
+            marker.position = GeoPoint(punto.latitude, punto.longitude)
+            marker.title = punto.title
+            marker.icon = resources.getDrawable(punto.icon, null)
 
-        val marker2 = Marker(mapView)
-        marker2.position = uva
-        marker2.title = "Edificio UVa"
-        marker2.icon = resources.getDrawable(R.drawable.uva)
+            // Configura el listener de clic para cada marcador
+            marker.setOnMarkerClickListener { _, _ ->
+                val intent = Intent(this, GalleryActivity::class.java)
+                startActivity(intent)
 
-        mapView.overlays.add(marker2)
+                // Mostrar mensaje Toast (opcional)
+                Toast.makeText(this, "Marcador clickeado: ${punto.title}", Toast.LENGTH_SHORT).show()
+                true // Indica que el evento ha sido manejado
+            }
 
-        val marker3 = Marker(mapView)
-        marker3.position = ruedas
-        marker3.title = "Las Ruedas"
-        marker3.icon = resources.getDrawable(R.drawable.cementerio)
-        mapView.overlays.add(marker3)
+            // Agrega el marcador al mapa
+            mapView.overlays.add(marker)
+        }
     }
 }
