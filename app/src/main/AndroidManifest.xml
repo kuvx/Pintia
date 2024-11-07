@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -17,14 +17,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pintia"
         tools:targetApi="31">
+        <activity
+            android:name=".MurallaAsedioActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EdificioUVaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LasRuedasActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LasQuintanasActivity"
+            android:exported="false" />
+
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="TU_API_KEY"/>
+            android:name="pk.eyJ1IjoicGludGlhcHJveWVjdDI0IiwiYSI6ImNtMzdqNHlkODA4cmUya3IxcXkzYTQ5OG8ifQ._XG2SIwHwdgrk79v2nYKfg"
+            android:value="pk.eyJ1IjoicGludGlhcHJveWVjdDI0IiwiYSI6ImNtMzdqNnNlaTA5emIybHF1NGU2OXI3Y2MifQ.4VtNOpGHNw88xqol5bl7pA" />
+
         <activity
             android:name=".SettingsActivity"
             android:exported="false"
-            android:label="settings"
-            />
+            android:label="settings" />
         <activity
             android:name=".GalleryActivity"
             android:exported="false" />

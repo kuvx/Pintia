@@ -7,6 +7,10 @@
     <string name="map">Mapa</string>
     <string name="home">Ciudad de Pintia</string>
     <string name="gallery">Galería</string>
+    <string name="quinanas">Las Quintanas</string>
+    <string name="ruedas">Las Ruedas</string>
+    <string name="muralla">La Muralla</string>
+    <string name="asedio">Zona Asedio</string>
     <string name="settings">Configuración</string>
     <string name="tamButton">30dp</string>
     <string name="description">Descripción</string>
