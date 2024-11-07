@@ -18,16 +18,16 @@
         android:theme="@style/Theme.Pintia"
         tools:targetApi="31">
         <activity
-            android:name=".MurallaAsedioActivity"
+            android:name=".puntosPrincipales.MurallaAsedioActivity"
             android:exported="false" />
         <activity
-            android:name=".EdificioUVaActivity"
+            android:name=".puntosPrincipales.EdificioUVaActivity"
             android:exported="false" />
         <activity
-            android:name=".LasRuedasActivity"
+            android:name=".puntosPrincipales.LasRuedasActivity"
             android:exported="false" />
         <activity
-            android:name=".LasQuintanasActivity"
+            android:name=".puntosPrincipales.LasQuintanasActivity"
             android:exported="false" />
 
         <meta-data

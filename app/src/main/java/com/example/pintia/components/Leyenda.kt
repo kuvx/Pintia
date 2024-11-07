@@ -12,6 +12,7 @@ import com.example.pintia.MainActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.example.pintia.R
 import com.example.pintia.RequestVisitActivity
+import com.example.pintia.models.Punto
 
 /**
  * Para q sea mas facil la informacion contenida en la leyenda sera obtenida del back
@@ -24,24 +25,13 @@ class Leyenda @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
     // Pares Vista actividad/null por defecto (cada vista que lo use debería reemplazarlos)
-    var myMap = mapOf(
-        Pair("No debería aparecer", null),
-        Pair("-- Prueba --", MainActivity::class.java),
-        Pair("-- Prueba 2 --", RequestVisitActivity::class.java),
-        Pair("Punto de partida", null),
-        Pair("Ruedas", null),
-        Pair("Muralla", null),
-        Pair("Catapulta", null),
-        Pair("Yacimiento", null),
-    )
-        set(value) {
-            field = value
-            updateMenuEntries()
-        }
+    var myMap : Map<String, Punto> = emptyMap()
 
 
     init {
         LayoutInflater.from(context).inflate(R.layout.component_leyenda, this, true)
+
+        updateMenuEntries()
 
         // Obtiene el LinearLayout del layout principal donde se agregarán los TextViews
         val toggleButton: FloatingActionButton = findViewById(R.id.toggleButton)
@@ -50,8 +40,6 @@ class Leyenda @JvmOverloads constructor(
             // Cambiar la visibilidad del CardView
             alterMenuVisibility()
         }
-
-        updateMenuEntries()
     }
 
     private fun updateMenuEntries() {
@@ -60,13 +48,13 @@ class Leyenda @JvmOverloads constructor(
         val linearLayout = findViewById<LinearLayout>(R.id.leyend_layout)
         linearLayout.removeAllViews()
 
-        for ((name, activity) in myMap) {
+        for ((title, punto) in myMap) {
             // Infla el diseño del TextView desde item_text_view.xml
             val textView = inflater.inflate(R.layout.leyend_entry, linearLayout, false) as TextView
-            textView.text = name // Establece el texto del TextView
+            textView.text = title // Establece el texto del TextView
             textView.setOnClickListener { // Cuando se clicke se cambia de vista
-                if (activity != null) {
-                    val intent = Intent(context, activity)
+                if (punto != null) {
+                    val intent = Intent(context, punto.destinationActivity)
                     context.startActivity(intent)
                 } else {
                     // Cerramos el desplegable
@@ -91,5 +79,10 @@ class Leyenda @JvmOverloads constructor(
             legendCardView.visibility = View.GONE
             toggleButton.setImageResource(R.drawable.expand)
         }
+    }
+
+    fun setMap(newMap : Map<String, Punto>){
+        myMap = newMap
+        updateMenuEntries()
     }
 }

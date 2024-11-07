@@ -23,17 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true" />
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginVertical="90dp"
-        >
-        <com.example.pintia.components.Leyenda
-            android:id="@+id/leyenda_main"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
 
-    </FrameLayout>
 
 </RelativeLayout>

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.media.Image
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
@@ -50,4 +51,5 @@ class InfoActivity : AppCompatActivity() {
         super.onDestroy()
         mediaPlayer.release()
     }
+
 }

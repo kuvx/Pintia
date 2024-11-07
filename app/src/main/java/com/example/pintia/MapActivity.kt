@@ -3,25 +3,21 @@ package com.example.pintia
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.preference.PreferenceManager
 import com.example.pintia.components.Header
+import com.example.pintia.components.Leyenda
 import com.example.pintia.models.Punto
-import com.google.android.gms.maps.model.Marker
+import com.example.pintia.puntosPrincipales.EdificioUVaActivity
+import com.example.pintia.puntosPrincipales.LasQuintanasActivity
+import com.example.pintia.puntosPrincipales.LasRuedasActivity
+import com.example.pintia.puntosPrincipales.MurallaAsedioActivity
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
-import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory
-import org.osmdroid.util.BoundingBox
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.util.MapTileIndex
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.*
-import java.io.File
 
 class MapActivity : AppCompatActivity() {
 
@@ -67,6 +63,10 @@ class MapActivity : AppCompatActivity() {
             Punto("Las Ataque", 41.6222774251, -4.1682678963, R.drawable.ataque, MurallaAsedioActivity::class.java)
         )
 
+        val leyenda = findViewById<Leyenda>(R.id.leyenda_main)
+        val puntoMap = puntos.associateBy { it.title }
+        leyenda.setMap(puntoMap)
+
         // Crea y configura los marcadores dinámicamente a partir de la lista de puntos
         for (punto in puntos) {
             val marker = Marker(mapView)
@@ -76,8 +76,11 @@ class MapActivity : AppCompatActivity() {
 
             // Configura el listener de clic para cada marcador
             marker.setOnMarkerClickListener { _, _ ->
-                val intent = Intent(this, punto.destinationActivity)
+                val intent = Intent(this, punto.destinationActivity).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
                 startActivity(intent)
+                true
 
                 // Mostrar mensaje Toast (opcional)
                 Toast.makeText(this, "Marcador clickeado: ${punto.title}", Toast.LENGTH_SHORT).show()
@@ -87,6 +90,7 @@ class MapActivity : AppCompatActivity() {
             // Agrega el marcador al mapa
             mapView.overlays.add(marker)
         }
+
     }
     // Define la fuente de tiles personalizados para Mapbox
     private val mapboxTileSource = object : OnlineTileSourceBase(
@@ -100,5 +104,25 @@ class MapActivity : AppCompatActivity() {
             val y = MapTileIndex.getY(pMapTileIndex)
             return "$baseUrl$zoom/$x/$y.png?access_token=${API_token}"
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Aquí puedes poner cualquier lógica que se deba inicializar antes de que el usuario vea la actividad.
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()  // Reanuda el mapa cuando la actividad se vuelve interactiva
+    }
+
+    override fun onPause() {
+        mapView.onPause()  // Suspende el mapa cuando la actividad deja de ser interactiva
+        super.onPause()
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDetach()  // Esto asegura que el mapa se destruya al salir de la actividad
+        mapView.overlayManager.clear()
     }
 }
