@@ -21,4 +21,5 @@
     <string name="ruedas">Las Ruedas</string>
     <string name="muralla">La Muralla</string>
     <string name="asedio">Zona Asedio</string>
+    <string name="example_test">TEXTO DE EJEMPLO, DEBERÍA SER ESPAÑOL</string>
 </resources>

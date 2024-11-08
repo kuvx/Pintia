@@ -21,4 +21,5 @@
     <string name="ruedas">The Wheels</string>
     <string name="muralla">The Wall</string>
     <string name="asedio">Siege Area</string>
+    <string name="example_test">EXAMPLE TEXT, SHOULD BE IN ENGLISH</string>
 </resources>
