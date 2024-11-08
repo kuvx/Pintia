@@ -76,9 +76,7 @@ class MapActivity : AppCompatActivity() {
 
             // Configura el listener de clic para cada marcador
             marker.setOnMarkerClickListener { _, _ ->
-                val intent = Intent(this, punto.destinationActivity).apply {
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                }
+                val intent = Intent(this, punto.destinationActivity)
                 startActivity(intent)
                 true
 
