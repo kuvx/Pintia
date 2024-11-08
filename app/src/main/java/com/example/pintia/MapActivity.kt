@@ -1,9 +1,14 @@
 package com.example.pintia
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.example.pintia.components.Header
 import com.example.pintia.components.Leyenda
 import com.example.pintia.models.Punto
@@ -18,6 +23,8 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.util.MapTileIndex
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.*
+import android.Manifest
+
 
 class MapActivity : AppCompatActivity() {
 
@@ -26,6 +33,8 @@ class MapActivity : AppCompatActivity() {
     //Coordenadas Ruedas
         private var latitud=41.6169600023
     private var longitud=-4.1691941788
+    private lateinit var locationManager: LocationManager
+    private var userLocationMarker: Marker? = null  // Marcador de la ubicación en tiempo real
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,6 +98,15 @@ class MapActivity : AppCompatActivity() {
             mapView.overlays.add(marker)
         }
 
+        // Configura LocationManager para obtener la ubicación en tiempo real
+        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+        } else {
+            startLocationUpdates()
+        }
+
     }
     // Define la fuente de tiles personalizados para Mapbox
     private val mapboxTileSource = object : OnlineTileSourceBase(
@@ -101,6 +119,49 @@ class MapActivity : AppCompatActivity() {
             val x = MapTileIndex.getX(pMapTileIndex)
             val y = MapTileIndex.getY(pMapTileIndex)
             return "$baseUrl$zoom/$x/$y.png?access_token=${API_token}"
+        }
+    }
+
+    private fun startLocationUpdates() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1f, locationListener)
+    }
+
+    private val locationListener = object : LocationListener {
+        override fun onLocationChanged(location: Location) {
+            val userLocation = GeoPoint(location.latitude, location.longitude)
+
+            if (userLocationMarker == null) {
+                userLocationMarker = Marker(mapView)
+                userLocationMarker?.icon = resources.getDrawable(R.drawable.user, null) // Icono personalizado
+                userLocationMarker?.title = "Mi ubicación actual"
+                mapView.overlays.add(userLocationMarker)
+            }
+
+            userLocationMarker?.position = userLocation
+            mapView.controller.animateTo(userLocation)
+        }
+
+        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+        override fun onProviderEnabled(provider: String) {}
+        override fun onProviderDisabled(provider: String) {}
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            startLocationUpdates()
+        } else {
+            Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -121,6 +182,7 @@ class MapActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mapView.onDetach()  // Esto asegura que el mapa se destruya al salir de la actividad
+        locationManager.removeUpdates(locationListener)  // Detiene las actualizaciones de ubicación
         mapView.overlayManager.clear()
     }
 }
