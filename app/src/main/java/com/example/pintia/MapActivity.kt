@@ -24,6 +24,9 @@ import org.osmdroid.util.MapTileIndex
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.*
 import android.Manifest
+import android.util.Log
+import android.widget.Button
+import android.widget.ImageButton
 
 
 class MapActivity : AppCompatActivity() {
@@ -35,6 +38,7 @@ class MapActivity : AppCompatActivity() {
     private var longitud=-4.1691941788
     private lateinit var locationManager: LocationManager
     private var userLocationMarker: Marker? = null  // Marcador de la ubicación en tiempo real
+    private lateinit var centerLocationButton :Button
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,10 +105,26 @@ class MapActivity : AppCompatActivity() {
         // Configura LocationManager para obtener la ubicación en tiempo real
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+        // Intentamos obtener la última ubicación conocida si está disponible
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let { location ->
+                updateLocationMarker(location)
+                enableCenterButtonIfLocationAvailable() // Habilita el botón si hay una ubicación
+            }
+            startLocationUpdates()  // Inicia actualizaciones de ubicación en tiempo real
         } else {
-            startLocationUpdates()
+            // Si no hay permisos, solicitarlos
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+        }
+
+        // Configura el botón para centrar en la ubicación
+        centerLocationButton = findViewById<Button>(R.id.btn_center_location).apply {
+            isEnabled = false // Deshabilitado inicialmente
+            setOnClickListener {
+                userLocationMarker?.position?.let { position ->
+                    mapController.setCenter(position)
+                }
+            }
         }
 
     }
@@ -138,22 +158,35 @@ class MapActivity : AppCompatActivity() {
 
     private val locationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
-            val userLocation = GeoPoint(location.latitude, location.longitude)
-
-            if (userLocationMarker == null) {
-                userLocationMarker = Marker(mapView)
-                userLocationMarker?.icon = resources.getDrawable(R.drawable.user, null) // Icono personalizado
-                userLocationMarker?.title = "Mi ubicación actual"
-                mapView.overlays.add(userLocationMarker)
-            }
-
-            userLocationMarker?.position = userLocation
-            mapView.controller.animateTo(userLocation)
+            updateLocationMarker(location)
+            enableCenterButtonIfLocationAvailable() // Habilita el botón cuando llega la ubicación en tiempo real
         }
 
         override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
+    }
+
+    private fun updateLocationMarker(location: Location) {
+        val userLocation = GeoPoint(location.latitude, location.longitude)
+        if (userLocationMarker == null) {
+            // Crear el marcador de ubicación del usuario si no existe
+            userLocationMarker = Marker(mapView).apply {
+                icon = resources.getDrawable(R.drawable.user, null)
+                setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                mapView.overlays.add(this)
+            }
+        }
+        // Actualizar la posición del marcador y refrescar el mapa
+        userLocationMarker?.position = userLocation
+        //mapView.invalidate()
+    }
+
+    private fun enableCenterButtonIfLocationAvailable() {
+        // Habilita el botón solo si la ubicación es válida y el marcador está configurado
+        if (userLocationMarker != null) {
+            centerLocationButton.isEnabled = true
+        }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
