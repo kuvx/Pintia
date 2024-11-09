@@ -42,9 +42,9 @@ class MapActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
+
         val header = findViewById<Header>(R.id.header)
         header.title = getString(R.string.app_name)
 
@@ -58,13 +58,11 @@ class MapActivity : AppCompatActivity() {
         mapView.setTileSource(mapboxTileSource)
 
         // Habilitar el zoom y el desplazamiento
-        mapView.setMultiTouchControls(true)  // Permite hacer zoom y mover el mapa con gestos
+        mapView.setMultiTouchControls(true)
 
         // Configura la cámara y la posición inicial
         val mapController: IMapController = mapView.controller
-
         mapController.setZoom(15)
-
         mapController.setCenter(GeoPoint(latitud, longitud))  // Pintia
 
         // Define la lista de puntos para los marcadores
@@ -91,11 +89,8 @@ class MapActivity : AppCompatActivity() {
             marker.setOnMarkerClickListener { _, _ ->
                 val intent = Intent(this, punto.destinationActivity)
                 startActivity(intent)
-                true
-
-                // Mostrar mensaje Toast (opcional)
                 Toast.makeText(this, "Marcador clickeado: ${punto.title}", Toast.LENGTH_SHORT).show()
-                true // Indica que el evento ha sido manejado
+                true
             }
 
             // Agrega el marcador al mapa
@@ -104,18 +99,6 @@ class MapActivity : AppCompatActivity() {
 
         // Configura LocationManager para obtener la ubicación en tiempo real
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
-
-        // Intentamos obtener la última ubicación conocida si está disponible
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let { location ->
-                updateLocationMarker(location)
-                enableCenterButtonIfLocationAvailable() // Habilita el botón si hay una ubicación
-            }
-            startLocationUpdates()  // Inicia actualizaciones de ubicación en tiempo real
-        } else {
-            // Si no hay permisos, solicitarlos
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
-        }
 
         // Configura el botón para centrar en la ubicación
         centerLocationButton = findViewById<Button>(R.id.btn_center_location).apply {
@@ -127,7 +110,19 @@ class MapActivity : AppCompatActivity() {
             }
         }
 
+        // Intentamos obtener la última ubicación conocida si está disponible
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let { location ->
+                updateLocationMarker(location)
+                enableCenterButtonIfLocationAvailable() // Habilita el botón si hay una ubicación
+            }
+            startLocationUpdates() // Inicia actualizaciones de ubicación en tiempo real
+        } else {
+            // Si no hay permisos, solicitarlos
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+        }
     }
+
     // Define la fuente de tiles personalizados para Mapbox
     private val mapboxTileSource = object : OnlineTileSourceBase(
         "Mapbox", // Nombre del tile source
@@ -167,6 +162,8 @@ class MapActivity : AppCompatActivity() {
         override fun onProviderDisabled(provider: String) {}
     }
 
+    var i = 0
+
     private fun updateLocationMarker(location: Location) {
         val userLocation = GeoPoint(location.latitude, location.longitude)
         if (userLocationMarker == null) {
@@ -175,6 +172,7 @@ class MapActivity : AppCompatActivity() {
                 icon = resources.getDrawable(R.drawable.user, null)
                 setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
                 mapView.overlays.add(this)
+                Log.d("MapActivity","Added: ${++i} locations");
             }
         }
         // Actualizar la posición del marcador y refrescar el mapa
