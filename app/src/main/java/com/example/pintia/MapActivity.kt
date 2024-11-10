@@ -1,5 +1,8 @@
 package com.example.pintia
-
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import org.json.JSONObject
+import org.osmdroid.views.overlay.Polyline
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -27,6 +30,7 @@ import android.Manifest
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
+import java.io.IOException
 
 
 class MapActivity : AppCompatActivity() {
@@ -38,7 +42,7 @@ class MapActivity : AppCompatActivity() {
     private var longitud=-4.1691941788
     private lateinit var locationManager: LocationManager
     private var userLocationMarker: Marker? = null  // Marcador de la ubicación en tiempo real
-    private lateinit var centerLocationButton :Button
+    private lateinit var centerLocationButton :ImageButton
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,15 +72,27 @@ class MapActivity : AppCompatActivity() {
         // Define la lista de puntos para los marcadores
         val puntos = listOf(
             Punto("Las Quintana", 41.6239590929, -4.1734857708, R.drawable.ciudad, LasQuintanasActivity::class.java),
-            Punto("Edificio UVa", 41.6130494436, -4.1640258634, R.drawable.uva, EdificioUVaActivity::class.java),
-            Punto("Las Ruedas", latitud, longitud, R.drawable.cementerio, LasRuedasActivity::class.java),
             Punto("La Muralla", 41.6228752320, -4.1696152162, R.drawable.defensa, MurallaAsedioActivity::class.java),
-            Punto("Las Ataque", 41.6222774251, -4.1682678963, R.drawable.ataque, MurallaAsedioActivity::class.java)
+            Punto("Las Ataque", 41.6222774251, -4.1682678963, R.drawable.ataque, MurallaAsedioActivity::class.java),
+            Punto("Edificio UVa", 41.6130494436, -4.1640258634, R.drawable.uva, EdificioUVaActivity::class.java),
+            Punto("Las Ruedas", latitud, longitud, R.drawable.cementerio, LasRuedasActivity::class.java)
         )
 
         val leyenda = findViewById<Leyenda>(R.id.leyenda_main)
         val puntoMap = puntos.associateBy { it.title }
         leyenda.setMap(puntoMap)
+
+//        // Crear la Polyline de la ruta
+//        val geoPoints = puntos.map { GeoPoint(it.latitude, it.longitude) }
+//        val rutaPolyline = Polyline()
+//        rutaPolyline.setPoints(geoPoints)
+//        rutaPolyline.color = resources.getColor(R.color.black, null) // Color de la línea
+//
+//        // Agrega la Polyline (ruta) al mapa
+//        mapView.overlays.add(rutaPolyline)
+        fetchRouteFromMapbox(GeoPoint(puntos[4].latitude,puntos[4].longitude),GeoPoint(puntos[3].latitude,puntos[3].longitude))
+        fetchRouteFromMapbox(GeoPoint(41.6228752320,-4.1696152162),GeoPoint(puntos[4].latitude,puntos[4].longitude))
+
 
         // Crea y configura los marcadores dinámicamente a partir de la lista de puntos
         for (punto in puntos) {
@@ -97,15 +113,25 @@ class MapActivity : AppCompatActivity() {
             mapView.overlays.add(marker)
         }
 
+
+
         // Configura LocationManager para obtener la ubicación en tiempo real
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
 
         // Configura el botón para centrar en la ubicación
-        centerLocationButton = findViewById<Button>(R.id.btn_center_location).apply {
+        centerLocationButton = findViewById<ImageButton>(R.id.btn_center_location).apply {
             isEnabled = false // Deshabilitado inicialmente
             setOnClickListener {
                 userLocationMarker?.position?.let { position ->
                     mapController.setCenter(position)
+                }
+            }
+        }
+        // Configura el botón para centrar en la ubicación
+        val centerPintiaButton = findViewById<ImageButton>(R.id.btn_center_pintia).apply {
+            setOnClickListener {
+                userLocationMarker?.position?.let { position ->
+                    mapController.setCenter(GeoPoint(latitud, longitud))
                 }
             }
         }
@@ -215,5 +241,54 @@ class MapActivity : AppCompatActivity() {
         mapView.onDetach()  // Esto asegura que el mapa se destruya al salir de la actividad
         locationManager.removeUpdates(locationListener)  // Detiene las actualizaciones de ubicación
         mapView.overlayManager.clear()
+    }
+    fun fetchRouteFromMapbox(origin: GeoPoint, destination: GeoPoint) {
+        val client = OkHttpClient()
+
+        // URL de Mapbox Directions API (reemplaza ACCESS_TOKEN con tu token de acceso)
+        val url = "https://api.mapbox.com/directions/v5/mapbox/driving/${origin.longitude},${origin.latitude};${destination.longitude},${destination.latitude}?geometries=geojson&access_token=${API_token}"
+
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+                e.printStackTrace()
+            }
+
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                response.use { responseBody ->  // Usar .use para cerrar automáticamente el cuerpo
+                    if (!responseBody.isSuccessful) throw IOException("Unexpected code $responseBody")
+
+                    val jsonResponse = JSONObject(responseBody.body()!!.string())
+                    val routes = jsonResponse.getJSONArray("routes")
+                    if (routes.length() > 0) {
+                        val route = routes.getJSONObject(0)
+                        val geometry = route.getJSONObject("geometry")
+                        val coordinates = geometry.getJSONArray("coordinates")
+
+                        // Lista de puntos para la Polyline
+                        val geoPoints = mutableListOf<GeoPoint>()
+                        for (i in 0 until coordinates.length()) {
+                            val point = coordinates.getJSONArray(i)
+                            val lon = point.getDouble(0)
+                            val lat = point.getDouble(1)
+                            geoPoints.add(GeoPoint(lat, lon))
+                        }
+
+                        // Dibujar la Polyline en el mapa
+                        runOnUiThread {
+                            val routeLine = Polyline().apply {
+                                setPoints(geoPoints)
+                                color = resources.getColor(R.color.black, null)
+                            }
+                            mapView.overlays.add(routeLine)
+                            mapView.invalidate() // Refresca el mapa para mostrar la ruta
+                        }
+                    }
+                }
+            }
+        })
     }
 }
