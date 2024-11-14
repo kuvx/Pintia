@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Pintia"
         tools:targetApi="31">
         <activity
+            android:name=".puntosPrincipales.lasQuintanasViews.YacimientoInfoView"
+            android:exported="false" />
+        <activity
             android:name=".puntosPrincipales.MurallaAsedioActivity"
             android:exported="false" />
         <activity

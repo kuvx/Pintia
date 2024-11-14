@@ -16,10 +16,15 @@
     <string name="more_info_content">%s</string>
     <string name="challenges_title">Challenges</string>
     <string name="challenges_content">%s</string>
+    <string name="pozo">The Well</string>
     <string name="lore">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
     <string name="quinanas">The Quintans</string>
     <string name="ruedas">The Wheels</string>
     <string name="muralla">The Wall</string>
     <string name="asedio">Siege Area</string>
     <string name="example_test">EXAMPLE TEXT, SHOULD BE IN ENGLISH</string>
+    <string name="sigloI">1st Century</string>
+    <string name="sigloIV">4st Century</string>
+    <string name="sigloIII">3st Century</string>
+    <string name="sigloII">2st Century</string>
 </resources>
