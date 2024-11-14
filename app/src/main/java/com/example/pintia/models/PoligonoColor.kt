@@ -24,4 +24,17 @@ data class PoligonoColor(
         }
         return path
     }
+
+    // Cálculo del centroide basado en los puntos
+    fun getCentroide(): PointF {
+        var sumX = 0f
+        var sumY = 0f
+        for (punto in puntos) {
+            sumX += punto.x
+            sumY += punto.y
+        }
+        val centerX = sumX / puntos.size
+        val centerY = sumY / puntos.size
+        return PointF(centerX, centerY)
+    }
 }

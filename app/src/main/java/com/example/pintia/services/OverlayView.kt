@@ -2,12 +2,16 @@ package com.example.pintia.services
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.graphics.Region
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.ContextCompat
+import com.example.pintia.R
 import com.example.pintia.models.PoligonoColor
 
 class OverlayView @JvmOverloads constructor(
@@ -26,6 +30,14 @@ class OverlayView @JvmOverloads constructor(
         isAntiAlias = true
     }
 
+    private val textPaint = Paint().apply {
+        color = Color.WHITE
+        textSize = 40f
+        textAlign = Paint.Align.CENTER
+        typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+        isAntiAlias = true
+    }
+
     // Listener para detectar toques en los polígonos
     var onPoligonoTouchListener: OnPoligonoTouchListener? = null
 
@@ -33,10 +45,15 @@ class OverlayView @JvmOverloads constructor(
         super.onDraw(canvas)
 
         // Dibujar cada polígono con su color
-        for (poligonoColor in poligonos) {
+        poligonos.forEach { poligonoColor ->
             paint.color = poligonoColor.color // Asignar color
             val path = poligonoColor.crearPath()
+
             canvas.drawPath(path, paint) // Dibujar el polígono en el Path
+
+            val center= poligonoColor.getCentroide()
+            // Dibuja el número o texto dentro del círculo
+            canvas.drawText(poligonoColor.title, center.x, center.y + textPaint.textSize / 3, textPaint)
         }
     }
 
