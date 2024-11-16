@@ -1,18 +1,19 @@
 package com.example.pintia.puntosPrincipales
 
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationListener
-import android.location.LocationManager
+import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import com.example.pintia.R
 import com.example.pintia.components.Header
 import com.example.pintia.components.Leyenda
 import com.example.pintia.models.Punto
+import com.example.pintia.puntosPrincipales.lasQuintanasViews.YacimientoInfoView
+import com.example.pintia.services.DynamicViewBuilder.generateDrawableWithText
+import com.example.pintia.services.DynamicViewBuilder.loadContentFromJson
+import com.example.pintia.services.DynamicViewBuilder.populateDynamicPoints
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
@@ -26,8 +27,8 @@ class LasRuedasActivity : AppCompatActivity() {
     private lateinit var mapView: MapView
     private val API_token = "pk.eyJ1IjoicGludGlhcHJveWVjdDI0IiwiYSI6ImNtMzdqNnNlaTA5emIybHF1NGU2OXI3Y2MifQ.4VtNOpGHNw88xqol5bl7pA"
     //Coordenadas Ruedas
-    private var latitud=41.6169600023
-    private var longitud=-4.1691941788
+    private var latitud=41.617962
+    private var longitud=-4.169421
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,33 +53,40 @@ class LasRuedasActivity : AppCompatActivity() {
         // Configura la cámara y la posición inicial
         val mapController: IMapController = mapView.controller
 
-        mapController.setZoom(20)
+        mapController.setZoom(18)
 
         mapController.setCenter(GeoPoint(latitud, longitud))  // Pintia
 
         // Define la lista de puntos para los marcadores
-        val puntos = listOf(
-            Punto("Las Quintana", 41.6239590929, -4.1734857708, R.drawable.ciudad, LasQuintanasActivity::class.java),
-            Punto("Edificio UVa", 41.6130494436, -4.1640258634, R.drawable.uva, EdificioUVaActivity::class.java),
-            Punto("Las Ruedas", latitud, longitud, R.drawable.cementerio, LasRuedasActivity::class.java),
-            Punto("La Muralla", 41.6228752320, -4.1696152162, R.drawable.defensa, MurallaAsedioActivity::class.java),
-            Punto("Las Ataque", 41.6222774251, -4.1682678963, R.drawable.ataque, MurallaAsedioActivity::class.java)
-        )
+//        var puntos = listOf(
+//            Punto("Aparcamiento", 41.616422, -4.169313, null, YacimientoInfoView::class.java),
+//            Punto("Panel Informativo", 41.617320, -4.169340, null, YacimientoInfoView::class.java),
+//            Punto("Pira Funeraria", 41.616422, -4.169313, null, YacimientoInfoView::class.java),
+//            Punto("Panel Informativo", 41.617320, -4.169340, null, YacimientoInfoView::class.java)
+//        )
+
+        val contentItems = loadContentFromJson(this, "points_ruedas.json", false)
+        Log.d("JSONView", contentItems.toString())
+        val puntos = populateDynamicPoints(contentItems)
+        Log.d("POINTs", puntos.toString())
+
 
         val leyenda = findViewById<Leyenda>(R.id.leyenda_main)
         val puntoMap = puntos.associateBy { it.title }
         leyenda.setMap(puntoMap)
 
         // Crea y configura los marcadores dinámicamente a partir de la lista de puntos
-        for (punto in puntos) {
+        puntos.forEachIndexed { index, punto ->
             val marker = Marker(mapView)
             marker.position = GeoPoint(punto.latitude, punto.longitude)
             marker.title = punto.title
-            marker.icon = resources.getDrawable(punto.icon, null)
+            marker.icon = generateDrawableWithText(this,resources.getDrawable(R.drawable.point), index.toString())
+
 
             // Configura el listener de clic para cada marcador
             marker.setOnMarkerClickListener { _, _ ->
                 val intent = Intent(this, punto.destinationActivity)
+                intent.putExtra("title", punto.title.split(".")[0])
                 startActivity(intent)
                 true
 
@@ -89,6 +97,7 @@ class LasRuedasActivity : AppCompatActivity() {
 
             // Agrega el marcador al mapa
             mapView.overlays.add(marker)
+            println("img")
         }
 
     }

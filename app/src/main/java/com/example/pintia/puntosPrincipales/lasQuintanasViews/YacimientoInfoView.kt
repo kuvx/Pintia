@@ -20,17 +20,10 @@ class YacimientoInfoView : AppCompatActivity() {
         val titulo = intent.getStringExtra("title").toString()
         header.title = titulo
 
-//        val contentItems = listOf(
-//            ContentItem("text", "Esta es la primera descripción."),
-//            ContentItem("image", "https://http.cat/404.jpg"), // URL de una imagen
-//            ContentItem("text", "Otra sección de descripción."),
-//            ContentItem("image", "https://http.cat/404.jpg") // Otra imagen
-//        )
-
         // Carga los datos desde el JSON
         val titulo_cod = titulo.lowercase().replace(" ", "_")
         println(titulo_cod)
-        val contentItems = loadContentFromJson(this, "data_${titulo_cod}.json")
+        val contentItems = loadContentFromJson(this, "data_${titulo_cod}.json", true)
         Log.d("JSONView", contentItems.toString())
 
         val dynamicContainer = findViewById<LinearLayout>(R.id.dynamic_description_container)

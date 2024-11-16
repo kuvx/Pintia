@@ -28,7 +28,6 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.*
 import android.Manifest
 import android.util.Log
-import android.widget.Button
 import android.widget.ImageButton
 import java.io.IOException
 
@@ -99,7 +98,7 @@ class MapActivity : AppCompatActivity() {
             val marker = Marker(mapView)
             marker.position = GeoPoint(punto.latitude, punto.longitude)
             marker.title = punto.title
-            marker.icon = resources.getDrawable(punto.icon, null)
+            marker.icon = punto.icon?.let { resources.getDrawable(it, null) }
 
             // Configura el listener de clic para cada marcador
             marker.setOnMarkerClickListener { _, _ ->
