@@ -9,6 +9,8 @@ import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.Log
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
@@ -104,6 +106,24 @@ object DynamicViewBuilder {
 
                     // Añadir el ImageView al contenedor
                     container.addView(imageView)
+                }
+                "model3D" -> {
+                    // Crear un ImageView para la imagen
+                    val htmlContent = item.value.trimIndent()
+                    val modelView = WebView(container.context).apply {
+                        layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            setMargins(0, 16, 0, 16) // Márgenes opcionales
+                            settings.javaScriptEnabled = true
+                            webViewClient = WebViewClient()
+                        }
+                    }
+                    modelView.loadData(htmlContent, "text/html", "UTF-8")
+                    // Añadir el ImageView al contenedor
+                    container.addView(modelView)
+
                 }
             }
         }

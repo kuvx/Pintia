@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-feature android:name="android.hardware.camera.ar" android:required="true" />
+
 
     <application
         android:allowBackup="true"
@@ -34,8 +36,9 @@
             android:exported="false" />
 
         <meta-data
-            android:name="pk.eyJ1IjoicGludGlhcHJveWVjdDI0IiwiYSI6ImNtMzdqNHlkODA4cmUya3IxcXkzYTQ5OG8ifQ._XG2SIwHwdgrk79v2nYKfg"
-            android:value="pk.eyJ1IjoicGludGlhcHJveWVjdDI0IiwiYSI6ImNtMzdqNnNlaTA5emIybHF1NGU2OXI3Y2MifQ.4VtNOpGHNw88xqol5bl7pA" />
+            android:name="com.google.ar.core"
+            android:value="enabled"
+            />
 
         <activity
             android:name=".SettingsActivity"
