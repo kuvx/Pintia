@@ -28,34 +28,48 @@
         android:visibility="gone"
         android:backgroundTint="@color/naranja"
         >
-
-        <LinearLayout
-            android:id="@+id/leyend_layout"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:divider="@android:color/transparent"
-            android:dividerPadding="20dp"
-            android:showDividers="middle"
-            >
+            android:layout_height="match_parent">
 
-            <!-- Contenido dinámico -->
-            <!--
-            <TextView
-                android:id="@+id/point_1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Elemento 1"
-                android:textColor="@android:color/white"
-                android:drawableStart="@drawable/point"
-                android:drawablePadding="8dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"
-            />
-            -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/leyend_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:divider="@android:color/transparent"
+                    android:dividerPadding="20dp"
+                    android:showDividers="middle"
+                    >
+
+                    <!-- Contenido dinámico -->
+                    <!--
+                    <TextView
+                        android:id="@+id/point_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Elemento 1"
+                        android:textColor="@android:color/white"
+                        android:drawableStart="@drawable/point"
+                        android:drawablePadding="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:gravity="center"
+                    />
+                    -->
+
+                </LinearLayout>
+            </FrameLayout>
+        </ScrollView>
+
+
+
+
+
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

@@ -2,6 +2,7 @@ package com.example.pintia.services
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -87,10 +88,19 @@ object DynamicViewBuilder {
                         scaleType = ImageView.ScaleType.CENTER_CROP // Ajustar imagen al tamaño
                         adjustViewBounds = true
                     }
-                    // Usar Glide para cargar la imagen desde la URL
-                    Glide.with(container.context)
-                        .load(item.value)
-                        .into(imageView)
+                    // Usar Glide para cargar la imagen desde la ruta
+                    try {
+                        val assetManager = container.context.assets
+                        val inputStream = assetManager.open(item.value)
+
+                        val bitmap = BitmapFactory.decodeStream(inputStream)
+                        Glide.with(container.context)
+                            .load(bitmap)
+                            .into(imageView)
+
+                    }catch (e:Exception){
+                        Log.d("Error_Image",e.toString())
+                    }
 
                     // Añadir el ImageView al contenedor
                     container.addView(imageView)

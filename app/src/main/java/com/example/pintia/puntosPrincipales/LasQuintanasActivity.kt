@@ -73,6 +73,7 @@ class LasQuintanasActivity : AppCompatActivity(), OnPoligonoTouchListener {
         if (poligono.destinationActivity != null){
             val intent = Intent(this, poligono.destinationActivity)
             intent.putExtra("title", poligono.title)
+            intent.putExtra("path", "quintana")
             startActivity(intent)
         }
     }

@@ -86,7 +86,8 @@ class LasRuedasActivity : AppCompatActivity() {
             // Configura el listener de clic para cada marcador
             marker.setOnMarkerClickListener { _, _ ->
                 val intent = Intent(this, punto.destinationActivity)
-                intent.putExtra("title", punto.title.split(".")[0])
+                intent.putExtra("title", punto.title)
+                intent.putExtra("path", "ruedas")
                 startActivity(intent)
                 true
 
