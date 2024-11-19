@@ -59,7 +59,8 @@ object DynamicViewBuilder {
     }
 
     // Método para construir dinámicamente la vista
-    fun populateDynamicDescription(container: LinearLayout, contentItems: List<ContentItem>) {
+    fun populateDynamicDescription(seccion:String, container: LinearLayout, contentItems: List<ContentItem>):String {
+        var salida =seccion
         for (item in contentItems) {
             when (item.type) {
                 "text" -> {
@@ -77,6 +78,8 @@ object DynamicViewBuilder {
                     }
                     // Añadir el TextView al contenedor
                     container.addView(textView)
+                    // Añadir el contenido al audio
+                    salida = "$salida\n ${item.value}\n"
                 }
                 "image" -> {
                     // Crear un ImageView para la imagen
@@ -134,8 +137,10 @@ object DynamicViewBuilder {
                     container.addView(modelView)
 
                 }
+
             }
         }
+        return salida
     }
 
     fun populateDynamicPoints(contentItems: List<ContentItem>) : List<Punto> {
