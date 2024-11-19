@@ -12,7 +12,7 @@ import android.net.Uri
 import android.widget.Toast
 import com.example.pintia.R
 
-class ImageAdapter(private val imageUrls: List<String>) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
+class ImageAdapter(private var imageUrls: List<String>) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.imageView)
@@ -49,4 +49,11 @@ class ImageAdapter(private val imageUrls: List<String>) : RecyclerView.Adapter<I
         } catch (e: Exception) {
             Toast.makeText(context, "No se pudo abrir la URL", Toast.LENGTH_SHORT).show()
         }
-    }}
+    }
+
+    // Método para actualizar las imágenes en el adaptador
+    fun updateImages(newImages: List<String>) {
+        imageUrls = newImages
+        notifyDataSetChanged() // Notifica al RecyclerView que los datos han cambiado
+    }
+}
