@@ -1,0 +1,10 @@
+[
+  {
+    "type": "text",
+    "value": "Otra sección de descripción."
+  },
+  {
+    "type": "image",
+    "value": "https://http.cat/404.jpg"
+  }
+]

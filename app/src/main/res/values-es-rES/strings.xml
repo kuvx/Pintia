@@ -27,4 +27,9 @@
     <string name="sigloIV">Siglo IV</string>
     <string name="sigloIII">Siglo III</string>
     <string name="sigloII">Siglo II</string>
+    <string name="info_description_title">titulo\n</string>
+    <string name="info_description_content">titulo_contenido</string>
+    <string name="info_more_info_title">more_info</string>
+    <string name="info_challenges_title">retos</string>
+    <string name="info_challenges_content">retos_contenido</string>
 </resources>
