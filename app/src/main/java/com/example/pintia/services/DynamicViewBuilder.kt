@@ -107,6 +107,7 @@ object DynamicViewBuilder {
                                 .into(imageView)
                         }
                         else{
+                            println("Https")
                             Glide.with(container.context)
                                 .load(item.value)
                                 .into(imageView)

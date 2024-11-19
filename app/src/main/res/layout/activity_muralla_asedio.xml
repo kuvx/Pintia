@@ -3,6 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/quintana_background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="@string/muralla"
+        android:src="@drawable/fondo_defensa" />
+
     <!-- Cabecera personalizada -->
     <com.example.pintia.components.Header
         android:id="@+id/header"
@@ -10,69 +18,160 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true" />
 
-    <!-- Contenedor principal -->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginVertical="90dp">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="100dp">
 
-        <!-- Imagen de fondo -->
-        <ImageView
-            android:id="@+id/quintana_background_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/muralla"
-            android:src="@drawable/fondo_defensa" />
-
-        <!-- Botón de información en la esquina superior derecha -->
-        <ImageButton
-            android:id="@+id/info_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="top|end"
-            android:layout_margin="16dp"
-            android:background="@drawable/round_button_background"
-            android:src="@drawable/info"
-            android:contentDescription="@string/description" />
-        <!-- Overlay informativo (invisible inicialmente) -->
         <FrameLayout
-            android:id="@+id/info_overlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/blue_translucent"
-            android:visibility="gone">
+            android:layout_centerInParent="true"
+            android:background="@drawable/rounded"
+            android:padding="16dp">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <!-- Mensaje informativo -->
-                <TextView
-                    android:id="@+id/info_overlay_text"
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/example_test"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:gravity="center"
-                    android:padding="16dp" />
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/rounded">
 
-                <!-- Imagen debajo del mensaje -->
-                <ImageView
-                    android:id="@+id/info_overlay_image"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="16dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/muralla"
-                    android:contentDescription="Imagen informativa" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="6">
+
+                        <TextView
+                            android:id="@+id/description_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="5"
+                            android:text="@string/description"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                            android:textColor="@color/white" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginRight="13dp">
+
+                            <ImageButton
+                                android:id="@+id/audio_player"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="@drawable/round_button_background"
+                                android:src="@drawable/audio" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </FrameLayout>
+
+                <View
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="?android:attr/listDivider" />
+
+
+                <!-- Contenedor dinámico para imágenes y el texto-->
+                <LinearLayout
+                    android:id="@+id/dynamic_description_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginVertical="6dp" >
+
+
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/rounded">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="6">
+
+                        <TextView
+                            android:id="@+id/MoreInfo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="5"
+                            android:text="@string/more_info_title"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                            android:textColor="@color/white" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginRight="13dp">
+
+                            <ImageButton
+                                android:id="@+id/audio_player_2"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+
+                                android:background="@drawable/round_button_background"
+                                android:src="@drawable/audio" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </FrameLayout>
+
+                <View
+                    android:id="@+id/divider_section_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="?android:attr/listDivider" />
+
+                <!-- Contenedor dinámico para imágenes y el texto-->
+                <LinearLayout
+                    android:id="@+id/dynamic_more_info_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginVertical="6dp" >
+
+
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/rounded">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/challenges_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@string/challenges_title"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+                </FrameLayout>
             </LinearLayout>
         </FrameLayout>
-    </FrameLayout>
+    </ScrollView>
 
     <!-- Footer personalizado -->
     <com.example.pintia.components.Footer
