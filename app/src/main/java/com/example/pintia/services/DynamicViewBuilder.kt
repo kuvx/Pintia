@@ -92,13 +92,22 @@ object DynamicViewBuilder {
                     }
                     // Usar Glide para cargar la imagen desde la ruta
                     try {
-                        val assetManager = container.context.assets
-                        val inputStream = assetManager.open(item.value)
+                        val urlPattern = "^(https?://).*$".toRegex(RegexOption.IGNORE_CASE)
+                        val typeImage = urlPattern.matches(item.value)
+                        if (!typeImage){
+                            val assetManager = container.context.assets
+                            val inputStream = assetManager.open(item.value)
+                            val bitmap = BitmapFactory.decodeStream(inputStream)
 
-                        val bitmap = BitmapFactory.decodeStream(inputStream)
-                        Glide.with(container.context)
-                            .load(bitmap)
-                            .into(imageView)
+                            Glide.with(container.context)
+                                .load(bitmap)
+                                .into(imageView)
+                        }
+                        else{
+                            Glide.with(container.context)
+                                .load(item.value)
+                                .into(imageView)
+                        }
 
                     }catch (e:Exception){
                         Log.d("Error_Image",e.toString())
