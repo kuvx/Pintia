@@ -80,7 +80,7 @@ class LasRuedasActivity : AppCompatActivity() {
             val marker = Marker(mapView)
             marker.position = GeoPoint(punto.latitude, punto.longitude)
             marker.title = punto.title
-            marker.icon = generateDrawableWithText(this,resources.getDrawable(R.drawable.point), (index-1).toString())
+            marker.icon = generateDrawableWithText(this,resources.getDrawable(R.drawable.point), (index).toString())
 
 
             // Configura el listener de clic para cada marcador

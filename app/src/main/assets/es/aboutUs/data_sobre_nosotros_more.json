@@ -1,10 +1,18 @@
 [
   {
     "type": "text",
-    "value": "Otra sección de descripción."
+    "value": "Su seña de identidad viene dada por el gran mural, obra de Manuel Sierra, que cubre toda su fachada y recoge diversos motivos iconográficos vacceos. Fue inaugurado por el Rector Magnífico el 21 de septiembre de 2001 y desde entonces se ha revelado como un soporte crucial para el desarrollo del Proyecto Pintia, que tiene por objeto proteger, investigar y difundir el excepcional patrimonio arqueológico que alberga la Zona Arqueológica Pintia. Si desea contactar con el CEVFW, puede hacerlo a través de la página de contacto."
   },
   {
     "type": "image",
-    "value": "https://http.cat/404.jpg"
+    "value": "https://pintiavaccea.es/imagenes_seccion/img201905031259.jpg"
+  },
+  {
+    "type": "text",
+    "value": "El Centro recibe su nombre del profesor de la Universidad de Valladolid, fallecido prematuramente en 1967, y sentó las bases del estudio del pueblo vacceo con su obra La región vaccea. Celtiberismo y romanización en la cuenca media del Duero, de la que en 2009 se cumplieron cincuenta años de su publicación. A tal efecto, el CEVFW le tributó un sentido homenaje y erigió en su memoria un monolito conmemorativo en el cementerio pintiano de Las Ruedas."
+  },
+  {
+    "type": "image",
+    "value": "https://pintiavaccea.es/imagenes_seccion/img201903131240.jpg"
   }
 ]
