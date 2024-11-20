@@ -2,8 +2,10 @@ package com.example.pintia.puntosPrincipales
 
 import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pintia.R
@@ -14,6 +16,7 @@ import com.example.pintia.puntosPrincipales.lasQuintanasViews.YacimientoInfoView
 import com.example.pintia.services.DynamicViewBuilder.generateDrawableWithText
 import com.example.pintia.services.DynamicViewBuilder.loadContentFromJson
 import com.example.pintia.services.DynamicViewBuilder.populateDynamicPoints
+import com.google.zxing.integration.android.IntentIntegrator
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
@@ -37,6 +40,9 @@ class LasRuedasActivity : AppCompatActivity() {
         setContentView(R.layout.activity_las_ruedas)
         val header = findViewById<Header>(R.id.header)
         header.title = getString(R.string.app_name)
+
+        val scanButton: ImageButton = findViewById(R.id.scanButton)
+        scanButton.setOnClickListener { initScanner() }
 
         // Inicializa la configuración de OSMDroid
         Configuration.getInstance().load(this, getSharedPreferences("osmdroid", MODE_PRIVATE))
@@ -114,6 +120,49 @@ class LasRuedasActivity : AppCompatActivity() {
             val y = MapTileIndex.getY(pMapTileIndex)
             return "$baseUrl$zoom/$x/$y.png?access_token=${API_token}"
         }
+    }
+
+    private fun initScanner() {
+        val integrator = IntentIntegrator(this).apply{
+            setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
+            setPrompt("Escanea un código QR")
+            setOrientationLocked(true)
+            setBeepEnabled(true)
+        }
+        integrator.initiateScan()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null) {
+            if (result.contents == null) {
+                Toast.makeText(this, "Escaneo cancelado", Toast.LENGTH_LONG).show()
+            } else {
+                Toast.makeText(this, "Escaneado: ${result.contents}", Toast.LENGTH_LONG).show()
+                val scannedUrl = result.contents
+                if (isValidHttpsUrl(scannedUrl)) {
+                    openUrlInBrowser(scannedUrl)
+                } else {
+                    Toast.makeText(this, "URL no válida o no es HTTPS", Toast.LENGTH_LONG).show()
+                }
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data)
+        }
+    }
+
+    private fun isValidHttpsUrl(url: String): Boolean {
+        return try {
+            val uri = Uri.parse(url)
+            uri.scheme?.equals("https", ignoreCase = true) == true
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    private fun openUrlInBrowser(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(intent)
     }
 
     override fun onStart() {
