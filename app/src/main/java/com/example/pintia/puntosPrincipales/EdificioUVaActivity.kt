@@ -42,15 +42,14 @@ class EdificioUVaActivity : AppCompatActivity() {
 //        }
 
         var path = "edificio"
-        var titulo_cod = getString(R.string.info).lowercase().replace(" ", "_")
 
-        val contentItems = loadContentFromJson(this, "${path}/data_${titulo_cod}.json", true)
+        val contentItems = loadContentFromJson(this, "${path}/data_${path}.json", true)
         Log.d("JSONView", contentItems.toString())
 
         val dynamicContainer = findViewById<LinearLayout>(R.id.dynamic_description_container)
         val tituloTTL = populateDynamicDescription(getString(R.string.description),dynamicContainer, contentItems)
 
-        val contentItems_moreInfo = loadContentFromJson(this, "${path}/data_${titulo_cod}_more.json", true)
+        val contentItems_moreInfo = loadContentFromJson(this, "${path}/data_${path}_more.json", true)
         Log.d("JSONView", contentItems.toString())
 
         val dynamicContainer_more = findViewById<LinearLayout>(R.id.dynamic_more_info_container)

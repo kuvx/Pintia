@@ -35,13 +35,10 @@ class MurallaAsedioActivity : AppCompatActivity() {
                 // Manejar el error de inicialización
             }
         }
-
-//        data.forEach {
-//            addEntry(layout, it)
-//        }
+        
 
         var path = "muralla"
-        var titulo_cod = getString(R.string.info).lowercase().replace(" ", "_")
+        var titulo_cod = getString(R.string.muralla).lowercase().replace(" ", "_")
 
         val contentItems = loadContentFromJson(this, "${path}/data_${titulo_cod}.json", true)
         Log.d("JSONView", contentItems.toString())
