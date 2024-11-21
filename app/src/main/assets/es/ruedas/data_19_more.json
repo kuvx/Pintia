@@ -14,17 +14,5 @@
   {
     "type": "image",
     "value": "ruedas_img/18_d_Tintinarbula_detalle.JPG"
-  },
-  {
-    "type": "model3D",
-    "value": "<div class=\"sketchfab-embed-wrapper\"> <iframe title=\"Catapult\" frameborder=\"0\" allowfullscreen mozallowfullscreen=\"true\" webkitallowfullscreen=\"true\" allow=\"autoplay; fullscreen; xr-spatial-tracking\" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src=\"https://sketchfab.com/models/7a9e2ada9fa449efa62899d8e14bdb85/embed\"> </iframe> </div>"
-  },
-  {
-    "type": "model3D",
-    "value": "<div class=\"sketchfab-embed-wrapper\"> <iframe title=\"Roman fortification\" frameborder=\"0\" allowfullscreen mozallowfullscreen=\"true\" webkitallowfullscreen=\"true\" allow=\"autoplay; fullscreen; xr-spatial-tracking\" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src=\"https://sketchfab.com/models/5168a5df20e74eb185115a8d7fa8b673/embed?ui_infos=0\"> </iframe> </div>"
-  },
-  {
-    "type": "model3D",
-    "value": "<div class=\"sketchfab-embed-wrapper\"> <iframe title=\"Cerámica de época Vaccea-romana\" frameborder=\"0\" allowfullscreen mozallowfullscreen=\"true\" webkitallowfullscreen=\"true\" allow=\"autoplay; fullscreen; xr-spatial-tracking\" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src=\"https://sketchfab.com/models/12bea4f29ecb4a039673cf1e8533977a/embed\"> </iframe> </div>"
   }
 ]
