@@ -40,11 +40,13 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.glide)
     implementation("androidx.preference:preference-ktx:1.2.1")
-    implementation("com.google.android.material:material:1.9.0")
+    //implementation("com.google.android.material:material:1.9.0")
     implementation ("org.osmdroid:osmdroid-android:6.1.10")
+    implementation ("com.google.code.gson:gson:2.10")
+    implementation ("com.journeyapps:zxing-android-embedded:4.3.0") //para QR's
 
 
-    implementation(libs.androidx.core.ktx)
+
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)

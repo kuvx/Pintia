@@ -28,6 +28,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:layout_weight="1"
         android:text="@string/header"
+        android:ellipsize="none"
         />
 
 </LinearLayout>

@@ -27,13 +27,43 @@
         android:layout_height="match_parent"
         android:layout_marginVertical="90dp"
         >
-        <com.example.pintia.components.Leyenda
-            android:id="@+id/leyenda_main"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="right">
+
+            <com.example.pintia.components.Leyenda
+                android:id="@+id/leyenda_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+            <ImageButton
+                android:id="@+id/btn_center_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/user_pin"
+                android:background="@drawable/round_button_selected_background"
+                android:layout_margin="16dp" />
+
+            <ImageButton
+                android:id="@+id/btn_center_pintia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/focus"
+                android:background="@drawable/round_button_selected_background"
+                android:layout_margin="16dp" />
+        </LinearLayout>
+
+
+
+
+
 
     </FrameLayout>
+
 
     <com.example.pintia.components.Footer
         android:id="@+id/footer"

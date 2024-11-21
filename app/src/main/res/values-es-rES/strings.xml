@@ -16,10 +16,20 @@
     <string name="more_info_content">%s</string>
     <string name="challenges_title">Retos</string>
     <string name="challenges_content">%s</string>
+    <string name="pozo">El Pozo</string>
     <string name="lore">Lorem ipsum dolor sit amet, officia excepteur ex fugiat reprehenderit enim labore culpa sint ad nisi Lorem pariatur mollit ex esse exercitation amet. Nisi anim cupidatat excepteur officia. Reprehenderit nostrud nostrud ipsum Lorem est aliquip amet voluptate voluptate dolor minim nulla est proident. Nostrud officia pariatur ut officia. Sit irure elit esse ea nulla sunt ex occaecat reprehenderit commodo officia dolor Lorem duis laboris cupidatat officia voluptate. Culpa proident adipisicing id nulla nisi laboris ex in Lorem sunt duis officia eiusmod. Aliqua reprehenderit commodo ex non excepteur duis sunt velit enim. Voluptate laboris sint cupidatat ullamco ut ea consectetur et est culpa et culpa duis.</string>
     <string name="quinanas">Las Quintanas</string>
     <string name="ruedas">Las Ruedas</string>
     <string name="muralla">La Muralla</string>
     <string name="asedio">Zona Asedio</string>
     <string name="example_test">TEXTO DE EJEMPLO, DEBERÍA SER ESPAÑOL</string>
+    <string name="sigloI">Siglo I</string>
+    <string name="sigloIV">Siglo IV</string>
+    <string name="sigloIII">Siglo III</string>
+    <string name="sigloII">Siglo II</string>
+    <string name="info_description_title">titulo\n</string>
+    <string name="info_description_content">titulo_contenido</string>
+    <string name="info_more_info_title">more_info</string>
+    <string name="info_challenges_title">retos</string>
+    <string name="info_challenges_content">retos_contenido</string>
 </resources>
