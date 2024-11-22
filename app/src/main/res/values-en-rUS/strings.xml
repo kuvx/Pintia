@@ -30,6 +30,14 @@
     <string name="info_description_title">titulo\n</string>
     <string name="info_description_content">titulo_contenido</string>
     <string name="info_more_info_title">more_info</string>
+    <string name="info_more_info_content">more_info_contenido</string>
     <string name="info_challenges_title">retos</string>
     <string name="info_challenges_content">retos_contenido</string>
+    <string name="visit_request_name">Complete name</string>
+    <string name="visit_request_group_size">Group size</string>
+    <string name="visit_request_group_size_hint">Select a group size</string>
+    <string name="visit_request_phone">Phone number</string>
+    <string name="visit_request_date">Date of visit (dd/mm/yyyy)</string>
+    <string name="visit_request_time">Time of visit (hh:mm) [opcional]</string>
+    <string name="visit_request_submit_text">Request visit</string>
 </resources>

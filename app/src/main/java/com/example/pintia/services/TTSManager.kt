@@ -10,17 +10,12 @@ class TTSManager (private val context: Context, private val onTTSInit:
     (Boolean) -> Unit) : TextToSpeech.OnInitListener  {
 
     private var isSpeaking: Boolean = false
-    private lateinit var tts: TextToSpeech
+    private var tts: TextToSpeech = TextToSpeech(context, this)
     private var isInitialized = false
-
-    init {
-        tts = TextToSpeech(context, this)
-    }
 
     override fun onInit(status: Int) {
         if (status == TextToSpeech.SUCCESS) {
-            val lan = context.resources.configuration.locales[0].toString().split("_")
-            val locale = Locale(lan[0], this.getDefaultRegionForLanguage(lan[0]))
+            val locale = context.resources.configuration.locales[0]
 
             val result = tts.setLanguage(locale)
 
@@ -62,19 +57,6 @@ class TTSManager (private val context: Context, private val onTTSInit:
     fun shutdown() {
         tts.stop()
         tts.shutdown()
-    }
-
-    private fun getDefaultRegionForLanguage(languageCode: String): String {
-        // Lista de idiomas con sus regiones predeterminadas
-        val defaultRegions = mapOf(
-            "es" to "ES", // Español - España
-            "en" to "US", // Inglés - Estados Unidos
-            "fr" to "FR", // Francés - Francia
-            "de" to "DE", // Alemán - Alemania
-        )
-
-        // Devolver la región predeterminada si existe, o un valor alternativo
-        return defaultRegions[languageCode] ?: Locale(languageCode).country.ifEmpty { "US" }
     }
 
     fun getIsPlaying():Boolean {
