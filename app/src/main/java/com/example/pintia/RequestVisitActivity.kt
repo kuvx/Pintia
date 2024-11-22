@@ -11,11 +11,14 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.net.Uri
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
+import kotlin.reflect.typeOf
 
 class RequestVisitActivity : AppCompatActivity() {
 
@@ -26,7 +29,16 @@ class RequestVisitActivity : AppCompatActivity() {
         header.title = getString(R.string.request)
 
         val etName = findViewById<EditText>(R.id.et_name)
-        val etEmail = findViewById<EditText>(R.id.et_email)
+        val etGroupSize = findViewById<Spinner>(R.id.et_group_size)
+
+        // Establecer valores al spinner
+        val hint = getString(R.string.visit_request_group_size_hint)
+        val numberList: List<Any> =
+            listOf(hint) + (3..7).toMutableList()
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, numberList)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        etGroupSize.adapter = adapter
+
         val etPhone = findViewById<EditText>(R.id.et_phone)
         val etDate = findViewById<EditText>(R.id.et_date)
         val etTime = findViewById<EditText>(R.id.et_time)
@@ -71,12 +83,11 @@ class RequestVisitActivity : AppCompatActivity() {
 
         btnSubmit.setOnClickListener {
             val name = etName.text.toString().trim()
-            val email = etEmail.text.toString().trim()
             val phone = etPhone.text.toString().trim()
             val date = etDate.text.toString().trim()
             val time = etTime.text.toString().trim()
 
-            val body = genBody(name, email, phone, date, time)
+            val body = genBody(name, etGroupSize, phone, date, time)
 
             if (body.isNotEmpty()) {
                 CoroutineScope(Dispatchers.Main).launch {
@@ -86,7 +97,7 @@ class RequestVisitActivity : AppCompatActivity() {
                 Toast.makeText(this, "Visita solicitada exitosamente", Toast.LENGTH_SHORT).show()
 
                 etName.text.clear()
-                etEmail.text.clear()
+                etGroupSize.setSelection(0)
                 etPhone.text.clear()
                 etDate.text.clear()
             } else {
@@ -98,21 +109,21 @@ class RequestVisitActivity : AppCompatActivity() {
 
     private fun genBody(
         name: String,
-        email: String,
+        etGroupSize: Spinner,
         phone: String,
         date: String,
         time: String
     ): String {
-        if (name.isNotEmpty() && email.isNotEmpty() && phone.isNotEmpty() && date.isNotEmpty()) {
-            val fecha = if (time.isNotEmpty()) " sobre las $time h" else ""
-            val text =
-                "¡Hola Carlos!\n\nSoy $name y estoy interesado en hacer una visita por pintia.\n" +
-                        "Somos un grupo compuesto por $ personas, la visita nos gustaría que fuese para el" +
-                        "día $date$fecha.\n\nQuedamos pendientes de tu confirmación o contrapropuesta.\n\n" +
-                        "Podemos continuar a través de este correo o a través del teléfono $phone.\n\n" +
-                        "Atentamente $name."
-
-            return text
+        if (name.isNotEmpty() && etGroupSize.selectedItemPosition > 0 && phone.isNotEmpty() && date.isNotEmpty()) {
+            val fecha = if (time.isNotEmpty()) " a las ${time}h" else ""
+            return "¡Hola Carlos!\n\n" +
+                    "Soy $name y estoy interesado en hacer una visita por pintia.\n" +
+                    "Somos un grupo compuesto por ${etGroupSize.selectedItem} personas, la visita"+
+                    " nos gustaría que fuese para el día $date$fecha.\n\n" +
+                    "También, nos gustaría conocer el precio de la visita.\n\n" +
+                    "Quedamos pendientes de tu confirmación o contrapropuesta.\n\n" +
+                    "Podemos continuar a través de este correo o a través del teléfono $phone.\n\n" +
+                    "Atentamente $name."
         } else {
             return ""
         }

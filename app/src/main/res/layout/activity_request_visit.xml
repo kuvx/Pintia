@@ -35,28 +35,31 @@
                 android:id="@+id/et_name"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Nombre completo"
-                android:inputType="textPersonName" />
+                android:hint="@string/visit_request_name"
+                android:inputType="textPersonName"
+                android:autofillHints="name" />
 
-            <EditText
-                android:id="@+id/et_email"
+            <Spinner
+                android:id="@+id/et_group_size"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Correo electrónico"
-                android:inputType="textEmailAddress" />
+                android:hint="@string/visit_request_group_size"
+                android:inputType="number" />
 
             <EditText
                 android:id="@+id/et_phone"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Número de teléfono"
-                android:inputType="phone" />
+                android:hint="@string/visit_request_phone"
+                android:inputType="phone"
+                android:autofillHints="phone"
+                />
 
             <EditText
                 android:id="@+id/et_date"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Fecha de la visita (dd/mm/yyyy)"
+                android:hint="@string/visit_request_date"
                 android:inputType="date"
                 android:focusable="false"
                 android:clickable="true"
@@ -66,7 +69,7 @@
                 android:id="@+id/et_time"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:hint="Hora de la visita (opcional) (hh:mm)"
+                android:hint="@string/visit_request_time"
                 android:inputType="time"
                 android:focusable="false"
                 android:clickable="true"
@@ -76,7 +79,7 @@
                 android:id="@+id/btn_submit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Solicitar visita" />
+                android:text="@string/visit_request_submit_text" />
 
         </LinearLayout>
 

@@ -1,1 +1,1 @@
-val EMAIL_DEST="migudel.infor@gmail.com"
+val EMAIL_DEST="cevfw@uva.es"
