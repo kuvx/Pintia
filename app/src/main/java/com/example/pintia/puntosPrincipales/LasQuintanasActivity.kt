@@ -34,6 +34,9 @@ class LasQuintanasActivity : AppCompatActivity(), OnPoligonoTouchListener {
         setContentView(R.layout.activity_las_quintanas)
         val header = findViewById<Header>(R.id.header)
         header.title = getString(R.string.quinanas)
+        header.onBackButtonClick = {
+            finish()
+        }
 
         val overlayView: OverlayView = findViewById(R.id.overlayView)
 

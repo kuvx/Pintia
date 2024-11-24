@@ -1,5 +1,6 @@
 package com.example.pintia.services
 
+import android.app.Activity
 import android.content.Context
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
@@ -34,10 +35,29 @@ class TTSManager (private val context: Context, private val onTTSInit:
         }
     }
 
-    fun speak(text: String, utteranceId: String) {
+    fun speak(text: String, utteranceId: String, onDoneCallback: (() -> Unit)? = null) {
         if (isInitialized) {
+            tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
+                override fun onStart(utteranceId: String?) {
+                    isSpeaking = true
+                }
+
+                override fun onDone(utteranceId: String?) {
+                    isSpeaking = false
+                    // Llama al callback en el hilo principal
+                    onDoneCallback?.let {
+                        (context as? Activity)?.runOnUiThread {
+                            it.invoke() // Ejecuta el callback
+                        }
+                    }
+                }
+
+                override fun onError(utteranceId: String?) {
+                    Log.e("TTSManager", "Error while speaking")
+                    isSpeaking = false
+                }
+            })
             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId)
-            isSpeaking=true
         } else {
             Log.e("TTSManager", "TTS not initialized")
         }

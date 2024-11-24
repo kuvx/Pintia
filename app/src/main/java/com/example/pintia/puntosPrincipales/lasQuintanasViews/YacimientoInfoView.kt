@@ -13,11 +13,13 @@ import com.example.pintia.components.Header
 import com.example.pintia.services.DynamicViewBuilder.loadContentFromJson
 import com.example.pintia.services.DynamicViewBuilder.populateDynamicDescription
 import com.example.pintia.services.TTSManager
+import com.example.pintia.services.AudioButtonHandler
 
 class YacimientoInfoView : AppCompatActivity() {
 
     private lateinit var ttsManager: TTSManager
     private var idOfAudioPlaying = -1
+    private lateinit var audioButtonHandler: AudioButtonHandler
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,47 +64,57 @@ class YacimientoInfoView : AppCompatActivity() {
         val dynamicContainer_more = findViewById<LinearLayout>(R.id.dynamic_more_info_container)
         val moreTTL = populateDynamicDescription(getString(R.string.more_info_title), dynamicContainer_more, contentItems_moreInfo)
 
-        val audioView = findViewById<ImageButton>(R.id.audio_player).apply {
-            id = View.generateViewId()
-            setOnClickListener {
-                // Si un botón reproduciendo y es el mismo botón -> parar
-                // Si otro botón esta activo -> parar y reproducir
-                // Si no está reproduciendo -> reproducir
-                val oldId = idOfAudioPlaying
-                if (idOfAudioPlaying != -1 && ttsManager.getIsPlaying()) { // Reproduciendo
-                    ttsManager.stop()
-                    findViewById<ImageButton>(idOfAudioPlaying).setBackgroundResource(R.drawable.round_button_background)
-                    idOfAudioPlaying = -1
-                }
-                if ((oldId == -1 || oldId != id) && tituloTTL.isNotEmpty()) { // Si no hay otro reproduciendo o si otro botón estaba activado
-                    speakText(tituloTTL)
-                    idOfAudioPlaying = id
-                    it.setBackgroundResource(R.drawable.round_button_selected_background)
-                }
-                // En caso de ser el mismo botón para (se hace con el primer if y sin acceder al segundo)
-            }
-        }
+        // Inicializar el manejador de botones de audio
+        audioButtonHandler = AudioButtonHandler(this, ttsManager)
 
-        val audioView_2 = findViewById<ImageButton>(R.id.audio_player_2).apply {
-            id = View.generateViewId()
-            setOnClickListener {
-                // Si un botón reproduciendo y es el mismo botón -> parar
-                // Si otro botón esta activo -> parar y reproducir
-                // Si no está reproduciendo -> reproducir
-                val oldId = idOfAudioPlaying
-                if (idOfAudioPlaying != -1 && ttsManager.getIsPlaying()) { // Reproduciendo
-                    ttsManager.stop()
-                    findViewById<ImageButton>(idOfAudioPlaying).setBackgroundResource(R.drawable.round_button_background)
-                    idOfAudioPlaying = -1
-                }
-                if ((oldId == -1 || oldId != id) && tituloTTL.isNotEmpty()) { // Si no hay otro reproduciendo o si otro botón estaba activado
-                    speakText(moreTTL)
-                    idOfAudioPlaying = id
-                    it.setBackgroundResource(R.drawable.round_button_selected_background)
-                }
-                // En caso de ser el mismo botón para (se hace con el primer if y sin acceder al segundo)
-            }
-        }
+        // Configurar botones de audio
+        val audioView1 = findViewById<ImageButton>(R.id.audio_player)
+        val audioView2 = findViewById<ImageButton>(R.id.audio_player_2)
+
+        // Configurar cada botón con su respectivo texto
+        audioButtonHandler.setupAudioButton(audioView1, tituloTTL)
+        audioButtonHandler.setupAudioButton(audioView2, moreTTL)
+//        val audioView = findViewById<ImageButton>(R.id.audio_player).apply {
+//            id = View.generateViewId()
+//            setOnClickListener {
+//                // Si un botón reproduciendo y es el mismo botón -> parar
+//                // Si otro botón esta activo -> parar y reproducir
+//                // Si no está reproduciendo -> reproducir
+//                val oldId = idOfAudioPlaying
+//                if (idOfAudioPlaying != -1 && ttsManager.getIsPlaying()) { // Reproduciendo
+//                    ttsManager.stop()
+//                    findViewById<ImageButton>(idOfAudioPlaying).setBackgroundResource(R.drawable.round_button_background)
+//                    idOfAudioPlaying = -1
+//                }
+//                if ((oldId == -1 || oldId != id) && tituloTTL.isNotEmpty()) { // Si no hay otro reproduciendo o si otro botón estaba activado
+//                    speakText(tituloTTL)
+//                    idOfAudioPlaying = id
+//                    it.setBackgroundResource(R.drawable.round_button_selected_background)
+//                }
+//                // En caso de ser el mismo botón para (se hace con el primer if y sin acceder al segundo)
+//            }
+//        }
+//
+//        val audioView_2 = findViewById<ImageButton>(R.id.audio_player_2).apply {
+//            id = View.generateViewId()
+//            setOnClickListener {
+//                // Si un botón reproduciendo y es el mismo botón -> parar
+//                // Si otro botón esta activo -> parar y reproducir
+//                // Si no está reproduciendo -> reproducir
+//                val oldId = idOfAudioPlaying
+//                if (idOfAudioPlaying != -1 && ttsManager.getIsPlaying()) { // Reproduciendo
+//                    ttsManager.stop()
+//                    findViewById<ImageButton>(idOfAudioPlaying).setBackgroundResource(R.drawable.round_button_background)
+//                    idOfAudioPlaying = -1
+//                }
+//                if ((oldId == -1 || oldId != id) && tituloTTL.isNotEmpty()) { // Si no hay otro reproduciendo o si otro botón estaba activado
+//                    speakText(moreTTL)
+//                    idOfAudioPlaying = id
+//                    it.setBackgroundResource(R.drawable.round_button_selected_background)
+//                }
+//                // En caso de ser el mismo botón para (se hace con el primer if y sin acceder al segundo)
+//            }
+//        }
 
     }
     private fun setupTTSListener() {
@@ -127,10 +139,10 @@ class YacimientoInfoView : AppCompatActivity() {
 
 
 
-    // Función para leer el texto
-    private fun speakText(text: String) {
-        ttsManager.speak(text, "InfoActivityUtterance")
-    }
+//    // Función para leer el texto
+//    private fun speakText(text: String) {
+//        ttsManager.speak(text, "InfoActivityUtterance")
+//    }
 
     override fun onPause() {
         ttsManager.stop()

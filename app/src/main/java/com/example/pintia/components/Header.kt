@@ -1,5 +1,6 @@
 package com.example.pintia.components
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.AttributeSet
@@ -29,13 +30,16 @@ class Header @JvmOverloads constructor(
         titleComponent.text = context.getString(R.string.header, title)
     }
 
+    var onBackButtonClick: (() -> Unit)? = null
+
     init {
         LayoutInflater.from(context).inflate(R.layout.component_header, this, true)
         val backButton:ImageButton = findViewById(R.id.back_button_header)
         backButton.setOnClickListener {
-            Toast.makeText(context, "Botton redondo presionado", Toast.LENGTH_SHORT).show()
-            val intent = Intent(context, MapActivity::class.java)
-            context.startActivity(intent)
+            onBackButtonClick?.invoke()
+            (context as? Activity)?.finish() ?: run {
+                Toast.makeText(context, "No se pudo finalizar la actividad", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
