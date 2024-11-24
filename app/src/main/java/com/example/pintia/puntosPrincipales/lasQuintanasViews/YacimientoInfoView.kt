@@ -14,6 +14,7 @@ import com.example.pintia.services.DynamicViewBuilder.loadContentFromJson
 import com.example.pintia.services.DynamicViewBuilder.populateDynamicDescription
 import com.example.pintia.services.TTSManager
 import com.example.pintia.services.AudioButtonHandler
+import java.text.Normalizer
 
 class YacimientoInfoView : AppCompatActivity() {
 
@@ -48,7 +49,9 @@ class YacimientoInfoView : AppCompatActivity() {
                 titulo_cod= titulo.split(".")[0]
             }
             "quintana" ->{
-               titulo_cod = titulo.lowercase().replace(" ", "_")
+                titulo_cod = titulo.lowercase().replace(" ", "_")
+                titulo_cod = Normalizer.normalize(titulo_cod, Normalizer.Form.NFD).replace(Regex("\\p{M}"), "")
+
             }
 
         }

@@ -19,6 +19,7 @@ import com.example.pintia.components.Header
 import com.example.pintia.services.DynamicViewBuilder.loadContentFromJson
 import com.example.pintia.services.DynamicViewBuilder.populateDynamicDescription
 import com.example.pintia.services.TTSManager
+import java.text.Normalizer
 import java.util.Locale
 
 class InfoActivity : AppCompatActivity(){
@@ -48,6 +49,7 @@ class InfoActivity : AppCompatActivity(){
 
         var path = "aboutUs"
         var titulo_cod = getString(R.string.info).lowercase().replace(" ", "_")
+        titulo_cod = Normalizer.normalize(titulo_cod, Normalizer.Form.NFD).replace(Regex("\\p{M}"), "")
 
         val contentItems = loadContentFromJson(this, "${path}/data_${titulo_cod}.json", true)
         Log.d("JSONView", contentItems.toString())

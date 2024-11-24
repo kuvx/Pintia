@@ -34,7 +34,7 @@ class SettingsActivity : AppCompatActivity() {
             val languagePref = findPreference<ListPreference>("language")
             val nativeLanguage = context?.resources?.configuration?.locales?.get(0)?.language
             println("Native Language:$nativeLanguage")
-            languagePref?.setValueIndex(arrayOf("es", "en").indexOf(nativeLanguage))
+            languagePref?.setValueIndex(arrayOf("es", "en", "fr").indexOf(nativeLanguage))
             languagePref?.setOnPreferenceChangeListener { _, newValue ->
                 updateLanguage(newValue as String)
                 true

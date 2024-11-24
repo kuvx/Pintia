@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pintia</string>
+    <string name="titulo_principal">Centre d\'Études Vacéennes Federico Wattenberg</string>
+    <string name="header">%s</string>
+    <string name="info">À propos de nous</string>
+    <string name="map">Carte</string>
+    <string name="home">Ville de Pintia</string>
+    <string name="gallery">Galerie</string>
+    <string name="settings">Paramètres</string>
+    <string name="tamButton">30dp</string>
+    <string name="description">Description</string>
+    <string name="request">Demande de visite</string>
+    <string name="description_content">%s</string>
+    <string name="more_info_title">Informations supplémentaires</string>
+    <string name="more_info_content">%s</string>
+    <string name="challenges_title">Défis</string>
+    <string name="challenges_content">%s</string>
+    <string name="pozo">Le Puits</string>
+    <string name="lore">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="quinanas">Les Quintans</string>
+    <string name="ruedas">Les Roues</string>
+    <string name="muralla">Le Mur</string>
+    <string name="asedio">Zone de Siège</string>
+    <string name="example_test">EXEMPLE DE TEXTE, DOIT ÊTRE EN ANGLAIS</string>
+    <string name="sigloI">1er Siècle</string>
+    <string name="sigloIV">4e Siècle</string>
+    <string name="sigloIII">3e Siècle</string>
+    <string name="sigloII">2e Siècle</string>
+    <string name="info_description_title">titre\n</string>
+    <string name="info_description_content">contenu_titre</string>
+    <string name="info_more_info_title">informations_supplémentaires</string>
+    <string name="info_more_info_content">contenu_informations_supplémentaires</string>
+    <string name="info_challenges_title">défis</string>
+    <string name="info_challenges_content">contenu_défis</string>
+    <string name="visit_request_name">Nom complet</string>
+    <string name="visit_request_group_size">Taille du groupe</string>
+    <string name="visit_request_group_size_hint">Sélectionnez une taille de groupe</string>
+    <string name="visit_request_phone">Numéro de téléphone</string>
+    <string name="visit_request_date">Date de visite (jj/mm/aaaa)</string>
+    <string name="visit_request_time">Heure de visite (hh:mm) [optionnel]</string>
+    <string name="visit_request_submit_text">Demander une visite</string>
+</resources>

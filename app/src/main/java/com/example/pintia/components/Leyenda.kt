@@ -55,6 +55,8 @@ class Leyenda @JvmOverloads constructor(
             textView.setOnClickListener { // Cuando se clicke se cambia de vista
                 if (punto != null) {
                     val intent = Intent(context, punto.destinationActivity)
+                    intent.putExtra("title", punto.title)
+                    intent.putExtra("path", "ruedas")
                     context.startActivity(intent)
                 } else {
                     // Cerramos el desplegable
