@@ -84,8 +84,30 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         private fun updateFontSize(size: String) {
-            // Implementa la lógica para cambiar el tamaño de la fuente
-            // Puedes usar un tema personalizado o ajustar el tamaño de texto en tu app
+            val fontSize: Int
+            when (size) {
+                "small" -> fontSize = 14
+                "medium" -> fontSize = 18
+                "large" -> fontSize = 22
+                else -> fontSize = 18 // Valor por defecto
+            }
+
+            // Actualizar el tamaño de fuente de las vistas
+            val sharedPreferences = activity?.getSharedPreferences("app_preferences", MODE_PRIVATE)
+            val editor = sharedPreferences?.edit()
+            editor?.putInt("font_size", fontSize)
+            editor?.apply()
+
+            // Cambiar el tamaño de fuente de toda la actividad
+            val currentActivity = activity as? AppCompatActivity
+            currentActivity?.let {
+                val configuration = Configuration(it.resources.configuration)
+                configuration.fontScale = fontSize / 18f // 18 es el tamaño medio base
+                it.resources.updateConfiguration(configuration, it.resources.displayMetrics)
+
+                // Recargar la actividad para que el cambio tenga efecto
+                it.recreate()
+            }
         }
 
         private fun updateDarkMode(isDarkMode: Boolean) {
