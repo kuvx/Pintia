@@ -13,12 +13,14 @@ import java.util.*
 
 class SettingsActivity : AppCompatActivity() {
 
+    private lateinit var settings : SettingsFragment;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         val header = findViewById<Header>(R.id.header)
         header.title = getString(R.string.settings)
-        val settings = SettingsFragment()
+        settings = SettingsFragment()
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.settings, settings)
@@ -77,10 +79,8 @@ class SettingsActivity : AppCompatActivity() {
             val contextoConIdioma = context?.createConfigurationContext(configuration)
             // Para usar el nuevo contexto
             val configuracionContextual = contextoConIdioma!!.resources.configuration
-
-
-
             activity?.recreate()
+
         }
 
         private fun updateFontSize(size: String) {
@@ -108,6 +108,7 @@ class SettingsActivity : AppCompatActivity() {
                 // Recargar la actividad para que el cambio tenga efecto
                 it.recreate()
             }
+
         }
 
         private fun updateDarkMode(isDarkMode: Boolean) {

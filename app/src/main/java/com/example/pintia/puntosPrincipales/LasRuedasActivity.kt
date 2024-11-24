@@ -63,14 +63,6 @@ class LasRuedasActivity : AppCompatActivity() {
 
         mapController.setCenter(GeoPoint(latitud, longitud))  // Pintia
 
-        // Define la lista de puntos para los marcadores
-//        var puntos = listOf(
-//            Punto("Aparcamiento", 41.616422, -4.169313, null, YacimientoInfoView::class.java),
-//            Punto("Panel Informativo", 41.617320, -4.169340, null, YacimientoInfoView::class.java),
-//            Punto("Pira Funeraria", 41.616422, -4.169313, null, YacimientoInfoView::class.java),
-//            Punto("Panel Informativo", 41.617320, -4.169340, null, YacimientoInfoView::class.java)
-//        )
-
         val contentItems = loadContentFromJson(this, "points_ruedas.json", false)
         Log.d("JSONView", contentItems.toString())
         val puntos = populateDynamicPoints(contentItems)
@@ -91,15 +83,17 @@ class LasRuedasActivity : AppCompatActivity() {
 
             // Configura el listener de clic para cada marcador
             marker.setOnMarkerClickListener { _, _ ->
-                val intent = Intent(this, punto.destinationActivity)
-                intent.putExtra("title", punto.title)
-                intent.putExtra("path", "ruedas")
-                startActivity(intent)
-                true
-
+                if (index!= 0 && index != 18){
+                    val intent = Intent(this, punto.destinationActivity)
+                    intent.putExtra("title", punto.title)
+                    intent.putExtra("path", "ruedas")
+                    startActivity(intent)
+                    true
+                }
                 // Mostrar mensaje Toast (opcional)
                 Toast.makeText(this, "Marcador clickeado: ${punto.title}", Toast.LENGTH_SHORT).show()
                 true // Indica que el evento ha sido manejado
+
             }
 
             // Agrega el marcador al mapa
