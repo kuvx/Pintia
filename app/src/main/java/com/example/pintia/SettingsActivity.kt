@@ -3,6 +3,7 @@ package com.example.pintia
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pintia.components.Header
 import androidx.appcompat.app.AppCompatDelegate
@@ -34,7 +35,14 @@ class SettingsActivity : AppCompatActivity() {
             val languagePref = findPreference<ListPreference>("language")
             val nativeLanguage = context?.resources?.configuration?.locales?.get(0)?.language
             println("Native Language:$nativeLanguage")
-            languagePref?.setValueIndex(arrayOf("es", "en", "fr").indexOf(nativeLanguage))
+
+            val idiomOptions = resources.getStringArray(R.array.language_values) // Posibilidades
+            idiomOptions.forEach {
+                Log.d("TEST", "$it $nativeLanguage")
+            }
+            val languageSelIndex = idiomOptions.indexOf(nativeLanguage)
+
+            languagePref?.setValueIndex(languageSelIndex)
             languagePref?.setOnPreferenceChangeListener { _, newValue ->
                 updateLanguage(newValue as String)
                 true
