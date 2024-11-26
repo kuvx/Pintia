@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:padding="16dp">
+>
 
 <com.example.pintia.components.Header
     android:id="@+id/header"
@@ -27,7 +27,7 @@ android:padding="16dp">
     android:layout_gravity="center">
 
     <!-- Botón 1 -->
-    <ImageButton
+    <LinearLayout
         android:id="@+id/button1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -35,14 +35,36 @@ android:padding="16dp">
         android:layout_column="0"
         android:layout_columnWeight="1"
         android:layout_rowWeight="1"
+        android:orientation="vertical"
+        android:gravity="center"
         android:background="@drawable/rounded"
         android:padding="8dp"
         android:layout_margin="8dp"
-        android:backgroundTint="@color/azul"
-        android:src="@drawable/ciudad" />
+        android:backgroundTint="@color/azul">
+
+        <!-- Icono -->
+        <ImageView
+            android:id="@+id/button1_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ciudad"
+            android:contentDescription="@string/quinanas"
+            />
+
+        <!-- Texto -->
+        <TextView
+            android:id="@+id/button1_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quinanas"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
 
     <!-- Botón 2 -->
-    <ImageButton
+    <LinearLayout
         android:id="@+id/button2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -50,14 +72,36 @@ android:padding="16dp">
         android:layout_column="1"
         android:layout_columnWeight="1"
         android:layout_rowWeight="1"
+        android:orientation="vertical"
+        android:gravity="center"
         android:background="@drawable/rounded"
         android:padding="8dp"
         android:layout_margin="8dp"
-        android:backgroundTint="@color/azul"
-        android:src="@drawable/defensa" />
+        android:backgroundTint="@color/azul">
+
+        <!-- Icono -->
+        <ImageView
+            android:id="@+id/button2_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/defensa"
+            android:contentDescription="@string/muralla"
+            />
+
+        <!-- Texto -->
+        <TextView
+            android:id="@+id/button2_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/muralla"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
 
     <!-- Botón 3 -->
-    <ImageButton
+    <LinearLayout
         android:id="@+id/button3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -65,14 +109,36 @@ android:padding="16dp">
         android:layout_column="0"
         android:layout_columnWeight="1"
         android:layout_rowWeight="1"
+        android:orientation="vertical"
+        android:gravity="center"
         android:background="@drawable/rounded"
         android:padding="8dp"
         android:layout_margin="8dp"
-        android:backgroundTint="@color/azul"
-        android:src="@drawable/cementerio" />
+        android:backgroundTint="@color/azul">
+
+        <!-- Icono -->
+        <ImageView
+            android:id="@+id/button3_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/cementerio"
+            android:contentDescription="@string/ruedas"
+            />
+
+        <!-- Texto -->
+        <TextView
+            android:id="@+id/button3_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ruedas"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
 
     <!-- Botón 4 -->
-    <ImageButton
+    <LinearLayout
         android:id="@+id/button4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -80,11 +146,33 @@ android:padding="16dp">
         android:layout_column="1"
         android:layout_columnWeight="1"
         android:layout_rowWeight="1"
+        android:orientation="vertical"
+        android:gravity="center"
         android:background="@drawable/rounded"
         android:padding="8dp"
         android:layout_margin="8dp"
-        android:src="@drawable/uva"
-        android:backgroundTint="@color/azul"
+        android:backgroundTint="@color/azul">
+
+        <!-- Icono -->
+        <ImageView
+            android:id="@+id/button4_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/uva"
+            android:contentDescription="@string/titulo_principal"
+            />
+
+        <!-- Texto -->
+        <TextView
+            android:id="@+id/button4_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/titulo_principal"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
         />
 
 </GridLayout>

@@ -27,8 +27,11 @@ import org.osmdroid.util.MapTileIndex
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.*
 import android.Manifest
+import android.net.Uri
 import android.util.Log
+import android.widget.Button
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import java.io.IOException
 
 
@@ -41,7 +44,7 @@ class MapActivity : AppCompatActivity() {
     private var longitud=-4.1691941788
     private lateinit var locationManager: LocationManager
     private var userLocationMarker: Marker? = null  // Marcador de la ubicación en tiempo real
-    private lateinit var centerLocationButton :ImageButton
+    private lateinit var centerLocationButton :LinearLayout
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,17 +84,6 @@ class MapActivity : AppCompatActivity() {
         val puntoMap = puntos.associateBy { it.title }
         leyenda.setMap(puntoMap)
 
-//        // Crear la Polyline de la ruta
-//        val geoPoints = puntos.map { GeoPoint(it.latitude, it.longitude) }
-//        val rutaPolyline = Polyline()
-//        rutaPolyline.setPoints(geoPoints)
-//        rutaPolyline.color = resources.getColor(R.color.black, null) // Color de la línea
-//
-//        // Agrega la Polyline (ruta) al mapa
-//        mapView.overlays.add(rutaPolyline)
-        fetchRouteFromMapbox(GeoPoint(puntos[4].latitude,puntos[4].longitude),GeoPoint(puntos[3].latitude,puntos[3].longitude))
-        fetchRouteFromMapbox(GeoPoint(41.6228752320,-4.1696152162),GeoPoint(puntos[4].latitude,puntos[4].longitude))
-
 
         // Crea y configura los marcadores dinámicamente a partir de la lista de puntos
         for (punto in puntos) {
@@ -112,14 +104,34 @@ class MapActivity : AppCompatActivity() {
             mapView.overlays.add(marker)
         }
 
+        val buttonMap: LinearLayout = findViewById(R.id.btn_como_llegar)
+
+        buttonMap.setOnClickListener {
+            val latitude = 41.6130494436
+            val longitude = -4.1640258634
+            val label = getString(R.string.titulo_principal) // Puedes poner cualquier nombre de la ubicación
+
+            // Crea el URI para abrir en Google Maps
+            val uri = Uri.parse("geo:$latitude,$longitude?q=$latitude,$longitude($label)")
+
+            // Crea un Intent con el URI
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+
+            // Verifica si hay una aplicación capaz de manejar el Intent (Google Maps o navegador)
+            intent.resolveActivity(packageManager)?.let {
+                startActivity(intent)
+            } ?: run {
+                Toast.makeText(this, "No se encontró una aplicación para abrir Google Maps", Toast.LENGTH_SHORT).show()
+            }
+        }
+
 
 
         // Configura LocationManager para obtener la ubicación en tiempo real
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
 
         // Configura el botón para centrar en la ubicación
-        centerLocationButton = findViewById<ImageButton>(R.id.btn_center_location).apply {
-            isEnabled = false // Deshabilitado inicialmente
+        centerLocationButton = findViewById<LinearLayout>(R.id.btn_center_location).apply {
             setOnClickListener {
                 userLocationMarker?.position?.let { position ->
                     mapController.setCenter(position)
@@ -127,7 +139,7 @@ class MapActivity : AppCompatActivity() {
             }
         }
         // Configura el botón para centrar en la ubicación
-        val centerPintiaButton = findViewById<ImageButton>(R.id.btn_center_pintia).apply {
+        val centerPintiaButton = findViewById<LinearLayout>(R.id.btn_center_pintia).apply {
             setOnClickListener {
                 userLocationMarker?.position?.let { position ->
                     mapController.setCenter(GeoPoint(latitud, longitud))

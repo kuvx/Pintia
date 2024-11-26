@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Spinner
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pintia.R
@@ -77,47 +79,50 @@ class YacimientoInfoView : AppCompatActivity() {
         // Configurar cada botón con su respectivo texto
         audioButtonHandler.setupAudioButton(audioView1, tituloTTL)
         audioButtonHandler.setupAudioButton(audioView2, moreTTL)
-//        val audioView = findViewById<ImageButton>(R.id.audio_player).apply {
-//            id = View.generateViewId()
-//            setOnClickListener {
-//                // Si un botón reproduciendo y es el mismo botón -> parar
-//                // Si otro botón esta activo -> parar y reproducir
-//                // Si no está reproduciendo -> reproducir
-//                val oldId = idOfAudioPlaying
-//                if (idOfAudioPlaying != -1 && ttsManager.getIsPlaying()) { // Reproduciendo
-//                    ttsManager.stop()
-//                    findViewById<ImageButton>(idOfAudioPlaying).setBackgroundResource(R.drawable.round_button_background)
-//                    idOfAudioPlaying = -1
-//                }
-//                if ((oldId == -1 || oldId != id) && tituloTTL.isNotEmpty()) { // Si no hay otro reproduciendo o si otro botón estaba activado
-//                    speakText(tituloTTL)
-//                    idOfAudioPlaying = id
-//                    it.setBackgroundResource(R.drawable.round_button_selected_background)
-//                }
-//                // En caso de ser el mismo botón para (se hace con el primer if y sin acceder al segundo)
-//            }
-//        }
-//
-//        val audioView_2 = findViewById<ImageButton>(R.id.audio_player_2).apply {
-//            id = View.generateViewId()
-//            setOnClickListener {
-//                // Si un botón reproduciendo y es el mismo botón -> parar
-//                // Si otro botón esta activo -> parar y reproducir
-//                // Si no está reproduciendo -> reproducir
-//                val oldId = idOfAudioPlaying
-//                if (idOfAudioPlaying != -1 && ttsManager.getIsPlaying()) { // Reproduciendo
-//                    ttsManager.stop()
-//                    findViewById<ImageButton>(idOfAudioPlaying).setBackgroundResource(R.drawable.round_button_background)
-//                    idOfAudioPlaying = -1
-//                }
-//                if ((oldId == -1 || oldId != id) && tituloTTL.isNotEmpty()) { // Si no hay otro reproduciendo o si otro botón estaba activado
-//                    speakText(moreTTL)
-//                    idOfAudioPlaying = id
-//                    it.setBackgroundResource(R.drawable.round_button_selected_background)
-//                }
-//                // En caso de ser el mismo botón para (se hace con el primer if y sin acceder al segundo)
-//            }
-//        }
+
+        // Configuración del Spinner_1
+        val speedSelector: Spinner = findViewById(R.id.speed_selector)
+        speedSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                val speeds =
+                    arrayOf(0.5f, 0.75f, 1.0f, 1.25f, 1.5f, 2.0f) // Velocidades disponibles
+                val selectedSpeed = speeds[position]
+
+                // Cambiar la velocidad del TTS a través de TTSManager
+                ttsManager.setSpeechRate(selectedSpeed)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // No se seleccionó nada
+            }
+        }
+
+        // Configuración del Spinner_2
+        val speedSelector_2: Spinner = findViewById(R.id.speed_selector_2)
+        speedSelector_2.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                val speeds =
+                    arrayOf(0.5f, 0.75f, 1.0f, 1.25f, 1.5f, 2.0f) // Velocidades disponibles
+                val selectedSpeed = speeds[position]
+
+                // Cambiar la velocidad del TTS a través de TTSManager
+                ttsManager.setSpeechRate(selectedSpeed)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // No se seleccionó nada
+            }
+        }
 
     }
     private fun setupTTSListener() {
@@ -139,13 +144,6 @@ class YacimientoInfoView : AppCompatActivity() {
             }
         })
     }
-
-
-
-//    // Función para leer el texto
-//    private fun speakText(text: String) {
-//        ttsManager.speak(text, "InfoActivityUtterance")
-//    }
 
     override fun onPause() {
         ttsManager.stop()

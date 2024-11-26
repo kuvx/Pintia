@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.example.pintia.MainMap
 import com.example.pintia.MapActivity
 import com.example.pintia.R
+import com.example.pintia.RequestVisitActivity
 
 class Header @JvmOverloads constructor(
         context: Context,
@@ -40,6 +41,12 @@ class Header @JvmOverloads constructor(
             (context as? Activity)?.finish() ?: run {
                 Toast.makeText(context, "No se pudo finalizar la actividad", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        val reservButton:ImageButton = findViewById(R.id.button_reserva)
+        reservButton.setOnClickListener {
+            val intent = Intent(context, RequestVisitActivity::class.java)
+            context.startActivity(intent)
         }
     }
 }

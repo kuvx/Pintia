@@ -40,4 +40,13 @@
     <string name="visit_request_date">Fecha de la visita (dd/mm/yyyy)</string>
     <string name="visit_request_time">Hora de la visita (hh:mm) [opcional]</string>
     <string name="visit_request_submit_text">Solicitar visita</string>
+
+    <string-array name="audio_speeds">
+        <item>0.5x</item>
+        <item>0.75x</item>
+        <item>1x</item> <!-- Velocidad normal -->
+        <item>1.25x</item>
+        <item>1.5x</item>
+        <item>2x</item>
+    </string-array>
 </resources>

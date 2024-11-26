@@ -5,6 +5,7 @@ import android.graphics.PointF
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.LinearLayout.LayoutParams
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -44,7 +45,7 @@ class MainMap : AppCompatActivity() {
 
         // Iterar sobre los botones y asignarles su funcionalidad de navegación
         buttonIds.forEachIndexed { index, buttonId ->
-            val button = findViewById<ImageButton>(buttonId)
+            val button = findViewById<LinearLayout>(buttonId)
 
             // Asignar el listener para abrir la actividad correspondiente
             button.setOnClickListener {

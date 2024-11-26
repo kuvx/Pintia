@@ -39,30 +39,104 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 />
+        </LinearLayout>
+    </FrameLayout>
 
-            <ImageButton
-                android:id="@+id/btn_center_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingVertical="100dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="20dp">
+
+        <!-- Botón 1: Localización -->
+        <LinearLayout
+            android:id="@+id/btn_center_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="8dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/round_button_map"
+            android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:src="@drawable/user_pin"
-                android:background="@drawable/round_button_selected_background"
-                android:layout_margin="16dp" />
+                android:contentDescription="Ubicación"/>
 
-            <ImageButton
-                android:id="@+id/btn_center_pintia"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/focus"
-                android:background="@drawable/round_button_selected_background"
-                android:layout_margin="16dp" />
+                android:text="Mi Ubicación"
+                android:textColor="@android:color/white"
+                android:layout_marginLeft="8dp"
+                android:textSize="14sp"/>
         </LinearLayout>
 
+        <!-- Botón 2: Pintia -->
+        <LinearLayout
+            android:id="@+id/btn_center_pintia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="8dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/round_button_map"
+            android:layout_weight="1">
 
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/focus"
+                android:contentDescription="Pintia"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pintia"
+                android:textColor="@android:color/white"
+                android:layout_marginLeft="8dp"
+                android:textSize="14sp"/>
+        </LinearLayout>
 
+        <!-- Botón 3: Cómo llegar -->
+        <LinearLayout
+            android:id="@+id/btn_como_llegar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:padding="8dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/round_button_map"
+            android:layout_weight="1">
 
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/comollegar"
+                android:contentDescription="Cómo llegar"/>
 
-    </FrameLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cómo llegar"
+                android:textColor="@android:color/white"
+                android:layout_marginLeft="8dp"
+                android:textSize="14sp"/>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
 
 
     <com.example.pintia.components.Footer
