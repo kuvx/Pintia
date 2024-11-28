@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-android:layout_height="match_parent">
+android:layout_height="match_parent"
+    android:background="@color/background">
 
     <com.example.pintia.components.Header
         android:id="@+id/header"
@@ -42,6 +43,8 @@ android:layout_height="match_parent">
             <Button
                 android:id="@+id/prevButton"
                 android:layout_weight="1"
+                android:backgroundTint="@color/secondary_variant"
+                android:textColor="@color/surface"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="2dp"
@@ -50,6 +53,8 @@ android:layout_height="match_parent">
             <Button
                 android:id="@+id/nextButton"
                 android:layout_weight="1"
+                android:backgroundTint="@color/secondary_variant"
+                android:textColor="@color/surface"
                 android:layout_marginHorizontal="2dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

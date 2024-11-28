@@ -1,5 +1,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/naranja"/> <!-- Color del fondo -->
+    <solid android:color="@color/secondary_variant"/> <!-- Color del fondo -->
     <corners android:radius="16dp"/> <!-- Bordes redondeados -->
     <padding
         android:left="16dp"

@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     tools:context=".MainActivity"
-    android:background="@color/azul">
+    android:background="@color/primary">
 
     <ImageView
         android:id="@+id/img_f_main"
@@ -45,7 +45,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/titulo_principal"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
-            android:textColor="@color/white"
+            android:textColor="@color/on_primary"
             android:gravity="center"
             android:layout_below="@id/formaNaranja"
             android:layout_centerHorizontal="true"

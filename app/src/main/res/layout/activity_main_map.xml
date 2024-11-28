@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
 >
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondo_principal" />
 
 <com.example.pintia.components.Header
     android:id="@+id/header"
@@ -37,10 +44,10 @@ android:layout_height="match_parent"
         android:layout_rowWeight="1"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@drawable/rounded"
+        android:background="@drawable/rounded_transp"
         android:padding="8dp"
         android:layout_margin="8dp"
-        android:backgroundTint="@color/azul">
+        >
 
         <!-- Icono -->
         <ImageView
@@ -57,7 +64,7 @@ android:layout_height="match_parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/quinanas"
-            android:textColor="@android:color/white"
+            android:textColor="@color/on_primary"
             android:textSize="14sp"
             android:gravity="center"
             android:layout_marginTop="4dp" />
@@ -74,10 +81,10 @@ android:layout_height="match_parent"
         android:layout_rowWeight="1"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@drawable/rounded"
+        android:background="@drawable/rounded_transp"
         android:padding="8dp"
         android:layout_margin="8dp"
-        android:backgroundTint="@color/azul">
+        >
 
         <!-- Icono -->
         <ImageView
@@ -94,7 +101,7 @@ android:layout_height="match_parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/muralla"
-            android:textColor="@android:color/white"
+            android:textColor="@color/on_primary"
             android:textSize="14sp"
             android:gravity="center"
             android:layout_marginTop="4dp" />
@@ -111,10 +118,10 @@ android:layout_height="match_parent"
         android:layout_rowWeight="1"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@drawable/rounded"
+        android:background="@drawable/rounded_transp"
         android:padding="8dp"
         android:layout_margin="8dp"
-        android:backgroundTint="@color/azul">
+        >
 
         <!-- Icono -->
         <ImageView
@@ -131,7 +138,7 @@ android:layout_height="match_parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ruedas"
-            android:textColor="@android:color/white"
+            android:textColor="@color/on_primary"
             android:textSize="14sp"
             android:gravity="center"
             android:layout_marginTop="4dp" />
@@ -148,10 +155,10 @@ android:layout_height="match_parent"
         android:layout_rowWeight="1"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@drawable/rounded"
+        android:background="@drawable/rounded_transp"
         android:padding="8dp"
         android:layout_margin="8dp"
-        android:backgroundTint="@color/azul">
+        >
 
         <!-- Icono -->
         <ImageView
@@ -168,13 +175,44 @@ android:layout_height="match_parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/titulo_principal"
-            android:textColor="@android:color/white"
+            android:textColor="@color/on_primary"
             android:textSize="14sp"
             android:gravity="center"
             android:layout_marginTop="4dp" />
     </LinearLayout>
-        />
 
 </GridLayout>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        >
+
+        <LinearLayout
+            android:id="@+id/reserva_btn"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:padding="16dp"
+            android:background="@drawable/rounded">
+
+            <ImageButton
+                android:id="@+id/button_reserva"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/request"
+                android:background="@drawable/round_button_background"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/on_secondary"
+                android:text="Reserva Ahora"/>
+        </LinearLayout>
+    </FrameLayout>
+
 
 </RelativeLayout>

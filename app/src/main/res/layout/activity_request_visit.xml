@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gris">
+    android:background="@color/background">
 
     <com.example.pintia.components.Header
         android:id="@+id/header"
@@ -36,6 +36,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="@string/visit_request_name"
+                android:textColor="@color/on_primary"
+                android:textColorHint="@color/on_secondary"
                 android:inputType="textPersonName"
                 android:autofillHints="name" />
 
@@ -44,6 +46,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="@string/visit_request_group_size"
+                android:textColor="@color/on_primary"
+                android:textColorHint="@color/on_secondary"
                 android:inputType="number" />
 
             <EditText
@@ -51,6 +55,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="@string/visit_request_phone"
+                android:textColor="@color/on_primary"
+                android:textColorHint="@color/on_secondary"
                 android:inputType="phone"
                 android:autofillHints="phone"
                 />
@@ -61,6 +67,8 @@
                 android:layout_height="48dp"
                 android:hint="@string/visit_request_date"
                 android:inputType="date"
+                android:textColor="@color/on_primary"
+                android:textColorHint="@color/on_secondary"
                 android:focusable="false"
                 android:clickable="true"
                 />
@@ -71,6 +79,8 @@
                 android:layout_height="48dp"
                 android:hint="@string/visit_request_time"
                 android:inputType="time"
+                android:textColor="@color/on_primary"
+                android:textColorHint="@color/on_secondary"
                 android:focusable="false"
                 android:clickable="true"
                 />
@@ -79,6 +89,9 @@
                 android:id="@+id/btn_submit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:backgroundTint="@color/secondary_variant"
+                android:textColor="@color/surface"
                 android:text="@string/visit_request_submit_text" />
 
         </LinearLayout>

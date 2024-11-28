@@ -32,6 +32,13 @@ class MainMap : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         }
+
+        val btn_request = findViewById<LinearLayout>(R.id.reserva_btn)
+        btn_request.setOnClickListener {
+            val intent = Intent(this, RequestVisitActivity::class.java)
+            startActivity(intent)
+        }
+
         // Crear una lista de los IDs de los botones
         val buttonIds = listOf(R.id.button1, R.id.button2, R.id.button3, R.id.button4)
 

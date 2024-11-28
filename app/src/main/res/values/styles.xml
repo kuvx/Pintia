@@ -11,4 +11,8 @@
     <style name="TextSizeLarge">
         <item name="android:textSize">22sp</item>
     </style>
+
+    <style name="SpinnerTextStyle" parent="@android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/on_primary</item>
+    </style>
 </resources>

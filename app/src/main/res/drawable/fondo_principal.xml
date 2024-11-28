@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <bitmap
+            android:src="@drawable/fondo_principal_oscurecida"
+            android:gravity="center"
+            android:scaleType="centerCrop" />
+    </item>
+    <item>
+        <color android:color="#80000000" />
+    </item>
+</layer-list>
