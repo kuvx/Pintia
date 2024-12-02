@@ -17,8 +17,14 @@ import com.bumptech.glide.Glide
 import com.example.pintia.R
 import com.example.pintia.models.Punto
 import com.example.pintia.puntosPrincipales.lasQuintanasViews.YacimientoInfoView
+import com.example.pintia.utils.ImageInfoWindow
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
+import java.io.FileWriter
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.util.Locale
@@ -30,7 +36,7 @@ data class ContentItem(
     val latitude: Double,
     val longitude: Double,
     val icon: Int = R.drawable.point,
-    val action : Class<out AppCompatActivity>
+    val action : Class<out AppCompatActivity>?
 )
 
 object DynamicViewBuilder {
@@ -45,13 +51,18 @@ object DynamicViewBuilder {
         var jsonString: String? = null
         try {
             // Accede al archivo en assets
+
             val inputStream: InputStream = context.assets.open(fileRoute)
             jsonString = inputStream.bufferedReader().use { it.readText() }  // Lee el archivo como texto
         } catch (e: IOException) {
             e.printStackTrace()
             null
         }
+        return convertContentItemList(jsonString)
 
+    }
+
+    fun convertContentItemList(jsonString :String?):List<ContentItem>{
         // Convierte el JSON en una lista de ContentItem
         val gson = Gson()
         val listType = object : TypeToken<List<ContentItem>>() {}.type
@@ -144,6 +155,52 @@ object DynamicViewBuilder {
         return salida
     }
 
+    fun loadMarkersCache(context: Context, file_title: String):List<ContentItem>{
+        var jsonString: String? = null
+        try {
+            // Accede al archivo en cache
+            Log.d("LoadMakers", context.filesDir.toString())
+            val file = File(context.filesDir, file_title)
+            jsonString = file.bufferedReader().use { reader ->
+                reader.readText()
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            Log.d("Error_LoadMakers", e.toString())
+        }
+        return convertContentItemList(jsonString)
+    }
+
+    // Guardar un marcador en un archivo JSON
+    fun saveMarkersToFile(marker: Marker, context:Context) {
+        val file_title : String = "photos_marker.json"
+        // Convierte los marcadores en objetos MarkerData
+        var markerDetails = ContentItem(
+            type = "marker",
+            value = marker.snippet,
+            latitude = marker.position.latitude,
+            longitude =  marker.position.longitude,
+            action = null
+        )
+
+
+        val listMarkers = loadMarkersCache(context, file_title).toMutableList()
+
+        listMarkers.add(markerDetails)
+
+        // Convierte a JSON
+        val gson = Gson()
+        val json = gson.toJson(listMarkers)
+
+        // Escribe el JSON en un archivo en almacenamiento interno
+        val file = File(context.filesDir, file_title)
+        FileWriter(file).use { writer ->
+            writer.write(json)
+        }
+
+        println("Archivo guardado en: ${file.absolutePath}")
+    }
+
     fun populateDynamicPoints(contentItems: List<ContentItem>) : List<Punto> {
         val listaSalida : MutableList<Punto> = mutableListOf()
         for (item in contentItems) {
@@ -163,6 +220,31 @@ object DynamicViewBuilder {
         }
         Log.d("ListaPuntos",listaSalida.toString())
         return listaSalida
+    }
+
+    fun populateDynamicMarkers(context: Context, mapView: MapView) {
+        val contentItems = loadMarkersCache(context, "photos_marker.json")
+        val listaSalida : MutableList<Marker> = mutableListOf()
+        for (item in contentItems) {
+            when (item.type) {
+                "marker" -> {
+                    // Crear un TextView para la descripción
+                    try {
+                        val marker = Marker(mapView)
+                        marker.position= GeoPoint(item.longitude,item.latitude)
+                        marker.snippet=item.value
+                        // Crea y asigna la ventana de información personalizada
+                        val infoWindow = ImageInfoWindow(mapView)
+                        marker.infoWindow = infoWindow
+                        // Añadir el TextView al contenedor
+                        mapView.overlays.add(marker)
+                    }catch (e: Exception){
+                        Log.d("Error Marker", e.toString())
+                    }
+                }
+            }
+        }
+        Log.d("ListaMarkers",listaSalida.toString())
     }
 
     fun generateDrawableWithText(context: Context, backgroundDrawable: Drawable, text: String): Drawable {
@@ -197,5 +279,38 @@ object DynamicViewBuilder {
 
         return finalDrawable
     }
+
+    fun pueblaActivity(layout: RelativeLayout,context:Context, path:String, titulo_cod:String, ttsManager: TTSManager){
+        val contentItems = loadContentFromJson(context, "${path}/data_${titulo_cod}.json", true)
+
+        val dynamicContainer =layout.findViewById<LinearLayout>(R.id.dynamic_description_container)
+        val tituloTTL =populateDynamicDescription(context.getString(R.string.description),dynamicContainer, contentItems)
+
+        val contentItems_moreInfo = loadContentFromJson(context, "${path}/data_${titulo_cod}_more.json", true)
+        Log.d("JSONView", contentItems.toString())
+
+        val dynamicContainer_more = layout.findViewById<LinearLayout>(R.id.dynamic_more_info_container)
+        val moreTTL = populateDynamicDescription(context.getString(R.string.more_info_title), dynamicContainer_more, contentItems_moreInfo)
+
+        // Inicializar el manejador de botones de audio
+        var audioButtonHandler: AudioButtonHandler = AudioButtonHandler(context, ttsManager)
+
+        // Configurar botones de audio
+        val audioView1 = layout.findViewById<ImageButton>(R.id.audio_player)
+        val audioView2 = layout.findViewById<ImageButton>(R.id.audio_player_2)
+
+        // Configurar cada botón con su respectivo texto
+        audioButtonHandler.setupAudioButton(audioView1, tituloTTL)
+        audioButtonHandler.setupAudioButton(audioView2, moreTTL)
+
+        // Configuración del Spinner_1
+        val speedSelector: Spinner = layout.findViewById(R.id.speed_selector)
+        val speedSelector_2: Spinner = layout.findViewById(R.id.speed_selector_2)
+
+        audioButtonHandler.changeSpeed(speedSelector)
+        audioButtonHandler.changeSpeed(speedSelector_2)
+    }
+
+
 
 }

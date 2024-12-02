@@ -38,8 +38,17 @@
             <com.example.pintia.components.Leyenda
                 android:id="@+id/leyenda_main"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageButton
+                android:id="@+id/btn_camera"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                />
+                android:src="@drawable/camara"
+                android:background="@drawable/round_button_selected_background"
+                android:layout_margin="16dp" />
+
+
         </LinearLayout>
     </FrameLayout>
 
@@ -136,6 +145,7 @@
                 android:layout_marginLeft="8dp"
                 android:textSize="14sp"/>
         </LinearLayout>
+
     </LinearLayout>
 </FrameLayout>
 

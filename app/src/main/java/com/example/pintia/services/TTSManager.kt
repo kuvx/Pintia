@@ -5,6 +5,8 @@
     import android.speech.tts.TextToSpeech
     import android.speech.tts.UtteranceProgressListener
     import android.util.Log
+    import android.widget.ImageButton
+    import com.example.pintia.R
     import java.util.Locale
 
     class TTSManager (private val context: Context, private val onTTSInit:
@@ -13,6 +15,7 @@
         private var isSpeaking: Boolean = false
         private var tts: TextToSpeech = TextToSpeech(context, this)
         private var isInitialized = false
+        private lateinit var activity: Activity
 
         override fun onInit(status: Int) {
             if (status == TextToSpeech.SUCCESS) {
@@ -35,7 +38,7 @@
             }
         }
 
-        fun speak(text: String, utteranceId: String, onDoneCallback: (() -> Unit)? = null) {
+        fun speak(text: String,btnId:Int, utteranceId: String, onDoneCallback: (() -> Unit)? = null) {
             if (isInitialized) {
                 tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                     override fun onStart(utteranceId: String?) {
@@ -44,10 +47,13 @@
 
                     override fun onDone(utteranceId: String?) {
                         isSpeaking = false
+                        activity.findViewById<ImageButton>(btnId).setImageResource(R.drawable.audio)
+                        activity.findViewById<ImageButton>(btnId).setBackgroundResource(R.drawable.round_button_background)
                         // Llama al callback en el hilo principal
                         onDoneCallback?.let {
                             (context as? Activity)?.runOnUiThread {
                                 it.invoke() // Ejecuta el callback
+
                             }
                         }
                     }
@@ -89,5 +95,27 @@
             } else {
                 Log.e("TTSManager", "TTS no está inicializado. No se puede ajustar la velocidad.")
             }
+        }
+
+        fun setupListener(activity: Activity, idOfAudioPlaying: Int) {
+            this.activity=activity
+            this.setUtteranceProgressListener(object : UtteranceProgressListener() {
+                override fun onStart(utteranceId: String?) {
+                    println("Iniciando lectura...")
+                    activity.findViewById<ImageButton>(idOfAudioPlaying).setImageResource(R.drawable.pause)
+                }
+
+                override fun onDone(utteranceId: String?) {
+                    activity.runOnUiThread {
+                        println("Lectura finalizada.")
+                        activity.findViewById<ImageButton>(idOfAudioPlaying).setImageResource(R.drawable.audio)
+                        activity.findViewById<ImageButton>(idOfAudioPlaying).setBackgroundResource(R.drawable.round_button_background)
+                    }
+                }
+
+                override fun onError(utteranceId: String?) {
+                    println("Error al leer el texto.")
+                }
+            })
         }
     }

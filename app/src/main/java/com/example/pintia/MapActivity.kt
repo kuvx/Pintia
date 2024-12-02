@@ -26,13 +26,27 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.util.MapTileIndex
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.*
+
 import android.Manifest
+import android.app.Activity
+import android.graphics.Bitmap
 import android.net.Uri
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
+import com.example.pintia.services.DynamicViewBuilder.loadMarkersCache
+import com.example.pintia.services.DynamicViewBuilder.populateDynamicMarkers
+import com.example.pintia.services.DynamicViewBuilder.saveMarkersToFile
+import com.example.pintia.utils.ImageInfoWindow
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 
 class MapActivity : AppCompatActivity() {
@@ -46,6 +60,9 @@ class MapActivity : AppCompatActivity() {
     private var userLocationMarker: Marker? = null  // Marcador de la ubicación en tiempo real
     private lateinit var centerLocationButton :LinearLayout
 
+    private val CAMERA_REQUEST_CODE = 1
+    private val CAMERA_PERMISSION_CODE = 1000
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +70,15 @@ class MapActivity : AppCompatActivity() {
 
         val header = findViewById<Header>(R.id.header)
         header.title = getString(R.string.app_name)
+
+        var camara: ImageButton = findViewById(R.id.btn_camera)
+        camara.setOnClickListener {
+            if (hasCameraPermission()) {
+                openCamera()
+            } else {
+                requestCameraPermission()
+            }
+        }
 
         // Inicializa la configuración de OSMDroid
         Configuration.getInstance().load(this, getSharedPreferences("osmdroid", MODE_PRIVATE))
@@ -79,6 +105,9 @@ class MapActivity : AppCompatActivity() {
             Punto("Edificio UVa", 41.6130494436, -4.1640258634, R.drawable.uva, EdificioUVaActivity::class.java),
             Punto("Las Ruedas", latitud, longitud, R.drawable.cementerio, LasRuedasActivity::class.java)
         )
+
+        //coloca los markers de las imagenes
+        populateDynamicMarkers(this, mapView)
 
         val leyenda = findViewById<Leyenda>(R.id.leyenda_main)
         val puntoMap = puntos.associateBy { it.title }
@@ -226,11 +255,19 @@ class MapActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openCamera()
+            } else {
+                Toast.makeText(this, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
+            }
+        }
         if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             startLocationUpdates()
         } else {
             Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show()
         }
+
     }
 
     override fun onStart() {
@@ -253,53 +290,63 @@ class MapActivity : AppCompatActivity() {
         locationManager.removeUpdates(locationListener)  // Detiene las actualizaciones de ubicación
         mapView.overlayManager.clear()
     }
-    fun fetchRouteFromMapbox(origin: GeoPoint, destination: GeoPoint) {
-        val client = OkHttpClient()
 
-        // URL de Mapbox Directions API (reemplaza ACCESS_TOKEN con tu token de acceso)
-        val url = "https://api.mapbox.com/directions/v5/mapbox/driving/${origin.longitude},${origin.latitude};${destination.longitude},${destination.latitude}?geometries=geojson&access_token=${API_token}"
+    private fun hasCameraPermission() =
+        ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
 
-        val request = Request.Builder()
-            .url(url)
-            .build()
+    private fun requestCameraPermission() {
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
+    }
 
-        client.newCall(request).enqueue(object : okhttp3.Callback {
-            override fun onFailure(call: okhttp3.Call, e: IOException) {
-                e.printStackTrace()
+    private fun openCamera() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(intent, CAMERA_REQUEST_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+            val photo: Bitmap? = data?.extras?.get("data") as? Bitmap
+            photo?.let { savePhotoToCache(it) }
+        }
+    }
+
+    private fun savePhotoToCache(bitmap: Bitmap) {
+        val cacheDir = cacheDir
+        val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
+        val currentDate = dateFormat.format(Date())
+        val fileName = "photo_$currentDate.jpg"
+        val file = File(cacheDir, fileName)
+
+        try {
+            val fos = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+            fos.flush()
+            fos.close()
+            val location = Location("provider").apply {
+                latitude = 41.6239590929
+                longitude = -4.1734857708
             }
+            addMarker(location,file.absolutePath, "Hola")
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 
-            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
-                response.use { responseBody ->  // Usar .use para cerrar automáticamente el cuerpo
-                    if (!responseBody.isSuccessful) throw IOException("Unexpected code $responseBody")
+    private fun addMarker(location: Location, photoPath: String, desc :String){
+        val marker = Marker(mapView)
+        marker.position = GeoPoint(location.latitude, location.longitude)
+        marker.title = desc
+        marker.icon = resources.getDrawable(R.drawable.point)
+        marker.snippet = photoPath
 
-                    val jsonResponse = JSONObject(responseBody.body()!!.string())
-                    val routes = jsonResponse.getJSONArray("routes")
-                    if (routes.length() > 0) {
-                        val route = routes.getJSONObject(0)
-                        val geometry = route.getJSONObject("geometry")
-                        val coordinates = geometry.getJSONArray("coordinates")
+        // Crea y asigna la ventana de información personalizada
+        val infoWindow = ImageInfoWindow(mapView)
+        marker.infoWindow = infoWindow
 
-                        // Lista de puntos para la Polyline
-                        val geoPoints = mutableListOf<GeoPoint>()
-                        for (i in 0 until coordinates.length()) {
-                            val point = coordinates.getJSONArray(i)
-                            val lon = point.getDouble(0)
-                            val lat = point.getDouble(1)
-                            geoPoints.add(GeoPoint(lat, lon))
-                        }
+        saveMarkersToFile(marker, this)
 
-                        // Dibujar la Polyline en el mapa
-                        runOnUiThread {
-                            val routeLine = Polyline().apply {
-                                setPoints(geoPoints)
-                                color = resources.getColor(R.color.black, null)
-                            }
-                            mapView.overlays.add(routeLine)
-                            mapView.invalidate() // Refresca el mapa para mostrar la ruta
-                        }
-                    }
-                }
-            }
-        })
+        // Agrega el marcador al mapa
+        mapView.overlays.add(marker)
     }
 }
