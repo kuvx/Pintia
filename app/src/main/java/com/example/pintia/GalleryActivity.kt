@@ -1,11 +1,14 @@
 package com.example.pintia
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pintia.components.Header
+import com.example.pintia.services.DynamicViewBuilder.loadMarkersCache
 import com.example.pintia.services.ImageAdapter
 import kotlin.math.min
 
@@ -15,6 +18,7 @@ class GalleryActivity : AppCompatActivity() {
     private lateinit var imageAdapter: ImageAdapter
     private lateinit var prevButton: Button
     private lateinit var nextButton: Button
+    private lateinit var imageUrls :List<String>
     /*
     private val imageUrls = listOf(
         "https://http.cat/404.jpg", "https://http.cat/103.jpg", "https://http.cat/402.jpg",
@@ -39,6 +43,7 @@ class GalleryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_gallery)
         val header = findViewById<Header>(R.id.header)
         header.title = getString(R.string.gallery)
+        imageUrls= getImgsOfFile()
 
         recyclerView = findViewById(R.id.imageRecyclerView)
         recyclerView.layoutManager = GridLayoutManager(this, 2) // 2 columnas
@@ -66,6 +71,8 @@ class GalleryActivity : AppCompatActivity() {
                 loadPage(currentPage)
             }
         }
+
+
     }
 
     // Función para cargar una página específica de imágenes
@@ -81,8 +88,22 @@ class GalleryActivity : AppCompatActivity() {
         nextButton.isEnabled = (page + 1) * pageSize < imageUrls.size
     }
 
+    private fun getImgsOfFile() : List<String>{
+        var salida = emptyList<String>().toMutableList()
+        //val cacheDir = this.cacheDir
 
-    private val imageUrls = listOf(
+        // Listar todos los archivos en el directorio de caché y filtrar los que comienzan con "photo_"
+        val photoFiles = cacheDir.listFiles { file ->
+            file.name.startsWith("photo_") && file.isFile // Filtrar archivos que empiezan con "photo_"
+            salida.add(file.absolutePath)
+        }
+        var flag = photoFiles?.toList()?: emptyList()
+        Log.d("GalleryListImgs", flag.toString())
+        return salida
+    }
+
+
+    /*private val imageUrls = listOf(
         "https://pintiavaccea.es/imagenes_noticias/not20190609131149679.jpg",
         "https://pintiavaccea.es/minis_vaccearte/img20191204122546.jpg",
         "https://pintiavaccea.es/imagenes_seccion/img201904211158.png",
@@ -664,5 +685,5 @@ class GalleryActivity : AppCompatActivity() {
         "https://pintiavaccea.es/imagenes_tienda/imgprod201108050754.jpg",
         "https://pintiavaccea.es/imagenes_seccion/gal_2014/2014_04_03.jpg",
         "https://pintiavaccea.es/imagenes_seccion/img201904211107.png",
-    )
+    )*/
 }

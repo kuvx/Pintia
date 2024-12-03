@@ -107,7 +107,7 @@ class MapActivity : AppCompatActivity() {
         )
 
         //coloca los markers de las imagenes
-        populateDynamicMarkers(this, mapView)
+
 
         val leyenda = findViewById<Leyenda>(R.id.leyenda_main)
         val puntoMap = puntos.associateBy { it.title }
@@ -130,6 +130,12 @@ class MapActivity : AppCompatActivity() {
             }
 
             // Agrega el marcador al mapa
+            mapView.overlays.add(marker)
+        }
+
+        var listMakers : List<Marker> = populateDynamicMarkers(this, mapView)
+        for(marker in listMakers){
+            //println(marker.position.toString() +"|"+ marker.snippet)
             mapView.overlays.add(marker)
         }
 
@@ -172,6 +178,7 @@ class MapActivity : AppCompatActivity() {
             setOnClickListener {
                 userLocationMarker?.position?.let { position ->
                     mapController.setCenter(GeoPoint(latitud, longitud))
+                    mapController.setZoom(15)
                 }
             }
         }
@@ -238,8 +245,9 @@ class MapActivity : AppCompatActivity() {
                 icon = resources.getDrawable(R.drawable.user, null)
                 setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
                 mapView.overlays.add(this)
-                Log.d("MapActivity","Added: ${++i} locations");
+                Log.d("MapActivity","Added: ${++i} locations")
             }
+            Toast.makeText(this, "Ubicacion a tiempo real cargada", Toast.LENGTH_SHORT).show()
         }
         // Actualizar la posición del marcador y refrescar el mapa
         userLocationMarker?.position = userLocation
@@ -324,8 +332,8 @@ class MapActivity : AppCompatActivity() {
             fos.flush()
             fos.close()
             val location = Location("provider").apply {
-                latitude = 41.6239590929
-                longitude = -4.1734857708
+                latitude = userLocationMarker?.position!!.latitude
+                longitude =  userLocationMarker?.position!!.longitude
             }
             addMarker(location,file.absolutePath, "Hola")
         } catch (e: Exception) {
@@ -339,6 +347,8 @@ class MapActivity : AppCompatActivity() {
         marker.title = desc
         marker.icon = resources.getDrawable(R.drawable.point)
         marker.snippet = photoPath
+
+        Log.d("PhotoPath", photoPath)
 
         // Crea y asigna la ventana de información personalizada
         val infoWindow = ImageInfoWindow(mapView)

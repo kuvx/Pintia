@@ -159,8 +159,12 @@ object DynamicViewBuilder {
         var jsonString: String? = null
         try {
             // Accede al archivo en cache
-            Log.d("LoadMakers", context.filesDir.toString())
-            val file = File(context.filesDir, file_title)
+            Log.d("LoadMakers", context.cacheDir.toString())
+            val file = File(context.cacheDir, file_title)
+            if (!file.exists()){
+                file.createNewFile()
+                file.writeText("[]")
+            }
             jsonString = file.bufferedReader().use { reader ->
                 reader.readText()
             }
@@ -169,6 +173,13 @@ object DynamicViewBuilder {
             Log.d("Error_LoadMakers", e.toString())
         }
         return convertContentItemList(jsonString)
+    }
+
+    fun removeMarkerOfFile(context: Context, file_title: String){
+        var listMarkers = loadMarkersCache(context, "photos_marker.json").toMutableList()
+        listMarkers.removeIf{it.value == file_title}
+        saveOnFile(context, listMarkers, "photos_marker.json")
+
     }
 
     // Guardar un marcador en un archivo JSON
@@ -182,23 +193,22 @@ object DynamicViewBuilder {
             longitude =  marker.position.longitude,
             action = null
         )
-
-
         val listMarkers = loadMarkersCache(context, file_title).toMutableList()
 
         listMarkers.add(markerDetails)
+        saveOnFile(context, listMarkers, file_title)
+    }
 
+    fun saveOnFile(context:Context,listMarkers: List<ContentItem>, file_title: String){
         // Convierte a JSON
         val gson = Gson()
         val json = gson.toJson(listMarkers)
 
         // Escribe el JSON en un archivo en almacenamiento interno
-        val file = File(context.filesDir, file_title)
+        val file = File(context.cacheDir, file_title)
         FileWriter(file).use { writer ->
             writer.write(json)
         }
-
-        println("Archivo guardado en: ${file.absolutePath}")
     }
 
     fun populateDynamicPoints(contentItems: List<ContentItem>) : List<Punto> {
@@ -222,22 +232,25 @@ object DynamicViewBuilder {
         return listaSalida
     }
 
-    fun populateDynamicMarkers(context: Context, mapView: MapView) {
+    fun populateDynamicMarkers(context: Context, mapView: MapView):List<Marker> {
         val contentItems = loadMarkersCache(context, "photos_marker.json")
+        Log.d("PuntosAñadidos",contentItems.toMutableList().toString())
         val listaSalida : MutableList<Marker> = mutableListOf()
         for (item in contentItems) {
             when (item.type) {
                 "marker" -> {
                     // Crear un TextView para la descripción
+                    println(item.value)
                     try {
                         val marker = Marker(mapView)
-                        marker.position= GeoPoint(item.longitude,item.latitude)
+                        marker.position= GeoPoint(item.latitude,item.longitude)
                         marker.snippet=item.value
+                        marker.icon = context.resources.getDrawable(R.drawable.point)
                         // Crea y asigna la ventana de información personalizada
                         val infoWindow = ImageInfoWindow(mapView)
                         marker.infoWindow = infoWindow
                         // Añadir el TextView al contenedor
-                        mapView.overlays.add(marker)
+                        listaSalida.add(marker)
                     }catch (e: Exception){
                         Log.d("Error Marker", e.toString())
                     }
@@ -245,6 +258,7 @@ object DynamicViewBuilder {
             }
         }
         Log.d("ListaMarkers",listaSalida.toString())
+        return listaSalida
     }
 
     fun generateDrawableWithText(context: Context, backgroundDrawable: Drawable, text: String): Drawable {

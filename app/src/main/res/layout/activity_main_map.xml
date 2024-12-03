@@ -210,7 +210,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/on_secondary"
-                android:text="Reserva Ahora"/>
+                android:text="@string/reservaAhora"/>
         </LinearLayout>
     </FrameLayout>
 

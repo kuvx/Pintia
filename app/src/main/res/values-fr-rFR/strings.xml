@@ -40,4 +40,8 @@
     <string name="visit_request_date">Date de visite (jj/mm/aaaa)</string>
     <string name="visit_request_time">Heure de visite (hh:mm) [optionnel]</string>
     <string name="visit_request_submit_text">Demander une visite</string>
+    <string name="myUbi">Mon emplacement</string>
+    <string name="ubiPintia">Pintia</string>
+    <string name="comoLlegar">Comment obtenir</string>
+    <string name="reservaAhora">Réservez maintenant</string>
 </resources>

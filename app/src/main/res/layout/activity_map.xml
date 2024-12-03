@@ -86,7 +86,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mi Ubicación"
+                android:text="@string/myUbi"
                 android:textColor="@color/surface"
                 android:layout_marginLeft="8dp"
                 android:textSize="14sp"/>
@@ -113,7 +113,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pintia"
+                android:text="@string/ubiPintia"
                 android:textColor="@color/surface"
                 android:layout_marginLeft="8dp"
                 android:textSize="14sp"/>
@@ -140,7 +140,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cómo llegar"
+                android:text="@string/comoLlegar"
                 android:textColor="@color/surface"
                 android:layout_marginLeft="8dp"
                 android:textSize="14sp"/>
