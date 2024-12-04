@@ -1,31 +1,13 @@
 package com.example.pintia
 
-import android.content.Intent
-import android.content.res.Configuration
-import android.graphics.Color
-import android.media.MediaPlayer
+import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.speech.tts.TextToSpeech
-import android.speech.tts.UtteranceProgressListener
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.AdapterView
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import android.widget.Spinner
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pintia.components.Header
-import com.example.pintia.services.AudioButtonHandler
-import com.example.pintia.services.DynamicViewBuilder.loadContentFromJson
-import com.example.pintia.services.DynamicViewBuilder.populateDynamicDescription
 import com.example.pintia.services.DynamicViewBuilder.pueblaActivity
 import com.example.pintia.services.TTSManager
 import java.text.Normalizer
-import java.util.Locale
 
 class InfoActivity : AppCompatActivity(){
 

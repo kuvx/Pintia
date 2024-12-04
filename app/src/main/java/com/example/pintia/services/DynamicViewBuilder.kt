@@ -19,6 +19,7 @@ import com.example.pintia.services.model3d.Model3D
 import com.example.pintia.utils.ImageInfoWindow
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import io.getstream.photoview.PhotoView
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
@@ -26,7 +27,6 @@ import java.io.FileWriter
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
-import java.util.Locale
 
 // Clase para representar el contenido (puede venir de un JSON)
 data class ContentItem(
@@ -93,7 +93,7 @@ object DynamicViewBuilder {
                 }
                 "image" -> {
                     // Crear un ImageView para la imagen
-                    val imageView = ImageView(container.context).apply {
+                    val imageView = PhotoView(container.context).apply {
                         layoutParams = LinearLayout.LayoutParams(
                             LinearLayout.LayoutParams.MATCH_PARENT,
                             LinearLayout.LayoutParams.WRAP_CONTENT
@@ -103,6 +103,10 @@ object DynamicViewBuilder {
                         scaleType = ImageView.ScaleType.CENTER_CROP // Ajustar imagen al tamaño
                         adjustViewBounds = true
                     }
+                    imageView.setScale(1.0f, true)
+                    imageView.maximumScale = 10.0f // Escala máxima
+                    imageView.minimumScale = 1.0f  // Escala mínima
+
                     // Usar Glide para cargar la imagen desde la ruta
                     try {
                         val urlPattern = "^(https?://).*$".toRegex(RegexOption.IGNORE_CASE)
