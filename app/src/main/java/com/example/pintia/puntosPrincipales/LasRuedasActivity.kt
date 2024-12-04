@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +17,8 @@ import com.example.pintia.puntosPrincipales.lasQuintanasViews.YacimientoInfoView
 import com.example.pintia.services.DynamicViewBuilder.generateDrawableWithText
 import com.example.pintia.services.DynamicViewBuilder.loadContentFromJson
 import com.example.pintia.services.DynamicViewBuilder.populateDynamicPoints
+import com.example.pintia.utils.TutorialManager
+import com.example.pintia.utils.TutorialStep
 import com.google.zxing.integration.android.IntentIntegrator
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
@@ -32,6 +35,9 @@ class LasRuedasActivity : AppCompatActivity() {
     //Coordenadas Ruedas
     private var latitud=41.617962
     private var longitud=-4.169421
+
+    private lateinit var tutorialOverlay: FrameLayout
+    private lateinit var tutorialManager: TutorialManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,6 +105,21 @@ class LasRuedasActivity : AppCompatActivity() {
             // Agrega el marcador al mapa
             mapView.overlays.add(marker)
             println("img")
+        }
+
+        tutorialOverlay = findViewById(R.id.tutorialOverlay)
+
+        // Lista de pasos del tutorial
+        val tutorialSteps = listOf(
+            TutorialStep(R.drawable.tutorial_qr, getString(R.string.tut_qr), getString(R.string.tut_qr_desc))
+        )
+
+        // Inicializar TutorialManager
+        tutorialManager = TutorialManager(this, tutorialOverlay, tutorialSteps)
+
+        // Mostrar tutorial si es la primera vez
+        if (TutorialManager.isFirstTimeTutorial(this)) {
+            tutorialManager.showTutorial()
         }
 
     }

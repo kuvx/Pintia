@@ -5,6 +5,7 @@ import android.speech.tts.UtteranceProgressListener
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -18,12 +19,18 @@ import com.example.pintia.services.DynamicViewBuilder.populateDynamicDescription
 import com.example.pintia.services.TTSManager
 import com.example.pintia.services.AudioButtonHandler
 import com.example.pintia.services.DynamicViewBuilder.pueblaActivity
+import com.example.pintia.utils.TutorialManager
+import com.example.pintia.utils.TutorialStep
 import java.text.Normalizer
 
 class YacimientoInfoView : AppCompatActivity() {
 
     private lateinit var ttsManager: TTSManager
     private var idOfAudioPlaying = -1
+
+    private lateinit var tutorialOverlay: FrameLayout
+    private lateinit var tutorialManager: TutorialManager
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +66,21 @@ class YacimientoInfoView : AppCompatActivity() {
 
         }
         pueblaActivity(layout,this, path, titulo_cod, ttsManager)
+
+        tutorialOverlay = findViewById(R.id.tutorialOverlay)
+
+        // Lista de pasos del tutorial
+        val tutorialSteps = listOf(
+            TutorialStep(R.drawable.tutorial_audio, getString(R.string.tut_audio), getString(R.string.tut_audio_desc))
+        )
+
+        // Inicializar TutorialManager
+        tutorialManager = TutorialManager(this, tutorialOverlay, tutorialSteps)
+
+        // Mostrar tutorial si es la primera vez
+        if (TutorialManager.isFirstTimeTutorial(this)) {
+            tutorialManager.showTutorial()
+        }
 
     }
 

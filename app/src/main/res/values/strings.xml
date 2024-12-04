@@ -44,6 +44,21 @@
     <string name="ubiPintia">Pintia</string>
     <string name="comoLlegar">Como llegar</string>
     <string name="reservaAhora">Reserva Ahora</string>
+    <string name="saltar">Saltar</string>
+    <string name="sig">Siguiente</string>
+    <string name="tut_marcador">Marcador de Seccion</string>
+    <string name="tut_Leyenda">Leyenda</string>
+    <string name="tut_camara">Inmortalizar el momento</string>
+    <string name="tut_qr">Escanear codigo QR</string>
+    <string name="tut_audio">Reproduce la audioguia</string>
+    <string name="tut_marcador_desc">Estos marcadores son cada una de las zonas visitables del yacimiento de Pintia. Pinchando sobre ellos te lleva a cada una de las secciones.</string>
+    <string name="tut_leyenda_desc">Pulsando sobre este boton se despliega la leyenda con la que poder acceder a los mismo puntos visitables del yacimiento.</string>
+    <string name="tut_my_ubi_desc">Una veq que te sale el mensaje de que tu ubicacion se ha cargado, pulsando sobre este boton accedes a tu ubicacion en tiempo real.</string>
+    <string name="tut_focus_desc">Pulsando sobre este boton vuelves a centra el foco del mapa sobre el yacimiento en caso de haberte desplazado por el mapa.</string>
+    <string name="tut_como_llegar_desc">Pulsando sobre el boton te permite abrir tu maps y encontrar la ruta para llegar al yacimiento.</string>
+    <string name="tut_camara_desc">A modo de funcionalidad extra la aplicacion te permite sacarte una fotografia y mostrarte en el lugar que se tomo sobre el mapa, ademas de mostrarte dichas fotos en la seccion de Galeria.</string>
+    <string name="tut_qr_desc">Al hacer chick sobre este boton podras escanear los codigos qr que hay repartidos por el cementerio en algunas de sus tablas de informacion.</string>
+    <string name="tut_audio_desc">Al hacer clich sobre el boton comenzara la reproduccion de la audio-guia, pudiendo pararla y continuar cuando se quiera.</string>
 
     <string-array name="audio_speeds">
         <item>0.5x</item>

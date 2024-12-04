@@ -44,4 +44,20 @@
     <string name="ubiPintia">Pintia</string>
     <string name="comoLlegar">Comment obtenir</string>
     <string name="reservaAhora">Réservez maintenant</string>
+    <string name="saltar">Sauter</string>
+    <string name="sig">Suivant</string>
+    <string name="tut_marcador">Marqueur de section</string>
+    <string name="tut_Leyenda">Légende</string>
+    <string name="tut_camara">Immortaliser le moment</string>
+    <string name="tut_qr">Scanner le code QR</string>
+    <string name="tut_audio">Lire l\'audioguide</string>
+    <string name="tut_marcador_desc">Ces marqueurs représentent chacune des zones visitables du site de Pintia. En cliquant dessus, vous accédez à chacune des sections.</string>
+    <string name="tut_leyenda_desc">En appuyant sur ce bouton, la légende s\'affiche, vous permettant d\'accéder aux mêmes points visitables du site.</string>
+    <string name="tut_my_ubi_desc">Une fois que le message indiquant que votre position a été chargée apparaît, appuyez sur ce bouton pour accéder à votre position en temps réel.</string>
+    <string name="tut_focus_desc">En appuyant sur ce bouton, le focus de la carte est recentré sur le site au cas où vous vous êtes déplacé sur la carte.</string>
+    <string name="tut_como_llegar_desc">En appuyant sur ce bouton, vous pouvez ouvrir Maps et trouver l\'itinéraire pour atteindre le site.</string>
+    <string name="tut_camara_desc">En tant que fonctionnalité supplémentaire, l\'application vous permet de prendre une photo et d\'afficher l\'endroit où elle a été prise sur la carte, ainsi que de visualiser ces photos dans la section Galerie.</string>
+    <string name="tut_qr_desc">En cliquant sur ce bouton, vous pouvez scanner les codes QR situés dans le cimetière sur certaines des plaques d\'information.</string>
+    <string name="tut_audio_desc">En cliquant sur le bouton, l\'audioguide commencera à jouer et vous pourrez le mettre en pause et le reprendre quand vous le souhaitez.</string>
+
 </resources>

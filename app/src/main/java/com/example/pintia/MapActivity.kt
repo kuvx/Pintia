@@ -29,11 +29,14 @@ import org.osmdroid.views.overlay.*
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
@@ -41,6 +44,8 @@ import com.example.pintia.services.DynamicViewBuilder.loadMarkersCache
 import com.example.pintia.services.DynamicViewBuilder.populateDynamicMarkers
 import com.example.pintia.services.DynamicViewBuilder.saveMarkersToFile
 import com.example.pintia.utils.ImageInfoWindow
+import com.example.pintia.utils.TutorialManager
+import com.example.pintia.utils.TutorialStep
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -62,6 +67,9 @@ class MapActivity : AppCompatActivity() {
 
     private val CAMERA_REQUEST_CODE = 1
     private val CAMERA_PERMISSION_CODE = 1000
+
+    private lateinit var tutorialOverlay: FrameLayout
+    private lateinit var tutorialManager: TutorialManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,9 +114,9 @@ class MapActivity : AppCompatActivity() {
             Punto("Las Ruedas", latitud, longitud, R.drawable.cementerio, LasRuedasActivity::class.java)
         )
 
+
+
         //coloca los markers de las imagenes
-
-
         val leyenda = findViewById<Leyenda>(R.id.leyenda_main)
         val puntoMap = puntos.associateBy { it.title }
         leyenda.setMap(puntoMap)
@@ -159,6 +167,27 @@ class MapActivity : AppCompatActivity() {
                 Toast.makeText(this, "No se encontró una aplicación para abrir Google Maps", Toast.LENGTH_SHORT).show()
             }
         }
+
+        tutorialOverlay = findViewById(R.id.tutorialOverlay)
+
+        // Lista de pasos del tutorial
+        val tutorialSteps = listOf(
+            TutorialStep(R.drawable.defensa, getString(R.string.tut_marcador), getString(R.string.tut_marcador_desc)),
+            TutorialStep(R.drawable.tutorial_leyenda, getString(R.string.tut_Leyenda), getString(R.string.tut_leyenda_desc)),
+            TutorialStep(R.drawable.tutorial_my_ubi, getString(R.string.myUbi), getString(R.string.tut_my_ubi_desc)),
+            TutorialStep(R.drawable.tutorial_focus, getString(R.string.ubiPintia), getString(R.string.tut_focus_desc)),
+            TutorialStep(R.drawable.tutorial_como_llegar, getString(R.string.comoLlegar), getString(R.string.tut_como_llegar_desc)),
+            TutorialStep(R.drawable.tutorial_camara, getString(R.string.tut_camara), getString(R.string.tut_camara_desc))
+        )
+
+        // Inicializar TutorialManager
+        tutorialManager = TutorialManager(this, tutorialOverlay, tutorialSteps)
+
+        // Mostrar tutorial si es la primera vez
+        if (TutorialManager.isFirstTimeTutorial(this)) {
+            tutorialManager.showTutorial()
+        }
+
 
 
 
@@ -358,5 +387,11 @@ class MapActivity : AppCompatActivity() {
 
         // Agrega el marcador al mapa
         mapView.overlays.add(marker)
+    }
+
+    // Método para verificar si es la primera vez que se muestra el tutorial
+    private fun isFirstTimeTutorial(): Boolean {
+        val preferences: SharedPreferences = getSharedPreferences("TutorialPreferences", Context.MODE_PRIVATE)
+        return preferences.getBoolean("TutorialShown", true) // Por defecto, true (primera vez)
     }
 }
