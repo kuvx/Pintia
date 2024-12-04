@@ -9,14 +9,13 @@ import android.graphics.Paint
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.Log
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.pintia.R
 import com.example.pintia.models.Punto
 import com.example.pintia.puntosPrincipales.lasQuintanasViews.YacimientoInfoView
+import com.example.pintia.services.model3d.Model3D
 import com.example.pintia.utils.ImageInfoWindow
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -70,7 +69,7 @@ object DynamicViewBuilder {
     }
 
     // Método para construir dinámicamente la vista
-    fun populateDynamicDescription(seccion:String, container: LinearLayout, contentItems: List<ContentItem>):String {
+    fun populateDynamicDescription(layout:RelativeLayout, seccion:String, container: LinearLayout, contentItems: List<ContentItem>):String {
         var salida =seccion
         for (item in contentItems) {
             when (item.type) {
@@ -134,16 +133,7 @@ object DynamicViewBuilder {
                 "model3D" -> {
                     // Crear un ImageView para la imagen
                     val htmlContent = item.value.trimIndent()
-                    val modelView = WebView(container.context).apply {
-                        layoutParams = LinearLayout.LayoutParams(
-                            LinearLayout.LayoutParams.MATCH_PARENT,
-                            LinearLayout.LayoutParams.WRAP_CONTENT
-                        ).apply {
-                            setMargins(0, 16, 0, 16) // Márgenes opcionales
-                            settings.javaScriptEnabled = true
-                            webViewClient = WebViewClient()
-                        }
-                    }
+                    val modelView = Model3D.getWebChromeClient(layout, container)
                     modelView.loadData(htmlContent, "text/html", "UTF-8")
                     // Añadir el ImageView al contenedor
                     container.addView(modelView)
@@ -298,13 +288,13 @@ object DynamicViewBuilder {
         val contentItems = loadContentFromJson(context, "${path}/data_${titulo_cod}.json", true)
 
         val dynamicContainer =layout.findViewById<LinearLayout>(R.id.dynamic_description_container)
-        val tituloTTL =populateDynamicDescription(context.getString(R.string.description),dynamicContainer, contentItems)
+        val tituloTTL =populateDynamicDescription(layout, context.getString(R.string.description),dynamicContainer, contentItems)
 
         val contentItems_moreInfo = loadContentFromJson(context, "${path}/data_${titulo_cod}_more.json", true)
         Log.d("JSONView", contentItems.toString())
 
         val dynamicContainer_more = layout.findViewById<LinearLayout>(R.id.dynamic_more_info_container)
-        val moreTTL = populateDynamicDescription(context.getString(R.string.more_info_title), dynamicContainer_more, contentItems_moreInfo)
+        val moreTTL = populateDynamicDescription(layout, context.getString(R.string.more_info_title), dynamicContainer_more, contentItems_moreInfo)
 
         // Inicializar el manejador de botones de audio
         var audioButtonHandler: AudioButtonHandler = AudioButtonHandler(context, ttsManager)
