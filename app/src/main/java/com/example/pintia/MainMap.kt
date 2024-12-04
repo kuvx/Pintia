@@ -1,8 +1,11 @@
 package com.example.pintia
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.PointF
 import android.os.Bundle
+import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -16,6 +19,9 @@ import com.example.pintia.puntosPrincipales.EdificioUVaActivity
 import com.example.pintia.puntosPrincipales.LasQuintanasActivity
 import com.example.pintia.puntosPrincipales.LasRuedasActivity
 import com.example.pintia.puntosPrincipales.MurallaAsedioActivity
+import com.example.pintia.utils.TutorialStep
+import com.example.pintia.utils.TutorialManager
+
 import kotlin.math.abs
 
 class MainMap : AppCompatActivity() {
@@ -60,5 +66,11 @@ class MainMap : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+    }
+
+    // Método para verificar si es la primera vez que se muestra el tutorial
+    private fun isFirstTimeTutorial(): Boolean {
+        val preferences: SharedPreferences = getSharedPreferences("TutorialPreferences", Context.MODE_PRIVATE)
+        return preferences.getBoolean("TutorialShown", true) // Por defecto, true (primera vez)
     }
 }

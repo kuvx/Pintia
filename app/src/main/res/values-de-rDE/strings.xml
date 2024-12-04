@@ -44,4 +44,20 @@
     <string name="ubiPintia">Pintia</string>
     <string name="comoLlegar">Wie man bekommt</string>
     <string name="reservaAhora">Buchen Sie jetzt</string>
+    <string name="saltar">Springen</string>
+    <string name="sig">Folgen</string>
+    <string name="tut_marcador">Abschnittsmarkierung</string>
+    <string name="tut_Leyenda">Legende</string>
+    <string name="tut_camara">Den Moment festhalten</string>
+    <string name="tut_qr">QR-Code scannen</string>
+    <string name="tut_audio">Audioführer abspielen</string>
+    <string name="tut_marcador_desc">Diese Markierungen stellen die einzelnen besuchbaren Bereiche der Pintia-Stätte dar. Durch Anklicken gelangen Sie zu den einzelnen Abschnitten.</string>
+    <string name="tut_leyenda_desc">Durch Drücken dieses Buttons wird die Legende angezeigt, mit der Sie auf dieselben besuchbaren Punkte der Stätte zugreifen können.</string>
+    <string name="tut_my_ubi_desc">Sobald die Nachricht erscheint, dass Ihr Standort geladen wurde, können Sie durch Drücken dieses Buttons auf Ihren Standort in Echtzeit zugreifen.</string>
+    <string name="tut_focus_desc">Durch Drücken dieses Buttons wird der Fokus der Karte wieder auf die Stätte zentriert, falls Sie sich auf der Karte bewegt haben.</string>
+    <string name="tut_como_llegar_desc">Durch Drücken dieses Buttons können Sie Maps öffnen und die Route zur Stätte finden.</string>
+    <string name="tut_camara_desc">Als zusätzliche Funktion ermöglicht Ihnen die Anwendung, ein Foto aufzunehmen und den Ort, an dem es aufgenommen wurde, auf der Karte anzuzeigen, sowie diese Fotos im Galerie-Bereich anzusehen.</string>
+    <string name="tut_qr_desc">Durch Klicken auf diesen Button können Sie die QR-Codes scannen, die sich auf einigen der Informationstafeln auf dem Friedhof befinden.</string>
+    <string name="tut_audio_desc">Durch Klicken auf den Button beginnt die Wiedergabe des Audioguides, den Sie jederzeit pausieren und fortsetzen können.</string>
+
 </resources>
