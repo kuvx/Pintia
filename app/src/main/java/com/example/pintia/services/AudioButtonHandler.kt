@@ -2,12 +2,9 @@ package com.example.pintia.services
 
 import android.content.Context
 import android.view.View
-import android.widget.AdapterView
 import android.widget.Button
 import android.widget.ImageButton
-import android.widget.Spinner
 import com.example.pintia.R
-import com.example.pintia.services.TTSManager
 
 class AudioButtonHandler(
     private val context: Context,
@@ -16,6 +13,25 @@ class AudioButtonHandler(
 
     // Variable para rastrear qué botón está reproduciendo
     private var idOfAudioPlaying: Int = -1
+
+
+    fun stopSpeach() {
+        ttsManager.stop()
+        (context as? android.app.Activity)?.findViewById<ImageButton>(idOfAudioPlaying)
+            ?.setImageResource(R.drawable.play)
+        (context as? android.app.Activity)?.findViewById<ImageButton>(idOfAudioPlaying)
+            ?.setBackgroundResource(R.drawable.round_button_background)
+        idOfAudioPlaying = -1
+    }
+
+    fun startSpeach(id:Int, text: String) {
+        speakText(text, id)
+        idOfAudioPlaying = id
+        (context as? android.app.Activity)?.findViewById<ImageButton>(idOfAudioPlaying)
+            ?.setImageResource(R.drawable.pause)
+        (context as? android.app.Activity)?.findViewById<ImageButton>(idOfAudioPlaying)
+            ?.setBackgroundResource(R.drawable.round_button_background)
+    }
 
     /**
      * Configura un botón para manejar la reproducción de audio.
@@ -30,22 +46,12 @@ class AudioButtonHandler(
 
             // Detener audio si hay algo reproduciéndose
             if (idOfAudioPlaying != -1 && ttsManager.getIsPlaying()) {
-                ttsManager.stop()
-                (context as? android.app.Activity)?.findViewById<ImageButton>(idOfAudioPlaying)
-                    ?.setImageResource(R.drawable.play)
-                (context as? android.app.Activity)?.findViewById<ImageButton>(idOfAudioPlaying)
-                    ?.setBackgroundResource(R.drawable.round_button_background)
-                idOfAudioPlaying = -1
+                stopSpeach()
             }
 
             // Reproducir nuevo audio si es un botón diferente
             if (oldId != button.id && text.isNotEmpty()) {
-                speakText(text, button.id)
-                idOfAudioPlaying = button.id
-                (context as? android.app.Activity)?.findViewById<ImageButton>(idOfAudioPlaying)
-                    ?.setImageResource(R.drawable.pause)
-                (context as? android.app.Activity)?.findViewById<ImageButton>(idOfAudioPlaying)
-                    ?.setBackgroundResource(R.drawable.round_button_background)
+                startSpeach(button.id, text)
             }
         }
     }
@@ -56,14 +62,17 @@ class AudioButtonHandler(
         var position = 2
         val speeds =
             arrayOf(0.5f, 0.75f, 1.0f, 1.25f, 1.5f, 2.0f) // Velocidades disponibles
-        val selectedSpeed = speeds[position]
-        button.text = "x$selectedSpeed"
+        var selectedSpeed = speeds[position]
+        var text = "x$selectedSpeed"
+        button.text =  text
         ttsManager.setSpeechRate(selectedSpeed)
 
         button.setOnClickListener {
+            stopSpeach()
             val index = (++position) % speeds.size
-            val selectedSpeed = speeds[index]
-            button.text = "x${selectedSpeed}"
+            selectedSpeed = speeds[index]
+            text = "x${selectedSpeed}"
+            button.text = text
 
             // Cambiar la velocidad del TTS a través de TTSManager
             ttsManager.setSpeechRate(selectedSpeed)
