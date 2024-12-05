@@ -3,6 +3,7 @@ package com.example.pintia.services
 import android.content.Context
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Spinner
 import com.example.pintia.R
@@ -49,27 +50,23 @@ class AudioButtonHandler(
         }
     }
 
-    fun changeSpeed(spinner: Spinner){
-        spinner.id = View.generateViewId() // Genera un ID único para el spinner
+    fun changeSpeed(button: Button){
+        button.id = View.generateViewId() // Genera un ID único para el spinner
 
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                val speeds =
-                    arrayOf(0.5f, 0.75f, 1.0f, 1.25f, 1.5f, 2.0f) // Velocidades disponibles
-                val selectedSpeed = speeds[position]
+        var position = 2
+        val speeds =
+            arrayOf(0.5f, 0.75f, 1.0f, 1.25f, 1.5f, 2.0f) // Velocidades disponibles
+        val selectedSpeed = speeds[position]
+        button.text = "x$selectedSpeed"
+        ttsManager.setSpeechRate(selectedSpeed)
 
-                // Cambiar la velocidad del TTS a través de TTSManager
-                ttsManager.setSpeechRate(selectedSpeed)
-            }
+        button.setOnClickListener {
+            val index = (++position) % speeds.size
+            val selectedSpeed = speeds[index]
+            button.text = "x${selectedSpeed}"
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // No se seleccionó nada
-            }
+            // Cambiar la velocidad del TTS a través de TTSManager
+            ttsManager.setSpeechRate(selectedSpeed)
         }
     }
     // Función para leer el texto

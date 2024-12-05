@@ -312,8 +312,8 @@ object DynamicViewBuilder {
         audioButtonHandler.setupAudioButton(audioView2, moreTTL)
 
         // Configuración del Spinner_1
-        val speedSelector: Spinner = layout.findViewById(R.id.speed_selector)
-        val speedSelector_2: Spinner = layout.findViewById(R.id.speed_selector_2)
+        val speedSelector: Button = layout.findViewById(R.id.speed_selector)
+        val speedSelector_2: Button = layout.findViewById(R.id.speed_selector_2)
 
         audioButtonHandler.changeSpeed(speedSelector)
         audioButtonHandler.changeSpeed(speedSelector_2)
