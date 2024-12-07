@@ -5,17 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <com.example.pintia.components.Header
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
 
-    <com.example.pintia.components.Footer
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -46,9 +36,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:hint="@string/visit_request_group_size"
-                android:textColor="@color/on_primary"
+                android:textColor="@color/on_secondary"
                 android:textColorHint="@color/on_secondary"
                 android:inputType="number" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+
+                />
 
             <EditText
                 android:id="@+id/et_phone"

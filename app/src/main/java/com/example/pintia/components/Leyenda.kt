@@ -8,10 +8,8 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import com.example.pintia.MainActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.example.pintia.R
-import com.example.pintia.RequestVisitActivity
 import com.example.pintia.models.Punto
 
 /**
@@ -54,10 +52,10 @@ class Leyenda @JvmOverloads constructor(
             textView.text = title // Establece el texto del TextView
             textView.setOnClickListener { // Cuando se clicke se cambia de vista
                 if (punto != null) {
-                    val intent = Intent(context, punto.destinationActivity)
+                    /* val intent = Intent(context, punto.fragment)
                     intent.putExtra("title", punto.title)
                     intent.putExtra("path", "ruedas")
-                    context.startActivity(intent)
+                    context.startActivity(intent)*/
                 } else {
                     // Cerramos el desplegable
                     alterMenuVisibility(close = true)

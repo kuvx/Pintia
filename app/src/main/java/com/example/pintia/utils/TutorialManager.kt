@@ -1,5 +1,6 @@
 package com.example.pintia.utils
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +8,10 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import com.example.pintia.R
 
 class TutorialManager(
-    private val activity: AppCompatActivity,
+    private val activity: Activity,
     private val tutorialOverlay: FrameLayout,
     private val tutorialSteps: List<TutorialStep>
 ) {
@@ -71,7 +71,7 @@ class TutorialManager(
     }
 
     companion object {
-        fun isFirstTimeTutorial(activity: AppCompatActivity): Boolean {
+        fun isFirstTimeTutorial(activity: Activity): Boolean {
             val preferences = activity.getSharedPreferences("TutorialPreferences", Context.MODE_PRIVATE)
             return preferences.getBoolean("TutorialShown", true)
         }

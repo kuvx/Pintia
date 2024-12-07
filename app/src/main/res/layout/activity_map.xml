@@ -4,165 +4,145 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <com.example.pintia.components.Header
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="100dp">
+        android:layout_height="match_parent">
 
         <org.osmdroid.views.MapView
             android:id="@+id/mapView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
-    <FrameLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginVertical="90dp"
-        >
+        android:gravity="end"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <com.example.pintia.components.Leyenda
+            android:id="@+id/leyenda_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="right">
+            android:layout_height="wrap_content" />
 
-            <com.example.pintia.components.Leyenda
-                android:id="@+id/leyenda_main"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <ImageButton
-                android:id="@+id/btn_camera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/camara"
-                android:background="@drawable/round_button_selected_background"
-                android:layout_margin="16dp" />
+        <ImageButton
+            android:id="@+id/btn_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="@drawable/round_button_selected_background"
+            android:src="@drawable/camara" />
 
 
-        </LinearLayout>
-    </FrameLayout>
+    </LinearLayout>
+
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:paddingVertical="100dp">
+        >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginTop="20dp">
-
-        <!-- Botón 1: Localización -->
         <LinearLayout
-            android:id="@+id/btn_center_location"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
             android:gravity="center"
-            android:padding="8dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/round_button_map"
-            android:layout_weight="1">
+            android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/user_pin"
-                android:contentDescription="Ubicación"/>
-
-            <TextView
+            <!-- Botón 1: Localización -->
+            <LinearLayout
+                android:id="@+id/btn_center_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/myUbi"
-                android:textColor="@color/surface"
-                android:layout_marginLeft="8dp"
-                android:textSize="14sp"/>
-        </LinearLayout>
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/round_button_map"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
 
-        <!-- Botón 2: Pintia -->
-        <LinearLayout
-            android:id="@+id/btn_center_pintia"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="8dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/round_button_map"
-            android:layout_weight="1">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="Ubicación"
+                    android:src="@drawable/user_pin" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/focus"
-                android:contentDescription="Pintia"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/myUbi"
+                    android:textColor="@color/surface"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
-            <TextView
+            <!-- Botón 2: Pintia -->
+            <LinearLayout
+                android:id="@+id/btn_center_pintia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ubiPintia"
-                android:textColor="@color/surface"
-                android:layout_marginLeft="8dp"
-                android:textSize="14sp"/>
-        </LinearLayout>
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/round_button_map"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
 
-        <!-- Botón 3: Cómo llegar -->
-        <LinearLayout
-            android:id="@+id/btn_como_llegar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="8dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/round_button_map"
-            android:layout_weight="1">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="Pintia"
+                    android:src="@drawable/focus" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/comollegar"
-                android:contentDescription="Cómo llegar"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="@string/ubiPintia"
+                    android:textColor="@color/surface"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
-            <TextView
+            <!-- Botón 3: Cómo llegar -->
+            <LinearLayout
+                android:id="@+id/btn_como_llegar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/comoLlegar"
-                android:textColor="@color/surface"
-                android:layout_marginLeft="8dp"
-                android:textSize="14sp"/>
+                android:layout_margin="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/round_button_map"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="Cómo llegar"
+                    android:src="@drawable/comollegar" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/comoLlegar"
+                    android:textColor="@color/surface"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
         </LinearLayout>
-
-    </LinearLayout>
-</FrameLayout>
-
-
-    <com.example.pintia.components.Footer
-        android:id="@+id/footer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" />
+    </FrameLayout>
 
     <!-- Contenedor del tutorial -->
     <FrameLayout
         android:id="@+id/tutorialOverlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"
-        android:background="#AA000000">
-    </FrameLayout>
+        android:background="#AA000000"
+        android:visibility="gone" />
 
 </RelativeLayout>

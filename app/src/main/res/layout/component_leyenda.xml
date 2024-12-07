@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,11 +9,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/expand"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@color/secondary_variant"
-        android:contentDescription="Toggle Legend" />
+        android:contentDescription="Toggle Legend"
+        android:src="@drawable/expand" />
 
     <!-- Contenedor de la leyenda (CardView) -->
     <androidx.cardview.widget.CardView
@@ -22,12 +21,12 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="72dp"
-        android:padding="16dp"
-        android:visibility="gone"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@color/secondary_variant"
-        >
+        android:padding="16dp"
+        android:visibility="gone">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -40,36 +39,12 @@
                     android:id="@+id/leyend_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="10dp"
                     android:divider="@android:color/transparent"
                     android:dividerPadding="20dp"
-                    android:showDividers="middle"
-                    >
-
-                    <!-- Contenido dinámico -->
-                    <!--
-                    <TextView
-                        android:id="@+id/point_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Elemento 1"
-                        android:textColor="@android:color/white"
-                        android:drawableStart="@drawable/point"
-                        android:drawablePadding="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:gravity="center"
-                    />
-                    -->
-
-                </LinearLayout>
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:showDividers="middle" />
             </FrameLayout>
         </ScrollView>
-
-
-
-
-
     </androidx.cardview.widget.CardView>
-
 </RelativeLayout>

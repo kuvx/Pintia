@@ -5,44 +5,55 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.example.pintia.components.Header
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.net.Uri
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.fragment.app.Fragment
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
-import kotlin.reflect.typeOf
 
-class RequestVisitActivity : AppCompatActivity() {
+class RequestVisitFragment : Fragment() {
+    private fun getMain(): MainActivity {
+        return requireActivity() as MainActivity
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_request_visit)
-        val header = findViewById<Header>(R.id.header)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val rootView = inflater.inflate(R.layout.activity_request_visit, container, false)
+
+        val context = requireContext()
+
+        val header = getMain().findViewById<Header>(R.id.header)
         header.title = getString(R.string.request)
 
-        val etName = findViewById<EditText>(R.id.et_name)
-        val etGroupSize = findViewById<Spinner>(R.id.et_group_size)
+        val etName = rootView.findViewById<EditText>(R.id.et_name)
+        val etGroupSize = rootView.findViewById<Spinner>(R.id.et_group_size)
 
         // Establecer valores al spinner
         val hint = getString(R.string.visit_request_group_size_hint)
         val numberList: List<Any> =
             listOf(hint) + (3..7).toMutableList()
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, numberList)
+        val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, numberList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         etGroupSize.adapter = adapter
 
-        val etPhone = findViewById<EditText>(R.id.et_phone)
-        val etDate = findViewById<EditText>(R.id.et_date)
-        val etTime = findViewById<EditText>(R.id.et_time)
-        val btnSubmit = findViewById<Button>(R.id.btn_submit)
+        val etPhone = rootView.findViewById<EditText>(R.id.et_phone)
+        val etDate = rootView.findViewById<EditText>(R.id.et_date)
+        val etTime = rootView.findViewById<EditText>(R.id.et_time)
+        val btnSubmit = rootView.findViewById<Button>(R.id.btn_submit)
 
         // Configura un listener para cuando se haga clic en el campo de fecha
         etDate.setOnClickListener {
@@ -54,7 +65,7 @@ class RequestVisitActivity : AppCompatActivity() {
 
             // Muestra el DatePickerDialog
             val datePickerDialog =
-                DatePickerDialog(this, { _, selectedYear, selectedMonth, selectedDay ->
+                DatePickerDialog(context, { _, selectedYear, selectedMonth, selectedDay ->
                     // Cuando el usuario selecciona la fecha, actualiza el campo de texto
                     val formattedDate = "${selectedDay}/${selectedMonth + 1}/${selectedYear}"
                     etDate.setText(formattedDate)
@@ -71,7 +82,7 @@ class RequestVisitActivity : AppCompatActivity() {
             val minute = calendar.get(Calendar.MINUTE)
 
             // Muestra el DatePickerDialog
-            val timePickerDialog = TimePickerDialog(this, { _, selectedHour, selectedMinute ->
+            val timePickerDialog = TimePickerDialog(context, { _, selectedHour, selectedMinute ->
                 // Cuando el usuario selecciona la fecha, actualiza el campo de texto
                 val formattedTime =
                     String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute)
@@ -94,17 +105,18 @@ class RequestVisitActivity : AppCompatActivity() {
                     openEmailClient(body);
                 }
 
-                Toast.makeText(this, "Visita solicitada exitosamente", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Visita solicitada exitosamente", Toast.LENGTH_SHORT).show()
 
                 etName.text.clear()
                 etGroupSize.setSelection(0)
                 etPhone.text.clear()
                 etDate.text.clear()
             } else {
-                Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT)
+                Toast.makeText(context, "Por favor, completa todos los campos", Toast.LENGTH_SHORT)
                     .show()
             }
         }
+        return rootView
     }
 
     private fun genBody(
@@ -118,7 +130,7 @@ class RequestVisitActivity : AppCompatActivity() {
             val fecha = if (time.isNotEmpty()) " a las ${time}h" else ""
             return "¡Hola Carlos!\n\n" +
                     "Soy $name y estoy interesado en hacer una visita por pintia.\n" +
-                    "Somos un grupo compuesto por ${etGroupSize.selectedItem} personas, la visita"+
+                    "Somos un grupo compuesto por ${etGroupSize.selectedItem} personas, la visita" +
                     " nos gustaría que fuese para el día $date$fecha.\n\n" +
                     "También, nos gustaría conocer el precio de la visita.\n\n" +
                     "Quedamos pendientes de tu confirmación o contrapropuesta.\n\n" +
@@ -143,7 +155,7 @@ class RequestVisitActivity : AppCompatActivity() {
         try {
             startActivity(emailIntent)
         } catch (e: Exception) {
-            Toast.makeText(this, "No hay cliente de correo instalado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "No hay cliente de correo instalado", Toast.LENGTH_SHORT).show()
         }
     }
 

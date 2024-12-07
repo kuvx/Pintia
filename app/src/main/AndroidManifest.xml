@@ -32,47 +32,15 @@
         <activity
             android:name=".services.QRScannerActivity"
             android:exported="false" />
-        <activity
-            android:name=".puntosPrincipales.lasQuintanasViews.YacimientoInfoView"
-            android:exported="false" />
-        <activity
-            android:name=".puntosPrincipales.MurallaAsedioActivity"
-            android:exported="false" />
-        <activity
-            android:name=".puntosPrincipales.EdificioUVaActivity"
-            android:exported="false" />
-        <activity
-            android:name=".puntosPrincipales.LasRuedasActivity"
-            android:exported="false" />
-        <activity
-            android:name=".puntosPrincipales.LasQuintanasActivity"
-            android:exported="false" />
 
         <meta-data
             android:name="com.google.ar.core"
             android:value="enabled" />
 
         <activity
-            android:name=".SettingsActivity"
-            android:exported="false"
-            android:label="settings" />
-        <activity
-            android:name=".GalleryActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MapActivity"
-            android:exported="false" />
-        <activity
-            android:name=".InfoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainMap"
-            android:exported="false" />
-        <activity
-            android:name=".RequestVisitActivity"
-            android:exported="false" />
-        <activity
             android:name=".MainActivity"
+            android:configChanges="orientation|screenSize"
+
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

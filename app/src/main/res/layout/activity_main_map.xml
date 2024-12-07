@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
->
+    android:background="@color/background">
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
@@ -11,210 +11,187 @@
         android:scaleType="centerCrop"
         android:src="@drawable/fondo_principal" />
 
-<com.example.pintia.components.Header
-    android:id="@+id/header"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true" />
+    <GridLayout
+        android:id="@+id/buttonGrid"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:columnCount="2"
+        android:rowCount="2">
 
-<com.example.pintia.components.Footer
-    android:id="@+id/footer"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true" />
-
-<GridLayout
-    android:id="@+id/buttonGrid"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginVertical="100dp"
-    android:layout_centerInParent="true"
-    android:columnCount="2"
-    android:rowCount="2"
-    android:layout_gravity="center">
-
-    <!-- Botón 1 -->
-    <LinearLayout
-        android:id="@+id/button1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_row="0"
-        android:layout_column="0"
-        android:layout_columnWeight="1"
-        android:layout_rowWeight="1"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="@drawable/rounded_transp"
-        android:padding="8dp"
-        android:layout_margin="8dp"
-        >
-
-        <!-- Icono -->
-        <ImageView
-            android:id="@+id/button1_icon"
-            android:layout_width="wrap_content"
+        <!-- Botón 1 -->
+        <LinearLayout
+            android:id="@+id/button1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ciudad"
-            android:contentDescription="@string/quinanas"
-            />
-
-        <!-- Texto -->
-        <TextView
-            android:id="@+id/button1_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/quinanas"
-            android:textColor="@color/on_primary"
-            android:textSize="14sp"
+            android:layout_row="0"
+            android:layout_rowWeight="1"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/rounded_transp"
             android:gravity="center"
-            android:layout_marginTop="4dp" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:padding="8dp">
 
-    <!-- Botón 2 -->
-    <LinearLayout
-        android:id="@+id/button2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_row="0"
-        android:layout_column="1"
-        android:layout_columnWeight="1"
-        android:layout_rowWeight="1"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="@drawable/rounded_transp"
-        android:padding="8dp"
-        android:layout_margin="8dp"
-        >
+            <!-- Icono -->
+            <ImageView
+                android:id="@+id/button1_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/quinanas"
+                android:src="@drawable/ciudad" />
 
-        <!-- Icono -->
-        <ImageView
-            android:id="@+id/button2_icon"
-            android:layout_width="wrap_content"
+            <!-- Texto -->
+            <TextView
+                android:id="@+id/button1_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="@string/quinanas"
+                android:textColor="@color/on_primary"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Botón 2 -->
+        <LinearLayout
+            android:id="@+id/button2"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/defensa"
-            android:contentDescription="@string/muralla"
-            />
-
-        <!-- Texto -->
-        <TextView
-            android:id="@+id/button2_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/muralla"
-            android:textColor="@color/on_primary"
-            android:textSize="14sp"
+            android:layout_row="0"
+            android:layout_rowWeight="1"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/rounded_transp"
             android:gravity="center"
-            android:layout_marginTop="4dp" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:padding="8dp">
 
-    <!-- Botón 3 -->
-    <LinearLayout
-        android:id="@+id/button3"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_row="1"
-        android:layout_column="0"
-        android:layout_columnWeight="1"
-        android:layout_rowWeight="1"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="@drawable/rounded_transp"
-        android:padding="8dp"
-        android:layout_margin="8dp"
-        >
+            <!-- Icono -->
+            <ImageView
+                android:id="@+id/button2_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/muralla"
+                android:src="@drawable/defensa" />
 
-        <!-- Icono -->
-        <ImageView
-            android:id="@+id/button3_icon"
-            android:layout_width="wrap_content"
+            <!-- Texto -->
+            <TextView
+                android:id="@+id/button2_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="@string/muralla"
+                android:textColor="@color/on_primary"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Botón 3 -->
+        <LinearLayout
+            android:id="@+id/button3"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/cementerio"
-            android:contentDescription="@string/ruedas"
-            />
-
-        <!-- Texto -->
-        <TextView
-            android:id="@+id/button3_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/ruedas"
-            android:textColor="@color/on_primary"
-            android:textSize="14sp"
+            android:layout_row="1"
+            android:layout_rowWeight="1"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/rounded_transp"
             android:gravity="center"
-            android:layout_marginTop="4dp" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:padding="8dp">
 
-    <!-- Botón 4 -->
-    <LinearLayout
-        android:id="@+id/button4"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_row="1"
-        android:layout_column="1"
-        android:layout_columnWeight="1"
-        android:layout_rowWeight="1"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="@drawable/rounded_transp"
-        android:padding="8dp"
-        android:layout_margin="8dp"
-        >
+            <!-- Icono -->
+            <ImageView
+                android:id="@+id/button3_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/ruedas"
+                android:src="@drawable/cementerio" />
 
-        <!-- Icono -->
-        <ImageView
-            android:id="@+id/button4_icon"
-            android:layout_width="wrap_content"
+            <!-- Texto -->
+            <TextView
+                android:id="@+id/button3_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="@string/ruedas"
+                android:textColor="@color/on_primary"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Botón 4 -->
+        <LinearLayout
+            android:id="@+id/button4"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/uva"
-            android:contentDescription="@string/titulo_principal"
-            />
-
-        <!-- Texto -->
-        <TextView
-            android:id="@+id/button4_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/titulo_principal"
-            android:textColor="@color/on_primary"
-            android:textSize="14sp"
+            android:layout_row="1"
+            android:layout_rowWeight="1"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:background="@drawable/rounded_transp"
             android:gravity="center"
-            android:layout_marginTop="4dp" />
-    </LinearLayout>
+            android:orientation="vertical"
+            android:padding="8dp">
 
-</GridLayout>
+            <!-- Icono -->
+            <ImageView
+                android:id="@+id/button4_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/titulo_principal"
+                android:src="@drawable/uva" />
+
+            <!-- Texto -->
+            <TextView
+                android:id="@+id/button4_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="@string/titulo_principal"
+                android:textColor="@color/on_primary"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </GridLayout>
+
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        >
+        android:layout_centerInParent="true">
 
         <LinearLayout
             android:id="@+id/reserva_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
             android:layout_gravity="center"
-            android:padding="16dp"
-            android:background="@drawable/rounded">
+            android:background="@drawable/rounded"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="16dp">
 
             <ImageButton
                 android:id="@+id/button_reserva"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/request"
                 android:background="@drawable/round_button_background"
-                />
+                android:scaleType="fitCenter"
+                android:src="@drawable/request" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/on_secondary"
-                android:text="@string/reservaAhora"/>
+                android:text="@string/reservaAhora"
+                android:textColor="@color/on_secondary" />
         </LinearLayout>
     </FrameLayout>
-
-
 
 
 </RelativeLayout>

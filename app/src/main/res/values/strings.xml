@@ -53,7 +53,7 @@
     <string name="tut_audio">Reproduce la audioguia</string>
     <string name="tut_marcador_desc">Estos marcadores son cada una de las zonas visitables del yacimiento de Pintia. Pinchando sobre ellos te lleva a cada una de las secciones.</string>
     <string name="tut_leyenda_desc">Pulsando sobre este boton se despliega la leyenda con la que poder acceder a los mismo puntos visitables del yacimiento.</string>
-    <string name="tut_my_ubi_desc">Una veq que te sale el mensaje de que tu ubicacion se ha cargado, pulsando sobre este boton accedes a tu ubicacion en tiempo real.</string>
+    <string name="tut_my_ubi_desc">Una vez que te sale el mensaje de que tu ubicacion se ha cargado, pulsando sobre este boton accedes a tu ubicacion en tiempo real.</string>
     <string name="tut_focus_desc">Pulsando sobre este boton vuelves a centra el foco del mapa sobre el yacimiento en caso de haberte desplazado por el mapa.</string>
     <string name="tut_como_llegar_desc">Pulsando sobre el boton te permite abrir tu maps y encontrar la ruta para llegar al yacimiento.</string>
     <string name="tut_camara_desc">A modo de funcionalidad extra la aplicacion te permite sacarte una fotografia y mostrarte en el lugar que se tomo sobre el mapa, ademas de mostrarte dichas fotos en la seccion de Galeria.</string>

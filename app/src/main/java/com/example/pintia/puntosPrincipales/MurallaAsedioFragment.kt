@@ -1,44 +1,52 @@
 package com.example.pintia.puntosPrincipales
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.RelativeLayout
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.example.pintia.R
 import com.example.pintia.components.Header
 import com.example.pintia.services.DynamicViewBuilder.pueblaActivity
 import com.example.pintia.services.TTSManager
 
-class MurallaAsedioActivity : AppCompatActivity() {
+class MurallaAsedioFragment : Fragment() {
     private lateinit var ttsManager: TTSManager
     private var idOfAudioPlaying = -1
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.component_info_views)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val rootView = inflater.inflate(R.layout.fragment_info_views, container, false)
+        val context = requireContext()
 
-        val header = findViewById<Header>(R.id.header)
         val text = getString(R.string.muralla)
-        header.title = text
+        requireActivity().findViewById<Header>(R.id.header)
+            .title = text
 
-        val layout: RelativeLayout = findViewById(R.id.component_info_views)
+        val layout: RelativeLayout = rootView.findViewById(R.id.component_info_views)
+
         //cambiamos el fondo
         layout.setBackgroundResource(R.drawable.fondo_defensa)
-        ttsManager = TTSManager(this) { success ->
+        ttsManager = TTSManager(context) { success ->
             if (success) {
                 // TTS inicializado correctamente
-                ttsManager.setupListener(this, idOfAudioPlaying)
+                ttsManager.setupListener(requireActivity(), idOfAudioPlaying)
             } else {
                 // Manejar el error de inicialización
             }
         }
-        
+
 
         val path = "muralla"
         val tituloCod = text.lowercase().replace(" ", "_")
 
-        pueblaActivity(layout,this, path, tituloCod,ttsManager)
+        pueblaActivity(layout, context, path, tituloCod, ttsManager)
 
-
+        return rootView
     }
 
     override fun onPause() {

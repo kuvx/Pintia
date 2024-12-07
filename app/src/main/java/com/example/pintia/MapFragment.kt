@@ -1,8 +1,6 @@
 package com.example.pintia
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import org.json.JSONObject
-import org.osmdroid.views.overlay.Polyline
+
+import API_TOKEN
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
@@ -10,15 +8,10 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.pintia.components.Header
 import com.example.pintia.components.Leyenda
 import com.example.pintia.models.Punto
-import com.example.pintia.puntosPrincipales.EdificioUVaActivity
-import com.example.pintia.puntosPrincipales.LasQuintanasActivity
-import com.example.pintia.puntosPrincipales.LasRuedasActivity
-import com.example.pintia.puntosPrincipales.MurallaAsedioActivity
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.OnlineTileSourceBase
@@ -26,7 +19,6 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.util.MapTileIndex
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.*
-
 import android.Manifest
 import android.app.Activity
 import android.content.Context
@@ -35,12 +27,19 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.Button
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
-import com.example.pintia.services.DynamicViewBuilder.loadMarkersCache
+import androidx.core.content.res.ResourcesCompat
+import androidx.fragment.app.Fragment
+import com.example.pintia.puntosPrincipales.EdificioUVaFragment
+import com.example.pintia.puntosPrincipales.LasQuintanasFragment
+import com.example.pintia.puntosPrincipales.LasRuedasFragment
+import com.example.pintia.puntosPrincipales.MurallaAsedioFragment
 import com.example.pintia.services.DynamicViewBuilder.populateDynamicMarkers
 import com.example.pintia.services.DynamicViewBuilder.saveMarkersToFile
 import com.example.pintia.utils.ImageInfoWindow
@@ -48,22 +47,21 @@ import com.example.pintia.utils.TutorialManager
 import com.example.pintia.utils.TutorialStep
 import java.io.File
 import java.io.FileOutputStream
-import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 
-class MapActivity : AppCompatActivity() {
+class MapFragment : Fragment() {
 
     private lateinit var mapView: MapView
-    private val API_token = "pk.eyJ1IjoicGludGlhcHJveWVjdDI0IiwiYSI6ImNtMzdqNnNlaTA5emIybHF1NGU2OXI3Y2MifQ.4VtNOpGHNw88xqol5bl7pA"
+
     //Coordenadas Ruedas
-        private var latitud=41.6169600023
-    private var longitud=-4.1691941788
+    private var latitud = 41.6169600023
+    private var longitud = -4.1691941788
     private lateinit var locationManager: LocationManager
     private var userLocationMarker: Marker? = null  // Marcador de la ubicación en tiempo real
-    private lateinit var centerLocationButton :LinearLayout
+    private lateinit var centerLocationButton: LinearLayout
 
     private val CAMERA_REQUEST_CODE = 1
     private val CAMERA_PERMISSION_CODE = 1000
@@ -71,15 +69,22 @@ class MapActivity : AppCompatActivity() {
     private lateinit var tutorialOverlay: FrameLayout
     private lateinit var tutorialManager: TutorialManager
 
+    private fun getMain(): MainActivity {
+        return requireActivity() as MainActivity
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_map)
 
-        val header = findViewById<Header>(R.id.header)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val rootView = inflater.inflate(R.layout.activity_map, container, false)
+
+        val header = getMain().findViewById<Header>(R.id.header)
         header.title = getString(R.string.app_name)
 
-        var camara: ImageButton = findViewById(R.id.btn_camera)
+        var camara: ImageButton = rootView.findViewById(R.id.btn_camera)
         camara.setOnClickListener {
             if (hasCameraPermission()) {
                 openCamera()
@@ -89,10 +94,12 @@ class MapActivity : AppCompatActivity() {
         }
 
         // Inicializa la configuración de OSMDroid
-        Configuration.getInstance().load(this, getSharedPreferences("osmdroid", MODE_PRIVATE))
+        val context = requireContext()
+        Configuration.getInstance()
+            .load(context, context.getSharedPreferences("osmdroid", Context.MODE_PRIVATE))
 
         // Obtén una referencia al MapView
-        mapView = findViewById(R.id.mapView)
+        mapView = rootView.findViewById(R.id.mapView)
 
         // Configura Mapbox como Tile Source
         mapView.setTileSource(mapboxTileSource)
@@ -102,22 +109,51 @@ class MapActivity : AppCompatActivity() {
 
         // Configura la cámara y la posición inicial
         val mapController: IMapController = mapView.controller
-        mapController.setZoom(15)
+        mapController.setZoom(15.0)
         mapController.setCenter(GeoPoint(latitud, longitud))  // Pintia
 
         // Define la lista de puntos para los marcadores
-        val puntos = listOf(
-            Punto("Las Quintana", 41.6239590929, -4.1734857708, R.drawable.ciudad, LasQuintanasActivity::class.java),
-            Punto("La Muralla", 41.6228752320, -4.1696152162, R.drawable.defensa, MurallaAsedioActivity::class.java),
-            Punto("Las Ataque", 41.6222774251, -4.1682678963, R.drawable.ataque, MurallaAsedioActivity::class.java),
-            Punto("Edificio UVa", 41.6130494436, -4.1640258634, R.drawable.uva, EdificioUVaActivity::class.java),
-            Punto("Las Ruedas", latitud, longitud, R.drawable.cementerio, LasRuedasActivity::class.java)
+        val puntos:List<Punto> = listOf(
+            Punto(
+                "Las Quintana",
+                41.6239590929,
+                -4.1734857708,
+                R.drawable.ciudad,
+                LasQuintanasFragment()
+            ),
+            Punto(
+                "La Muralla",
+                41.6228752320,
+                -4.1696152162,
+                R.drawable.defensa,
+                MurallaAsedioFragment()
+            ),
+            Punto(
+                "Las Ataque",
+                41.6222774251,
+                -4.1682678963,
+                R.drawable.ataque,
+                MurallaAsedioFragment()
+            ),
+            Punto(
+                "Edificio UVa",
+                41.6130494436,
+                -4.1640258634,
+                R.drawable.uva,
+                EdificioUVaFragment()
+            ),
+            Punto(
+                "Las Ruedas",
+                latitud,
+                longitud,
+                R.drawable.cementerio,
+                LasRuedasFragment()
+            )
         )
 
 
-
         //coloca los markers de las imagenes
-        val leyenda = findViewById<Leyenda>(R.id.leyenda_main)
+        val leyenda = rootView.findViewById<Leyenda>(R.id.leyenda_main)
         val puntoMap = puntos.associateBy { it.title }
         leyenda.setMap(puntoMap)
 
@@ -127,13 +163,13 @@ class MapActivity : AppCompatActivity() {
             val marker = Marker(mapView)
             marker.position = GeoPoint(punto.latitude, punto.longitude)
             marker.title = punto.title
-            marker.icon = punto.icon?.let { resources.getDrawable(it, null) }
+            marker.icon = punto.icon?.let { ResourcesCompat.getDrawable(resources, it, null) }
 
             // Configura el listener de clic para cada marcador
             marker.setOnMarkerClickListener { _, _ ->
-                val intent = Intent(this, punto.destinationActivity)
-                startActivity(intent)
-                Toast.makeText(this, "Marcador clickeado: ${punto.title}", Toast.LENGTH_SHORT).show()
+                getMain().changeFrame(punto.fragment)
+                Toast.makeText(context, "Marcador clickeado: ${punto.title}", Toast.LENGTH_SHORT)
+                    .show()
                 true
             }
 
@@ -141,18 +177,19 @@ class MapActivity : AppCompatActivity() {
             mapView.overlays.add(marker)
         }
 
-        var listMakers : List<Marker> = populateDynamicMarkers(this, mapView)
-        for(marker in listMakers){
+        var listMakers: List<Marker> = populateDynamicMarkers(context, mapView)
+        for (marker in listMakers) {
             //println(marker.position.toString() +"|"+ marker.snippet)
             mapView.overlays.add(marker)
         }
 
-        val buttonMap: LinearLayout = findViewById(R.id.btn_como_llegar)
+        val buttonMap: LinearLayout = rootView.findViewById(R.id.btn_como_llegar)
 
         buttonMap.setOnClickListener {
             val latitude = 41.6130494436
             val longitude = -4.1640258634
-            val label = getString(R.string.titulo_principal) // Puedes poner cualquier nombre de la ubicación
+            val label =
+                getString(R.string.titulo_principal) // Puedes poner cualquier nombre de la ubicación
 
             // Crea el URI para abrir en Google Maps
             val uri = Uri.parse("geo:$latitude,$longitude?q=$latitude,$longitude($label)")
@@ -161,41 +198,67 @@ class MapActivity : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_VIEW, uri)
 
             // Verifica si hay una aplicación capaz de manejar el Intent (Google Maps o navegador)
-            intent.resolveActivity(packageManager)?.let {
+            intent.resolveActivity(context.packageManager)?.let {
                 startActivity(intent)
             } ?: run {
-                Toast.makeText(this, "No se encontró una aplicación para abrir Google Maps", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "No se encontró una aplicación para abrir Google Maps",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
-        tutorialOverlay = findViewById(R.id.tutorialOverlay)
+        tutorialOverlay = rootView.findViewById(R.id.tutorialOverlay)
 
         // Lista de pasos del tutorial
         val tutorialSteps = listOf(
-            TutorialStep(R.drawable.defensa, getString(R.string.tut_marcador), getString(R.string.tut_marcador_desc)),
-            TutorialStep(R.drawable.tutorial_leyenda, getString(R.string.tut_Leyenda), getString(R.string.tut_leyenda_desc)),
-            TutorialStep(R.drawable.tutorial_my_ubi, getString(R.string.myUbi), getString(R.string.tut_my_ubi_desc)),
-            TutorialStep(R.drawable.tutorial_focus, getString(R.string.ubiPintia), getString(R.string.tut_focus_desc)),
-            TutorialStep(R.drawable.tutorial_como_llegar, getString(R.string.comoLlegar), getString(R.string.tut_como_llegar_desc)),
-            TutorialStep(R.drawable.tutorial_camara, getString(R.string.tut_camara), getString(R.string.tut_camara_desc))
+            TutorialStep(
+                R.drawable.defensa,
+                getString(R.string.tut_marcador),
+                getString(R.string.tut_marcador_desc)
+            ),
+            TutorialStep(
+                R.drawable.tutorial_leyenda,
+                getString(R.string.tut_Leyenda),
+                getString(R.string.tut_leyenda_desc)
+            ),
+            TutorialStep(
+                R.drawable.tutorial_my_ubi,
+                getString(R.string.myUbi),
+                getString(R.string.tut_my_ubi_desc)
+            ),
+            TutorialStep(
+                R.drawable.tutorial_focus,
+                getString(R.string.ubiPintia),
+                getString(R.string.tut_focus_desc)
+            ),
+            TutorialStep(
+                R.drawable.tutorial_como_llegar,
+                getString(R.string.comoLlegar),
+                getString(R.string.tut_como_llegar_desc)
+            ),
+            TutorialStep(
+                R.drawable.tutorial_camara,
+                getString(R.string.tut_camara),
+                getString(R.string.tut_camara_desc)
+            )
         )
 
         // Inicializar TutorialManager
-        tutorialManager = TutorialManager(this, tutorialOverlay, tutorialSteps)
+        val activity = requireActivity()
+        tutorialManager = TutorialManager(activity, tutorialOverlay, tutorialSteps)
 
         // Mostrar tutorial si es la primera vez
-        if (TutorialManager.isFirstTimeTutorial(this)) {
+        if (TutorialManager.isFirstTimeTutorial(activity)) {
             tutorialManager.showTutorial()
         }
 
-
-
-
         // Configura LocationManager para obtener la ubicación en tiempo real
-        locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+        locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         // Configura el botón para centrar en la ubicación
-        centerLocationButton = findViewById<LinearLayout>(R.id.btn_center_location).apply {
+        centerLocationButton = rootView.findViewById<LinearLayout>(R.id.btn_center_location).apply {
             setOnClickListener {
                 userLocationMarker?.position?.let { position ->
                     mapController.setCenter(position)
@@ -203,7 +266,7 @@ class MapActivity : AppCompatActivity() {
             }
         }
         // Configura el botón para centrar en la ubicación
-        val centerPintiaButton = findViewById<LinearLayout>(R.id.btn_center_pintia).apply {
+        val centerPintiaButton = rootView.findViewById<LinearLayout>(R.id.btn_center_pintia).apply {
             setOnClickListener {
                 userLocationMarker?.position?.let { position ->
                     mapController.setCenter(GeoPoint(latitud, longitud))
@@ -213,7 +276,11 @@ class MapActivity : AppCompatActivity() {
         }
 
         // Intentamos obtener la última ubicación conocida si está disponible
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let { location ->
                 updateLocationMarker(location)
                 enableCenterButtonIfLocationAvailable() // Habilita el botón si hay una ubicación
@@ -221,8 +288,14 @@ class MapActivity : AppCompatActivity() {
             startLocationUpdates() // Inicia actualizaciones de ubicación en tiempo real
         } else {
             // Si no hay permisos, solicitarlos
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
+            ActivityCompat.requestPermissions(
+                activity,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
         }
+
+        return rootView
     }
 
     // Define la fuente de tiles personalizados para Mapbox
@@ -235,22 +308,27 @@ class MapActivity : AppCompatActivity() {
             val zoom = MapTileIndex.getZoom(pMapTileIndex)
             val x = MapTileIndex.getX(pMapTileIndex)
             val y = MapTileIndex.getY(pMapTileIndex)
-            return "$baseUrl$zoom/$x/$y.png?access_token=${API_token}"
+            return "$baseUrl$zoom/$x/$y.png?access_token=${API_TOKEN}"
         }
     }
 
     private fun startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(
-                this,
+                requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
+                requireContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             return
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1f, locationListener)
+        locationManager.requestLocationUpdates(
+            LocationManager.GPS_PROVIDER,
+            1000,
+            1f,
+            locationListener
+        )
     }
 
     private val locationListener = object : LocationListener {
@@ -271,12 +349,12 @@ class MapActivity : AppCompatActivity() {
         if (userLocationMarker == null) {
             // Crear el marcador de ubicación del usuario si no existe
             userLocationMarker = Marker(mapView).apply {
-                icon = resources.getDrawable(R.drawable.user, null)
+                icon = ResourcesCompat.getDrawable(resources, R.drawable.user, null)
                 setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
                 mapView.overlays.add(this)
-                Log.d("MapActivity","Added: ${++i} locations")
+                Log.d("MapActivity", "Added: ${++i} locations")
             }
-            Toast.makeText(this, "Ubicacion a tiempo real cargada", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Ubicacion a tiempo real cargada", Toast.LENGTH_SHORT).show()
         }
         // Actualizar la posición del marcador y refrescar el mapa
         userLocationMarker?.position = userLocation
@@ -290,26 +368,25 @@ class MapActivity : AppCompatActivity() {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == CAMERA_PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 openCamera()
             } else {
-                Toast.makeText(this, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Permiso de cámara denegado", Toast.LENGTH_SHORT).show()
             }
         }
         if (requestCode == 1 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             startLocationUpdates()
         } else {
-            Toast.makeText(this, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Permiso de ubicación denegado", Toast.LENGTH_SHORT).show()
         }
 
-    }
-
-    override fun onStart() {
-        super.onStart()
-        // Aquí puedes poner cualquier lógica que se deba inicializar antes de que el usuario vea la actividad.
     }
 
     override fun onResume() {
@@ -321,6 +398,7 @@ class MapActivity : AppCompatActivity() {
         mapView.onPause()  // Suspende el mapa cuando la actividad deja de ser interactiva
         super.onPause()
     }
+
     override fun onDestroy() {
         super.onDestroy()
         mapView.onDetach()  // Esto asegura que el mapa se destruya al salir de la actividad
@@ -329,10 +407,17 @@ class MapActivity : AppCompatActivity() {
     }
 
     private fun hasCameraPermission() =
-        ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
 
     private fun requestCameraPermission() {
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), CAMERA_PERMISSION_CODE)
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(Manifest.permission.CAMERA),
+            CAMERA_PERMISSION_CODE
+        )
     }
 
     private fun openCamera() {
@@ -342,14 +427,14 @@ class MapActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
+        if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             val photo: Bitmap? = data?.extras?.get("data") as? Bitmap
             photo?.let { savePhotoToCache(it) }
         }
     }
 
     private fun savePhotoToCache(bitmap: Bitmap) {
-        val cacheDir = cacheDir
+        val cacheDir = requireContext().cacheDir
         val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
         val currentDate = dateFormat.format(Date())
         val fileName = "photo_$currentDate.jpg"
@@ -362,15 +447,15 @@ class MapActivity : AppCompatActivity() {
             fos.close()
             val location = Location("provider").apply {
                 latitude = userLocationMarker?.position!!.latitude
-                longitude =  userLocationMarker?.position!!.longitude
+                longitude = userLocationMarker?.position!!.longitude
             }
-            addMarker(location,file.absolutePath, "Hola")
+            addMarker(location, file.absolutePath, "Hola")
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    private fun addMarker(location: Location, photoPath: String, desc :String){
+    private fun addMarker(location: Location, photoPath: String, desc: String) {
         val marker = Marker(mapView)
         marker.position = GeoPoint(location.latitude, location.longitude)
         marker.title = desc
@@ -383,7 +468,7 @@ class MapActivity : AppCompatActivity() {
         val infoWindow = ImageInfoWindow(mapView)
         marker.infoWindow = infoWindow
 
-        saveMarkersToFile(marker, this)
+        saveMarkersToFile(marker, requireContext())
 
         // Agrega el marcador al mapa
         mapView.overlays.add(marker)
@@ -391,7 +476,8 @@ class MapActivity : AppCompatActivity() {
 
     // Método para verificar si es la primera vez que se muestra el tutorial
     private fun isFirstTimeTutorial(): Boolean {
-        val preferences: SharedPreferences = getSharedPreferences("TutorialPreferences", Context.MODE_PRIVATE)
+        val preferences: SharedPreferences =
+            requireContext().getSharedPreferences("TutorialPreferences", Context.MODE_PRIVATE)
         return preferences.getBoolean("TutorialShown", true) // Por defecto, true (primera vez)
     }
 }
