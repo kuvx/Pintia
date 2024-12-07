@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import com.bumptech.glide.Glide
 import com.example.pintia.R
 import com.example.pintia.models.Punto
@@ -161,12 +162,12 @@ object DynamicViewBuilder {
         return salida
     }
 
-    fun loadMarkersCache(context: Context, file_title: String): List<ContentItem> {
+    fun loadMarkersCache(context: Context, fileTitle: String): List<ContentItem> {
         var jsonString: String? = null
         try {
             // Accede al archivo en cache
             Log.d("LoadMakers", context.cacheDir.toString())
-            val file = File(context.cacheDir, file_title)
+            val file = File(context.cacheDir, fileTitle)
             if (!file.exists()) {
                 file.createNewFile()
                 file.writeText("[]")
@@ -181,16 +182,16 @@ object DynamicViewBuilder {
         return convertContentItemList(jsonString)
     }
 
-    fun removeMarkerOfFile(context: Context, file_title: String) {
+    fun removeMarkerOfFile(context: Context, fileTitle: String) {
         var listMarkers = loadMarkersCache(context, "photos_marker.json").toMutableList()
-        listMarkers.removeIf { it.value == file_title }
+        listMarkers.removeIf { it.value == fileTitle }
         saveOnFile(context, listMarkers, "photos_marker.json")
 
     }
 
     // Guardar un marcador en un archivo JSON
     fun saveMarkersToFile(marker: Marker, context: Context) {
-        val file_title: String = "photos_marker.json"
+        val fileTitle: String = "photos_marker.json"
         // Convierte los marcadores en objetos MarkerData
         var markerDetails = ContentItem(
             type = "marker",
@@ -199,10 +200,10 @@ object DynamicViewBuilder {
             longitude = marker.position.longitude,
             action = null
         )
-        val listMarkers = loadMarkersCache(context, file_title).toMutableList()
+        val listMarkers = loadMarkersCache(context, fileTitle).toMutableList()
 
         listMarkers.add(markerDetails)
-        saveOnFile(context, listMarkers, file_title)
+        saveOnFile(context, listMarkers, fileTitle)
     }
 
     fun saveOnFile(context: Context, listMarkers: List<ContentItem>, file_title: String) {
@@ -260,7 +261,7 @@ object DynamicViewBuilder {
                         val marker = Marker(mapView)
                         marker.position = GeoPoint(item.latitude, item.longitude)
                         marker.snippet = item.value
-                        marker.icon = context.resources.getDrawable(R.drawable.point)
+                        marker.icon = ResourcesCompat.getDrawable(context.resources, R.drawable.point, null)
                         // Crea y asigna la ventana de información personalizada
                         val infoWindow = ImageInfoWindow(mapView)
                         marker.infoWindow = infoWindow

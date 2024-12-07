@@ -22,7 +22,7 @@ class LasQuintanasFragment : Fragment(), OnPoligonoTouchListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.activity_las_quintanas, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_las_quintanas, container, false)
 
         requireActivity()
             .findViewById<Header>(R.id.header)

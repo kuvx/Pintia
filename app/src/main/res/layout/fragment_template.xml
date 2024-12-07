@@ -16,7 +16,9 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/black"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="15dp"
+        android:background="@color/background"
         app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintBottom_toTopOf="@id/footer"
          />

@@ -51,7 +51,7 @@ class LasRuedasFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val context = requireContext()
-        val rootView = inflater.inflate(R.layout.activity_las_ruedas, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_las_ruedas, container, false)
 
         requireActivity()
             .findViewById<Header>(R.id.header)

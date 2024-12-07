@@ -13,6 +13,7 @@ class  AudioButtonHandler(
 
     // Variable para rastrear qué botón está reproduciendo
     private var idOfAudioPlaying: Int = -1
+    private var textToSpeech: String = ""
 
 
     fun stopSpeach() {
@@ -22,11 +23,13 @@ class  AudioButtonHandler(
         (context as? android.app.Activity)?.findViewById<ImageButton>(idOfAudioPlaying)
             ?.setBackgroundResource(R.drawable.round_button_background)
         idOfAudioPlaying = -1
+        textToSpeech = ""
     }
 
     fun startSpeach(id:Int, text: String) {
         speakText(text, id)
         idOfAudioPlaying = id
+        textToSpeech = text
         (context as? android.app.Activity)?.findViewById<ImageButton>(idOfAudioPlaying)
             ?.setImageResource(R.drawable.pause)
         (context as? android.app.Activity)?.findViewById<ImageButton>(idOfAudioPlaying)
@@ -68,6 +71,8 @@ class  AudioButtonHandler(
         ttsManager.setSpeechRate(selectedSpeed)
 
         button.setOnClickListener {
+            val oldId = idOfAudioPlaying
+            val tts = textToSpeech
             stopSpeach()
             val index = (++position) % speeds.size
             selectedSpeed = speeds[index]
@@ -76,6 +81,8 @@ class  AudioButtonHandler(
 
             // Cambiar la velocidad del TTS a través de TTSManager
             ttsManager.setSpeechRate(selectedSpeed)
+            if (oldId != -1)
+                startSpeach(oldId, tts)
         }
     }
     // Función para leer el texto

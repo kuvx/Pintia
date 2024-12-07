@@ -32,7 +32,7 @@ class RequestVisitFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.activity_request_visit, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_request_visit, container, false)
 
         val context = requireContext()
 

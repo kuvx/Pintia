@@ -24,7 +24,7 @@ class MainMapFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.activity_main_map, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_main_map, container, false)
 
         val header = requireActivity()
             .findViewById<Header>(R.id.header)

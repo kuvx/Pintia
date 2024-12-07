@@ -79,7 +79,7 @@ class MapFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater.inflate(R.layout.activity_map, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_map, container, false)
 
         val header = getMain().findViewById<Header>(R.id.header)
         header.title = getString(R.string.app_name)

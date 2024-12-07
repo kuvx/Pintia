@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_main)
+        window.navigationBarColor = resources.getColor(R.color.primary, theme)
         changeMain(true)
     }
 
