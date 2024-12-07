@@ -347,20 +347,20 @@ object DynamicViewBuilder {
         // Inicializar el manejador de botones de audio
         var audioButtonHandler: AudioButtonHandler = AudioButtonHandler(context, ttsManager)
 
+        // Configuración de la velocidad de audio
+        val speedSelector: Button = layout.findViewById(R.id.speed_selector)
+        val speedSelector_2: Button = layout.findViewById(R.id.speed_selector_2)
+
         // Configurar botones de audio
         val audioView1 = layout.findViewById<ImageButton>(R.id.audio_player)
         val audioView2 = layout.findViewById<ImageButton>(R.id.audio_player_2)
 
+        audioButtonHandler.changeSpeed(speedSelector, audioView1)
+        audioButtonHandler.changeSpeed(speedSelector_2, audioView2)
+
         // Configurar cada botón con su respectivo texto
-        audioButtonHandler.setupAudioButton(audioView1, tituloTTL)
-        audioButtonHandler.setupAudioButton(audioView2, moreTTL)
-
-        // Configuración del Spinner_1
-        val speedSelector: Button = layout.findViewById(R.id.speed_selector)
-        val speedSelector_2: Button = layout.findViewById(R.id.speed_selector_2)
-
-        audioButtonHandler.changeSpeed(speedSelector)
-        audioButtonHandler.changeSpeed(speedSelector_2)
+        audioButtonHandler.setupAudioButton(audioView1, tituloTTL, speedSelector)
+        audioButtonHandler.setupAudioButton(audioView2, moreTTL, speedSelector_2)
     }
 
 
