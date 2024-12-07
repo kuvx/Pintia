@@ -6,120 +6,119 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.pintia.components.Header
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
+import com.example.pintia.components.Header
 import java.util.*
-
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
-    private fun getMain(): MainActivity {
-        return requireActivity() as MainActivity
-    }
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        val mainActivity = requireActivity() as MainActivity
 
-        val header = getMain().findViewById<Header>(R.id.header)
+        // Configurar el título del encabezado
+        val header = mainActivity.findViewById<Header>(R.id.header)
         header.title = getString(R.string.settings)
 
         setPreferencesFromResource(R.xml.settings_preferences, rootKey)
 
+        setupLanguagePreference()
+        setupFontSizePreference()
+        setupDarkModePreference()
+    }
+
+    private fun setupLanguagePreference() {
         val languagePref = findPreference<ListPreference>("language")
-        val nativeLanguage = context?.resources?.configuration?.locales?.get(0)?.language
-        println("Native Language:$nativeLanguage")
+        val currentLanguage = Locale.getDefault().language
+        Log.d("SettingsFragment", "Current Language: $currentLanguage")
 
-        val idiomOptions = resources.getStringArray(R.array.language_values) // Posibilidades
-        idiomOptions.forEach {
-            Log.d("TEST", "$it $nativeLanguage")
+        val languageOptions = resources.getStringArray(R.array.language_values)
+        val currentLanguageIndex = languageOptions.indexOf(currentLanguage)
+
+        if (currentLanguageIndex >= 0) {
+            languagePref?.setValueIndex(currentLanguageIndex)
         }
-        val languageSelIndex = idiomOptions.indexOf(nativeLanguage)
 
-        languagePref?.setValueIndex(languageSelIndex)
         languagePref?.setOnPreferenceChangeListener { _, newValue ->
             updateLanguage(newValue as String)
             true
         }
+    }
 
+    private fun updateLanguage(languageCode: String) {
+        try {
+            val locale = Locale(languageCode)
+            Locale.setDefault(locale)
+
+            val config = Configuration(resources.configuration)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                config.setLocale(locale)
+                context?.createConfigurationContext(config)
+            } else {
+                config.locale = locale
+            }
+
+            resources.updateConfiguration(config, resources.displayMetrics)
+
+            // Guardar la configuración de idioma para mantenerla en futuras sesiones
+            val sharedPreferences = activity?.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+            sharedPreferences?.edit()?.putString("language", languageCode)?.apply()
+
+            // Reiniciar la actividad para aplicar el cambio de idioma
+            activity?.recreate()
+        } catch (e: Exception) {
+            Log.e("SettingsFragment", "Error al cambiar de idioma: ${e.message}", e)
+        }
+    }
+
+    private fun setupFontSizePreference() {
         val fontSizePref = findPreference<ListPreference>("font_size")
         fontSizePref?.setOnPreferenceChangeListener { _, newValue ->
             updateFontSize(newValue as String)
             true
         }
+    }
 
+    private fun updateFontSize(size: String) {
+        val fontScale = when (size) {
+            "small" -> 0.85f
+            "medium" -> 1.0f
+            "large" -> 1.15f
+            else -> 1.0f
+        }
+
+        val config = Configuration(resources.configuration)
+        config.fontScale = fontScale
+
+        resources.updateConfiguration(config, resources.displayMetrics)
+
+        // Guardar el tamaño de fuente en SharedPreferences
+        val sharedPreferences = activity?.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        sharedPreferences?.edit()?.putString("font_size", size)?.apply()
+
+        activity?.recreate() // Recargar la actividad para aplicar los cambios
+    }
+
+    private fun setupDarkModePreference() {
         val darkModePref = findPreference<SwitchPreferenceCompat>("dark_mode")
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        val darkMode = when (currentNightMode) {
-            Configuration.UI_MODE_NIGHT_YES -> true // Dark mode is active
-            else -> false // Light mode or undefined
-        }
-        darkModePref?.isChecked = darkMode
-        println("Dark Mode:$darkMode")
+        darkModePref?.isChecked = (currentNightMode == Configuration.UI_MODE_NIGHT_YES)
+
         darkModePref?.setOnPreferenceChangeListener { _, newValue ->
             updateDarkMode(newValue as Boolean)
             true
         }
     }
 
-    private fun updateLanguage(languageCode: String) {
-        val locale = Locale(languageCode)
-        Locale.setDefault(locale)
-        val config = resources.configuration
-        config.setLocale(locale)
-        resources.updateConfiguration(config, resources.displayMetrics)
-
-
-        val configuration = Configuration(resources.configuration)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            configuration.setLocale(locale)  // API 26 y superior
-        } else {
-            configuration.locale = locale  // API menor a 26
-        }
-
-        // Cambiar el idioma a español, por ejemplo
-        val contextoConIdioma = context?.createConfigurationContext(configuration)
-        // Para usar el nuevo contexto
-        val configuracionContextual = contextoConIdioma!!.resources.configuration
-        activity?.recreate()
-
-    }
-
-    private fun updateFontSize(size: String) {
-        val fontSize: Int
-        when (size) {
-            "small" -> fontSize = 14
-            "medium" -> fontSize = 18
-            "large" -> fontSize = 22
-            else -> fontSize = 18 // Valor por defecto
-        }
-
-        // Actualizar el tamaño de fuente de las vistas
-        val sharedPreferences =
-            activity?.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-        val editor = sharedPreferences?.edit()
-        editor?.putInt("font_size", fontSize)
-        editor?.apply()
-
-        // Cambiar el tamaño de fuente de toda la actividad
-        val currentActivity = activity as? AppCompatActivity
-        currentActivity?.let {
-            val configuration = Configuration(it.resources.configuration)
-            configuration.fontScale = fontSize / 18f // 18 es el tamaño medio base
-            it.resources.updateConfiguration(configuration, it.resources.displayMetrics)
-
-            // Recargar la actividad para que el cambio tenga efecto
-            it.recreate()
-        }
-
-    }
-
     private fun updateDarkMode(isDarkMode: Boolean) {
-        val mode =
-            if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES
-            else AppCompatDelegate.MODE_NIGHT_NO
+        val mode = if (isDarkMode) {
+            AppCompatDelegate.MODE_NIGHT_YES
+        } else {
+            AppCompatDelegate.MODE_NIGHT_NO
+        }
         AppCompatDelegate.setDefaultNightMode(mode)
-        activity?.recreate()
+        activity?.recreate() // Recargar la actividad para aplicar los cambios
     }
 }
