@@ -2,7 +2,6 @@ package com.example.pintia
 
 import android.content.Context
 import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.children
+import androidx.fragment.app.Fragment
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
@@ -32,6 +32,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun initializeHeader() {
+        // Inicialización del Header, asegurándonos de que esté correctamente importado
         header = requireActivity().findViewById(R.id.header)
         header?.apply {
             title = getString(R.string.settings)
@@ -61,22 +62,18 @@ class SettingsFragment : PreferenceFragmentCompat() {
         Locale.setDefault(locale)
 
         val config = Configuration(resources.configuration)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            config.setLocale(locale)
-            requireContext().createConfigurationContext(config)
-        } else {
-            config.locale = locale
-        }
+        config.setLocale(locale)
 
+        // Actualizamos la configuración de recursos
         resources.updateConfiguration(config, resources.displayMetrics)
 
+        // Guardar el idioma seleccionado en SharedPreferences
         val sharedPreferences = activity?.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         sharedPreferences?.edit()?.putString("language", languageCode)?.apply()
 
         // Actualizar el fragmento sin reiniciar
         parentFragmentManager.beginTransaction()
-            .detach(this)
-            .attach(this)
+            .replace(R.id.fragment_container, this)  // Reemplazamos el fragmento en lugar de detach/attach
             .commit()
 
         header?.title = getString(R.string.settings)
@@ -119,6 +116,8 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     private fun setupDarkModePreference() {
         val darkModePref = findPreference<SwitchPreferenceCompat>("dark_mode")
+
+        // Asegurarnos de que la referencia de Configuration esté correctamente importada
         val currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         darkModePref?.isChecked = (currentNightMode == Configuration.UI_MODE_NIGHT_YES)
 
@@ -139,6 +138,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         // Actualizar las vistas visibles del fragmento
         updateBackgroundForDarkMode(isDarkMode)
+
+        // Forzar la actualización del fragmento
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, this)  // Reemplazamos el fragmento en lugar de detach/attach
+            .commit()
     }
 
     private fun updateBackgroundForDarkMode(isDarkMode: Boolean) {
@@ -165,5 +169,4 @@ class SettingsFragment : PreferenceFragmentCompat() {
             }
         }
     }
-
 }
