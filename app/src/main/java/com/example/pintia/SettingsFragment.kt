@@ -5,8 +5,11 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.children
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
@@ -15,18 +18,24 @@ import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
+    private var header: Header? = null
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        val mainActivity = requireActivity() as MainActivity
+        // Inicializar el Header
+        initializeHeader()
 
-        // Configurar el título del encabezado
-        val header = mainActivity.findViewById<Header>(R.id.header)
-        header.title = getString(R.string.settings)
-
+        // Configurar las preferencias
         setPreferencesFromResource(R.xml.settings_preferences, rootKey)
-
         setupLanguagePreference()
         setupFontSizePreference()
         setupDarkModePreference()
+    }
+
+    private fun initializeHeader() {
+        header = requireActivity().findViewById(R.id.header)
+        header?.apply {
+            title = getString(R.string.settings)
+        }
     }
 
     private fun setupLanguagePreference() {
@@ -48,29 +57,29 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun updateLanguage(languageCode: String) {
-        try {
-            val locale = Locale(languageCode)
-            Locale.setDefault(locale)
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
 
-            val config = Configuration(resources.configuration)
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                config.setLocale(locale)
-                context?.createConfigurationContext(config)
-            } else {
-                config.locale = locale
-            }
-
-            resources.updateConfiguration(config, resources.displayMetrics)
-
-            // Guardar la configuración de idioma para mantenerla en futuras sesiones
-            val sharedPreferences = activity?.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-            sharedPreferences?.edit()?.putString("language", languageCode)?.apply()
-
-            // Reiniciar la actividad para aplicar el cambio de idioma
-            activity?.recreate()
-        } catch (e: Exception) {
-            Log.e("SettingsFragment", "Error al cambiar de idioma: ${e.message}", e)
+        val config = Configuration(resources.configuration)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            config.setLocale(locale)
+            requireContext().createConfigurationContext(config)
+        } else {
+            config.locale = locale
         }
+
+        resources.updateConfiguration(config, resources.displayMetrics)
+
+        val sharedPreferences = activity?.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+        sharedPreferences?.edit()?.putString("language", languageCode)?.apply()
+
+        // Actualizar el fragmento sin reiniciar
+        parentFragmentManager.beginTransaction()
+            .detach(this)
+            .attach(this)
+            .commit()
+
+        header?.title = getString(R.string.settings)
     }
 
     private fun setupFontSizePreference() {
@@ -89,16 +98,23 @@ class SettingsFragment : PreferenceFragmentCompat() {
             else -> 1.0f
         }
 
-        val config = Configuration(resources.configuration)
-        config.fontScale = fontScale
-
-        resources.updateConfiguration(config, resources.displayMetrics)
-
         // Guardar el tamaño de fuente en SharedPreferences
         val sharedPreferences = activity?.getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         sharedPreferences?.edit()?.putString("font_size", size)?.apply()
 
-        activity?.recreate() // Recargar la actividad para aplicar los cambios
+        // Actualizar dinámicamente las vistas visibles
+        updateVisibleTextViewsFontScale(fontScale)
+    }
+
+    private fun updateVisibleTextViewsFontScale(fontScale: Float) {
+        // Recorrer las vistas visibles del fragmento
+        view?.apply {
+            (this as? ViewGroup)?.children?.forEach { child ->
+                if (child is TextView) {
+                    child.textSize = child.textSize * fontScale
+                }
+            }
+        }
     }
 
     private fun setupDarkModePreference() {
@@ -113,12 +129,41 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     private fun updateDarkMode(isDarkMode: Boolean) {
+        // Cambiar el modo oscuro sin reiniciar
         val mode = if (isDarkMode) {
             AppCompatDelegate.MODE_NIGHT_YES
         } else {
             AppCompatDelegate.MODE_NIGHT_NO
         }
         AppCompatDelegate.setDefaultNightMode(mode)
-        activity?.recreate() // Recargar la actividad para aplicar los cambios
+
+        // Actualizar las vistas visibles del fragmento
+        updateBackgroundForDarkMode(isDarkMode)
     }
+
+    private fun updateBackgroundForDarkMode(isDarkMode: Boolean) {
+        view?.apply {
+            setBackgroundColor(
+                if (isDarkMode) {
+                    requireContext().getColor(android.R.color.background_dark) // Fondo oscuro
+                } else {
+                    requireContext().getColor(android.R.color.background_light) // Fondo claro
+                }
+            )
+
+            // Aplicar colores a los TextView
+            (this as? ViewGroup)?.children?.forEach { child ->
+                if (child is TextView) {
+                    child.setTextColor(
+                        if (isDarkMode) {
+                            requireContext().getColor(android.R.color.white)
+                        } else {
+                            requireContext().getColor(android.R.color.black)
+                        }
+                    )
+                }
+            }
+        }
+    }
+
 }
