@@ -60,4 +60,7 @@
     <string name="tut_qr_desc">Al hacer chick sobre este boton podras escanear los codigos qr que hay repartidos por el cementerio en algunas de sus tablas de informacion.</string>
     <string name="tut_audio_desc">Al hacer clich sobre el boton comenzara la reproduccion de la audio-guia, pudiendo pararla y continuar cuando se quiera.</string>
 
+    <string name="title_setting_language">Idioma</string>
+    <string name="title_setting_font_size">Tamaño de letra</string>
+    <string name="title_setting_dark_mode">Modo Oscuro</string>
 </resources>

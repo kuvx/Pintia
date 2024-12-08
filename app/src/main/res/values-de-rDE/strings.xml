@@ -60,4 +60,7 @@
     <string name="tut_qr_desc">Durch Klicken auf diesen Button können Sie die QR-Codes scannen, die sich auf einigen der Informationstafeln auf dem Friedhof befinden.</string>
     <string name="tut_audio_desc">Durch Klicken auf den Button beginnt die Wiedergabe des Audioguides, den Sie jederzeit pausieren und fortsetzen können.</string>
 
+    <string name="title_setting_language">Sprache</string>
+    <string name="title_setting_font_size">Schriftgröße</string>
+    <string name="title_setting_dark_mode">Dunkler Modus</string>
 </resources>
