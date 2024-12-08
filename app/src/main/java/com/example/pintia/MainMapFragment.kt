@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.example.pintia.components.Header
@@ -26,19 +25,14 @@ class MainMapFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_main_map, container, false)
 
-        val header = requireActivity()
+        requireActivity()
             .findViewById<Header>(R.id.header)
+            .title = getString(R.string.home)
 
-        header.title = getString(R.string.home)
-
-        val button = header.findViewById<ImageButton>(R.id.back_button_header)
-        button.setOnClickListener {
-            getMain().changeMain()
-        }
 
         val btnRequest = rootView.findViewById<LinearLayout>(R.id.reserva_btn)
         btnRequest.setOnClickListener {
-            getMain().changeFrame(RequestVisitFragment())
+            getMain().changeFragment(RequestVisitFragment())
         }
 
 
@@ -53,7 +47,7 @@ class MainMapFragment : Fragment() {
         fragments.forEach { (id, fragment) ->
             rootView.findViewById<LinearLayout>(id)
                 .setOnClickListener {
-                    getMain().changeFrame(fragment)
+                    getMain().changeFragment(fragment)
                 }
         }
 

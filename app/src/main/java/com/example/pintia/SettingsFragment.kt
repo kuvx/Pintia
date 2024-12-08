@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.pintia.components.Header
 import androidx.appcompat.app.AppCompatDelegate
@@ -20,10 +21,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
         return requireActivity() as MainActivity
     }
 
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getMain().findViewById<Header>(R.id.header)
+            .title = getString(R.string.settings)
+    }
 
-        val header = getMain().findViewById<Header>(R.id.header)
-        header.title = getString(R.string.settings)
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         setPreferencesFromResource(R.xml.settings_preferences, rootKey)
 
@@ -32,9 +36,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         println("Native Language:$nativeLanguage")
 
         val idiomOptions = resources.getStringArray(R.array.language_values) // Posibilidades
-        idiomOptions.forEach {
-            Log.d("TEST", "$it $nativeLanguage")
-        }
+
         val languageSelIndex = idiomOptions.indexOf(nativeLanguage)
 
         languagePref?.setValueIndex(languageSelIndex)

@@ -11,11 +11,14 @@ import androidx.fragment.app.Fragment
 class MainActivity : AppCompatActivity() {
 
     private var change = false
+    private var disableTimer = false
 
-    private fun closeLogin(text: String) {
+    private fun closeLogin() {
         if (change) return
+
         change = true
-        Toast.makeText(this, "Change $text", Toast.LENGTH_SHORT).show()
+        disableTimer = true
+
         replaceFrame(R.id.main, TemplateFragment())
         replaceFrame(R.id.fragment_container, MainMapFragment())
     }
@@ -28,35 +31,51 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun replaceFrame(id: Int, fragment: Fragment) {
-        val transaccion = supportFragmentManager.beginTransaction()
-        transaccion.replace(id, fragment)
-        transaccion.addToBackStack(null)
-        transaccion.commit()
+        supportFragmentManager.beginTransaction()
+            .replace(id, fragment)
+            .addToBackStack(fragment::class.simpleName)
+            .commit()
     }
 
-    fun changeFrame(fragment: Fragment) {
+    fun changeFragment(fragment: Fragment) {
         replaceFrame(R.id.fragment_container, fragment)
     }
 
     fun goBack() {
-        supportFragmentManager.popBackStack()
+        val fragmentManager = supportFragmentManager
+
+        val backStackCount = fragmentManager.backStackEntryCount
+
+        val lastEntryName = fragmentManager.getBackStackEntryAt(backStackCount - 2).name
+
+        // Si llegamos a la entrada que generó template fragment avanzamos a la pantalla inicial
+        // cambiamos al main, aunque sea menos eficiente es más simple
+        if (lastEntryName == TemplateFragment::class.simpleName)
+            changeMain()
+        else
+            fragmentManager.popBackStack()
+
     }
 
-    fun changeMain(timer: Boolean = false) {
+    private fun changeMain(timer: Boolean = false) {
         replaceFrame(R.id.main, MainFragment())
         change = false
+        if (timer) disableTimer = false
 
         val mainLayout = findViewById<RelativeLayout>(R.id.main)
 
         // Cambiar a siguiente actividad por timeout o click
 
         mainLayout.setOnClickListener {
-            closeLogin("click")
+            closeLogin()
         }
+
         if (timer) {
             Handler(Looper.getMainLooper()).postDelayed({
-                closeLogin("timeout")
-            }, 3500) // 1000 milisegundos = 1 segundo
+                Toast.makeText(this, "TIMEOUT!", Toast.LENGTH_SHORT).show()
+                if (!disableTimer)
+                    closeLogin()
+            }, 1500) // 1000 milisegundos = 1 segundo
         }
     }
 }
