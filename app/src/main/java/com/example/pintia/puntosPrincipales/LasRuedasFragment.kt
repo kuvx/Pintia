@@ -105,7 +105,7 @@ class LasRuedasFragment : Fragment() {
             // Configura el listener de clic para cada marcador
             marker.setOnMarkerClickListener { _, _ ->
                 if (index != 0 && index != 18) {
-                    (requireActivity() as MainActivity).changeFrame(punto.fragment)
+                    (requireActivity() as MainActivity).changeFragment(punto.fragment)
                     true
                 }
                 // Mostrar mensaje Toast (opcional)

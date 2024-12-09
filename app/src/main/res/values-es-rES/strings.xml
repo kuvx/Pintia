@@ -62,4 +62,7 @@
     <string name="showMore">Mostrar Respuesta</string>
     <string name="showLess">Ocultar Respuesta</string>
 
+    <string name="title_setting_language">Idioma</string>
+    <string name="title_setting_font_size">Tamaño de letra</string>
+    <string name="title_setting_dark_mode">Modo Oscuro</string>
 </resources>

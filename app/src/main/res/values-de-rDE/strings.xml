@@ -62,4 +62,7 @@
     <string name="showMore">Antwort anzeigen</string>
     <string name="showLess">Antwort ausblenden</string>
 
+    <string name="title_setting_language">Sprache</string>
+    <string name="title_setting_font_size">Schriftgröße</string>
+    <string name="title_setting_dark_mode">Dunkler Modus</string>
 </resources>
