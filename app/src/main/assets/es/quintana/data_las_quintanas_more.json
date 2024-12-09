@@ -6,5 +6,21 @@
   {
     "type": "image",
     "value": "https://pintiavaccea.es/imagenes_seccion/img201905020632.jpg"
+  },
+  {
+    "type": "pregunta",
+    "value": "¿Cuál es el nombre del barrio artesanal de Pintia y qué actividad principal se realizaba allí?|Carralaceña, producción de cerámica"
+  },
+  {
+    "type": "pregunta",
+    "value": "¿Qué hallazgo único se encontró en los hornos de Carralaceña?|Un horno con una parrilla de 5 metros de diámetro, único en Europa"
+  },
+  {
+    "type": "pregunta",
+    "value": "¿Qué ocurrió con los tesoros enterrados por los habitantes de Pintia?|Fueron encontrados en excavaciones, como joyas y monedas"
+  },
+  {
+    "type": "pregunta",
+    "value": "Recorre la Senda del Duero cerca de Pintia. ¿Qué paisaje natural relacionado con el asentamiento puedes observar?"
   }
 ]

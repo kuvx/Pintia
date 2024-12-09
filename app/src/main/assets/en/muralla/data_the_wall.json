@@ -1,5 +1,9 @@
 [
   {
+    "type": "pregunta",
+    "value": "What event caused the destruction of the city of Las Quintanas?|A fire, possibly during the Roman conquest"
+  },
+  {
     "type": "text",
     "value": "Evidence regarding the collective defensive works of Vaccean cities is very limited and confined to a few sparse classical references and, above all, to the repeated aerial survey efforts conducted in the 1990s and the early years of the new century."
   },

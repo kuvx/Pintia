@@ -4,6 +4,10 @@
     "value": "The excavations have allowed the exhumation of a significant number of funerary stelae in a position close to their original location."
   },
   {
+    "type": "pregunta",
+    "value": "What did the limestone steles in the necropolis of Las Ruedas signify?|They indicated the location of the burials"
+  },
+  {
     "type": "image",
     "value": "ruedas_img/07_a_UnPaisaje_conjunto_estelas_caidas.jpg"
   }

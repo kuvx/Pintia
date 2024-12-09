@@ -5,8 +5,16 @@
     "value": "La zanja de Las Quintanas dejará vista la estratigrafía de la ciudad en esta zona, con 1200 años de historia continuada, desde finales del V a.C. al VII d. C. Las fases tardorromanas-visigodas (IV al VII d. C.) quedan representadas por la cista de piedra del enterramiento visigodo; de los niveles romanos no queda constancia, pero los indígenas o vacceos quedan representados por cinco niveles de incendio que, de los más superficiales a los más profundos, corresponden a 2ª mitad del siglo II a.C., primera mitad del siglo II a. C., siglo III a. C., siglo IV a. C. y momento fundacional, en la base, a finales del V a.C. De cada uno de esos niveles dejamos en reserva una zona, donde pueden observarse muros, hogares, hornos, telares, etc."
   },
   {
+    "type": "pregunta",
+    "value": "¿Qué pueblo fundó el asentamiento de Pintia?|Los vacceos"
+  },
+  {
     "type": "image",
     "value": "ruedas_img/fondo_quintana.png"
+  },
+  {
+    "type": "pregunta",
+    "value": "¿Qué materiales se usaban para construir las casas de la ciudad vaccea?|Adobe"
   },
   {
     "type": "image",

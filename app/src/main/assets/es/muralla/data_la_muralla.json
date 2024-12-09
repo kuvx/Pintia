@@ -1,5 +1,9 @@
 [
   {
+    "type": "pregunta",
+    "value": "¿Qué evento causó la destrucción de la ciudad de Las Quintanas?|Un incendio, posiblemente durante la conquista romana"
+  },
+  {
     "type": "text",
     "value": "Los testimonios referidos a las obras colectivas de defensa de las ciudades vacceas son muy limitados y quedan ceñidos a algunas escasas citas clásicas y, sobre todo, a los reiterados trabajos de prospección aérea llevados a cabo en los años noventa del siglo pasado y en los primeros años del nuevo siglo."
   },

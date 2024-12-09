@@ -4,6 +4,10 @@
     "value": "Les fouilles ont permis d'exhumer un nombre important de stèles funéraires dans une position proche de leur emplacement d'origine.\n"
   },
   {
+    "type": "pregunta",
+    "value": "Que signifiaient les stèles en calcaire dans la nécropole de Las Ruedas ?|Elles indiquaient l'emplacement des sépultures"
+  },
+  {
     "type": "image",
     "value": "ruedas_img/07_a_UnPaisaje_conjunto_estelas_caidas.jpg"
   }

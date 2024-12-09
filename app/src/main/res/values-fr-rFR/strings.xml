@@ -59,5 +59,7 @@
     <string name="tut_camara_desc">En tant que fonctionnalité supplémentaire, l\'application vous permet de prendre une photo et d\'afficher l\'endroit où elle a été prise sur la carte, ainsi que de visualiser ces photos dans la section Galerie.</string>
     <string name="tut_qr_desc">En cliquant sur ce bouton, vous pouvez scanner les codes QR situés dans le cimetière sur certaines des plaques d\'information.</string>
     <string name="tut_audio_desc">En cliquant sur le bouton, l\'audioguide commencera à jouer et vous pourrez le mettre en pause et le reprendre quand vous le souhaitez.</string>
+    <string name="showMore">Afficher la Réponse</string>
+    <string name="showLess">Cacher la Réponse</string>
 
 </resources>

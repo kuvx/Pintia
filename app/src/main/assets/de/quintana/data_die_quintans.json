@@ -1,0 +1,23 @@
+[
+
+  {
+    "type": "text",
+    "value": "Der Graben von Las Quintanas wird die Stratigraphie der Stadt in diesem Gebiet mit 1200 Jahren kontinuierlicher Geschichte vom Ende des 5. Jahrhunderts v. Chr. bis zum 7. Jahrhundert n. Chr. sichtbar machen. Die spätrömisch-westgotischen Phasen (4. bis 7. Jahrhundert n. Chr.) werden durch die Steinkiste des westgotischen Grabes repräsentiert; von den römischen Schichten gibt es keine Überreste, aber die einheimischen oder vakzeischen Schichten werden durch fünf Brandschichten repräsentiert, die von den oberflächlichsten bis zu den tiefsten der 2. Hälfte des 2. Jahrhunderts v. Chr., der ersten Hälfte des 2. Jahrhunderts v. Chr., dem 3. Jahrhundert v. Chr., dem 4. Jahrhundert v. Chr. und dem Gründungsmoment an der Basis am Ende des 5. Jahrhunderts v. Chr. entsprechen. Von jeder dieser Schichten lassen wir einen Bereich reserviert, in dem Mauern, Feuerstellen, Öfen, Webstühle usw. beobachtet werden können."
+  },
+  {
+    "type": "pregunta",
+    "value": "Welches Volk gründete die Siedlung Pintia?|Die Vaccaei"
+  },
+  {
+    "type": "image",
+    "value": "ruedas_img/fondo_quintana.png"
+  },
+  {
+    "type": "pregunta",
+    "value": "Welches Ereignis verursachte die Zerstörung der Stadt Las Quintanas?|Ein Brand, möglicherweise während der römischen Eroberung"
+  },
+  {
+    "type": "image",
+    "value": "https://pintiavaccea.es/imagenes_seccion/img201105091237.jpg"
+  }
+]

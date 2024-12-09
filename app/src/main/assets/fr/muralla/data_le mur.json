@@ -1,5 +1,9 @@
 [
   {
+    "type": "pregunta",
+    "value": "Quel événement a causé la destruction de la ville de Las Quintanas ?|Un incendie, probablement lors de la conquête romaine"
+  },
+  {
     "type": "text",
     "value": "Les preuves concernant les ouvrages défensifs collectifs des villes vacéennes sont très limitées et se réduisent à quelques rares références classiques et, surtout, aux efforts répétés de prospections aériennes menés dans les années 1990 et au début du nouveau siècle."
   },
