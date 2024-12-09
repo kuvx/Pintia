@@ -95,6 +95,6 @@ class LasQuintanasFragment : Fragment(), OnPoligonoTouchListener {
             "Tocaste un polígono: ${poligono.title}",
             Toast.LENGTH_SHORT
         ).show()
-        (requireActivity() as MainActivity).changeFrame(poligono.destinationFragment)
+        (requireActivity() as MainActivity).changeFragment(poligono.destinationFragment)
     }
 }

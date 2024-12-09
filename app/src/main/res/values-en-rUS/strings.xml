@@ -60,4 +60,7 @@
     <string name="tut_qr_desc">By clicking on this button, you can scan the QR codes located throughout the cemetery on some of the information boards.</string>
     <string name="tut_audio_desc">By clicking on the button, the audio guide will start playing, and you can pause and resume it whenever you want.</string>
 
+    <string name="title_setting_language">Language</string>
+    <string name="title_setting_font_size">Font size</string>
+    <string name="title_setting_dark_mode">Dark Mode</string>
 </resources>

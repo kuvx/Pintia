@@ -60,4 +60,7 @@
     <string name="tut_qr_desc">En cliquant sur ce bouton, vous pouvez scanner les codes QR situés dans le cimetière sur certaines des plaques d\'information.</string>
     <string name="tut_audio_desc">En cliquant sur le bouton, l\'audioguide commencera à jouer et vous pourrez le mettre en pause et le reprendre quand vous le souhaitez.</string>
 
+    <string name="title_setting_language">Langue</string>
+    <string name="title_setting_font_size">Taille de la police</string>
+    <string name="title_setting_dark_mode">Mode sombre</string>
 </resources>

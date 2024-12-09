@@ -18,13 +18,15 @@ import java.util.*
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
-    private var header: Header? = null
+ 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getMain().findViewById<Header>(R.id.header)
+            .title = getString(R.string.settings)
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        // Inicializar el Header
-        initializeHeader()
-
-        // Configurar las preferencias
         setPreferencesFromResource(R.xml.settings_preferences, rootKey)
         setupLanguagePreference()
         setupFontSizePreference()
@@ -42,15 +44,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private fun setupLanguagePreference() {
         val languagePref = findPreference<ListPreference>("language")
         val currentLanguage = Locale.getDefault().language
-        Log.d("SettingsFragment", "Current Language: $currentLanguage")
 
-        val languageOptions = resources.getStringArray(R.array.language_values)
-        val currentLanguageIndex = languageOptions.indexOf(currentLanguage)
-
-        if (currentLanguageIndex >= 0) {
-            languagePref?.setValueIndex(currentLanguageIndex)
-        }
-
+        val idiomOptions = resources.getStringArray(R.array.language_values)
+        val languageSelIndex = idiomOptions.indexOf(nativeLanguage)
+        
+        // Suponemos que el indice es uno valido
         languagePref?.setOnPreferenceChangeListener { _, newValue ->
             updateLanguage(newValue as String)
             true

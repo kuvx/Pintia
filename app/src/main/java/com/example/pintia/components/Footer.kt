@@ -1,7 +1,6 @@
 package com.example.pintia.components
 
 import android.content.Context
-import android.content.Intent
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -92,7 +91,7 @@ class Footer @JvmOverloads constructor(
 
         imageButton.setOnClickListener {
             setFooter(index)
-            (context as MainActivity).changeFrame(fragment)
+            (context as MainActivity).changeFragment(fragment)
         }
 
         val size =

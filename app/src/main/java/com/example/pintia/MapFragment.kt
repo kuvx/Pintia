@@ -167,7 +167,7 @@ class MapFragment : Fragment() {
 
             // Configura el listener de clic para cada marcador
             marker.setOnMarkerClickListener { _, _ ->
-                getMain().changeFrame(punto.fragment)
+                getMain().changeFragment(punto.fragment)
                 Toast.makeText(context, "Marcador clickeado: ${punto.title}", Toast.LENGTH_SHORT)
                     .show()
                 true
@@ -401,7 +401,7 @@ class MapFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mapView.onDetach()  // Esto asegura que el mapa se destruya al salir de la actividad
+        if (::mapView.isInitialized) mapView.onDetach()  // Esto asegura que el mapa se destruya al salir de la actividad
         locationManager.removeUpdates(locationListener)  // Detiene las actualizaciones de ubicación
         mapView.overlayManager.clear()
     }

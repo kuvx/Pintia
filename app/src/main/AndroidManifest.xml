@@ -39,8 +39,7 @@
 
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize"
-
+            android:configChanges="orientation|screenSize|locale|fontScale|colorMode"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
