@@ -9,7 +9,6 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import com.example.pintia.components.Header
 import com.example.pintia.components.Leyenda
 import com.example.pintia.models.Punto
 import org.osmdroid.api.IMapController
@@ -81,8 +80,7 @@ class MapFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_map, container, false)
 
-        val header = getMain().findViewById<Header>(R.id.header)
-        header.title = getString(R.string.app_name)
+        (requireActivity() as MainActivity).updateHeader(getString(R.string.app_name))
 
         var camara: ImageButton = rootView.findViewById(R.id.btn_camera)
         camara.setOnClickListener {

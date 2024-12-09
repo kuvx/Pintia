@@ -8,7 +8,6 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.pintia.components.Header
 import com.example.pintia.services.ImageAdapter
 import kotlin.math.min
 
@@ -30,9 +29,7 @@ class GalleryFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_gallery, container, false)
 
-        requireActivity()
-            .findViewById<Header>(R.id.header)
-            .title = getString(R.string.gallery)
+        (requireActivity() as MainActivity).updateHeader(getString(R.string.gallery))
 
         imageUrls = getImgsOfFile()
 

@@ -53,9 +53,7 @@ class LasRuedasFragment : Fragment() {
         val context = requireContext()
         val rootView = inflater.inflate(R.layout.fragment_las_ruedas, container, false)
 
-        requireActivity()
-            .findViewById<Header>(R.id.header)
-            .title = getString(R.string.app_name)
+        (requireActivity() as MainActivity).updateHeader(getString(R.string.app_name))
 
         val scanButton: ImageButton = rootView.findViewById(R.id.scanButton)
         scanButton.setOnClickListener { initScanner() }

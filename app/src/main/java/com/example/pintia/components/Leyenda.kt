@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import com.example.pintia.MainActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.example.pintia.R
 import com.example.pintia.models.Punto
@@ -51,15 +52,7 @@ class Leyenda @JvmOverloads constructor(
             val textView = inflater.inflate(R.layout.leyend_entry, linearLayout, false) as TextView
             textView.text = title // Establece el texto del TextView
             textView.setOnClickListener { // Cuando se clicke se cambia de vista
-                if (punto != null) {
-                    /* val intent = Intent(context, punto.fragment)
-                    intent.putExtra("title", punto.title)
-                    intent.putExtra("path", "ruedas")
-                    context.startActivity(intent)*/
-                } else {
-                    // Cerramos el desplegable
-                    alterMenuVisibility(close = true)
-                }
+                (context as MainActivity).changeFragment(punto.fragment)
             }
 
             // Agrega el TextView al LinearLayout

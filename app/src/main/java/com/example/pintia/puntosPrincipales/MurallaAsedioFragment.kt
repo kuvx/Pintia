@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
+import com.example.pintia.MainActivity
 import com.example.pintia.R
 import com.example.pintia.components.Header
 import com.example.pintia.services.DynamicViewBuilder.pueblaActivity
@@ -24,8 +25,7 @@ class MurallaAsedioFragment : Fragment() {
         val context = requireContext()
 
         val text = getString(R.string.muralla)
-        requireActivity().findViewById<Header>(R.id.header)
-            .title = text
+        (requireActivity() as MainActivity).updateHeader(text)
 
         val layout: RelativeLayout = rootView.findViewById(R.id.component_info_views)
 

@@ -2,12 +2,10 @@ package com.example.pintia
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
-import com.example.pintia.components.Header
 import com.example.pintia.utils.settings.DarkModeUtils
 import com.example.pintia.utils.settings.FontSizeUtils
 import com.example.pintia.utils.settings.LanguageUtils
@@ -17,8 +15,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        requireActivity().findViewById<Header>(R.id.header)
-            .title = getString(R.string.settings)
+        (requireActivity() as MainActivity).updateHeader(getString(R.string.settings))
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {

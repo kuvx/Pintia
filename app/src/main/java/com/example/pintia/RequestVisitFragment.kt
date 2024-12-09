@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.example.pintia.components.Header
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
@@ -36,8 +35,7 @@ class RequestVisitFragment : Fragment() {
 
         val context = requireContext()
 
-        val header = getMain().findViewById<Header>(R.id.header)
-        header.title = getString(R.string.request)
+        (requireActivity() as MainActivity).updateHeader(getString(R.string.request))
 
         val etName = rootView.findViewById<EditText>(R.id.et_name)
         val etGroupSize = rootView.findViewById<Spinner>(R.id.et_group_size)

@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
-import com.example.pintia.components.Header
 import com.example.pintia.puntosPrincipales.EdificioUVaFragment
 import com.example.pintia.puntosPrincipales.LasQuintanasFragment
 import com.example.pintia.puntosPrincipales.LasRuedasFragment
@@ -25,10 +24,7 @@ class MainMapFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_main_map, container, false)
 
-        requireActivity()
-            .findViewById<Header>(R.id.header)
-            .title = getString(R.string.home)
-
+        (requireActivity() as MainActivity).updateHeader(getString(R.string.home))
 
         val btnRequest = rootView.findViewById<LinearLayout>(R.id.reserva_btn)
         btnRequest.setOnClickListener {

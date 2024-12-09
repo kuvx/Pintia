@@ -2,6 +2,7 @@ package com.example.pintia.components
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.ImageButton
@@ -34,10 +35,14 @@ class Footer @JvmOverloads constructor(
 
     init {
         LayoutInflater.from(context).inflate(R.layout.component_footer, this, true)
-        setFooter(2)
+        setFooter()
     }
 
-    private fun setFooter(selectedIndex :Int = -1) {
+    /**
+     * Recrea el footer ajustando las entradas comprobando si el frame actual es una de ella y
+     * marcarla como seleccionada
+     */
+    fun setFooter() {
         val inflater = LayoutInflater.from(context)
         val linearLayout = findViewById<LinearLayout>(R.id.footer_main_layout)
         linearLayout.removeAllViews()
@@ -50,7 +55,10 @@ class Footer @JvmOverloads constructor(
                 linearLayout,
                 false
             ) as RelativeLayout
-            val selected = index == selectedIndex
+
+            // El fragmento actual es la entrada que se comprueba
+            val selected = fragment::class.simpleName ==
+                (context as MainActivity).getActualFragment()
 
             val layoutParams = layout.layoutParams
             if (selected) {
@@ -69,7 +77,7 @@ class Footer @JvmOverloads constructor(
     }
 
     private fun newImageButton(
-        index:Int,
+        index: Int,
         selected: Boolean,
         fragment: Fragment
     ): ImageButton {
@@ -90,7 +98,6 @@ class Footer @JvmOverloads constructor(
         // Configura un OnClickListener para el botón
 
         imageButton.setOnClickListener {
-            setFooter(index)
             (context as MainActivity).changeFragment(fragment)
         }
 

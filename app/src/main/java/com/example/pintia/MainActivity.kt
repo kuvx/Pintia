@@ -7,7 +7,8 @@ import android.view.View
 import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.pintia.utils.settings.DarkModeUtils
+import com.example.pintia.components.Footer
+import com.example.pintia.components.Header
 import com.example.pintia.utils.settings.FontSizeUtils
 import com.example.pintia.utils.settings.LanguageUtils
 
@@ -85,5 +86,15 @@ class MainActivity : AppCompatActivity() {
                 if (!disableTimer) closeLogin()
             }, 1500) // 1000 milisegundos = 1 segundo
         }
+    }
+
+    fun getActualFragment(): String {
+        val backStackCount = supportFragmentManager.backStackEntryCount
+        return supportFragmentManager.getBackStackEntryAt(backStackCount - 1).name ?: "Not found!"
+    }
+
+    fun updateHeader(title:String) {
+        findViewById<Header>(R.id.header).title = title
+        findViewById<Footer>(R.id.footer).setFooter()
     }
 }

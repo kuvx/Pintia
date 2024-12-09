@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
+import com.example.pintia.MainActivity
 import com.example.pintia.R
-import com.example.pintia.components.Header
 import com.example.pintia.services.DynamicViewBuilder.pueblaActivity
 import com.example.pintia.services.TTSManager
 
@@ -24,9 +24,7 @@ class EdificioUVaFragment : Fragment() {
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_info_views, container, false)
 
-        requireActivity()
-            .findViewById<Header>(R.id.header)
-        .title = getString(R.string.titulo_principal)
+        (requireActivity() as MainActivity).updateHeader(getString(R.string.titulo_principal))
 
         var layout: RelativeLayout = rootView.findViewById(R.id.component_info_views)
         ttsManager = TTSManager(requireContext()) { success ->
