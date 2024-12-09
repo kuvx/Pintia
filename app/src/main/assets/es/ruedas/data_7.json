@@ -4,6 +4,10 @@
       "value": "Las excavaciones han permitido exhumar un número importante de estelas funerarias en una posición próxima a la original."
     },
     {
+      "type": "pregunta",
+      "value": "¿Qué significaban las estelas de piedra caliza en la necrópolis de Las Ruedas?|Indicaban la ubicación de los enterramientos"
+    },
+    {
       "type": "image",
       "value": "ruedas_img/07_a_UnPaisaje_conjunto_estelas_caidas.jpg"
     }

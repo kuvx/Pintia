@@ -6,12 +6,20 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.text.LineBreaker
+import android.opengl.Visibility
 import android.util.Log
+import android.view.Gravity
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.setMargins
+import androidx.core.view.setPadding
 import com.bumptech.glide.Glide
 import com.example.pintia.R
 import com.example.pintia.models.Punto
@@ -155,6 +163,77 @@ object DynamicViewBuilder {
                     // Añadir el ImageView al contenedor
                     container.addView(modelView)
 
+                }
+
+                "pregunta" -> {
+                    // Crear un TextView para el reto
+                    var texto = "Reto!!"
+                    // Es la regunta y la respuesta q se diferencian en la '|'
+                    val cadenas = item.value.split("|")
+                    val questionView = TextView(container.context).apply {
+                        texto = "${texto}\n ${cadenas[0]}"
+                        text = texto //Corresponde a la pregunta
+                        textSize = 16f // Tamaño de texto
+                        setTextColor(container.context.getColor(android.R.color.white)) // Color blanco
+                        layoutParams = LinearLayout.LayoutParams(
+                            LinearLayout.LayoutParams.MATCH_PARENT,
+                            LinearLayout.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            setMargins(0, 16, 0, 16) // Márgenes opcionales
+                        }
+                    }
+                    // Añadir el TextView al contenedor
+                    container.addView(questionView)
+
+                    //si en vez de ser preguntas son retos visuales
+                    if(cadenas.size ==2){
+                        // Crear un TextView para el reto
+                        val answerView = TextView(container.context).apply {
+                            text = cadenas[1]
+                            textSize = 16f // Tamaño de texto
+                            visibility = View.GONE
+                            setTextColor(container.context.getColor(android.R.color.white)) // Color blanco
+                            layoutParams = LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            ).apply {
+                                setMargins(0, 16, 0, 16) // Márgenes opcionales
+                            }
+                        }
+                        // Añadir el TextView al contenedor
+                        container.addView(answerView)
+
+                        val questionBtn = Button(container.context).apply{
+                            text = context.getString(R.string.showMore)
+                            setBackgroundResource(R.drawable.round_button_map)
+                            setTextColor(resources.getColor(R.color.on_surface))
+                            layoutParams =LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT,
+                            ).apply{
+                                setMargins(16,16,16,16)
+                                gravity = Gravity.CENTER
+                            }
+                            setPadding(16, 16,16,16)
+                            isAllCaps = false //Texto sin mayusculas automaticas
+                            setOnClickListener{
+                                // Alternar visibilidad de la respuesta
+                                if (answerView.visibility == View.GONE) {
+                                    answerView.visibility = View.VISIBLE
+                                    this.text = context.getString(R.string.showLess)
+                                } else {
+                                    answerView.visibility = View.GONE
+                                    this.text = context.getString(R.string.showMore)
+                                }
+                            }
+                        }
+
+                        // Añadir el btn al contenedor
+                        container.addView(questionBtn)
+                    }
+
+                    // Añadir el contenido al audio
+                    salida = "$salida\n ${item.value}\n"
                 }
 
             }

@@ -51,6 +51,8 @@
     <string name="tut_camara">Inmortalizar el momento</string>
     <string name="tut_qr">Escanear codigo QR</string>
     <string name="tut_audio">Reproduce la audioguia</string>
+    <string name="showMore">Mostrar Respuesta</string>
+    <string name="showLess">Ocultar Respuesta</string>
     <string name="tut_marcador_desc">Estos marcadores son cada una de las zonas visitables del yacimiento de Pintia. Pinchando sobre ellos te lleva a cada una de las secciones.</string>
     <string name="tut_leyenda_desc">Pulsando sobre este boton se despliega la leyenda con la que poder acceder a los mismo puntos visitables del yacimiento.</string>
     <string name="tut_my_ubi_desc">Una vez que te sale el mensaje de que tu ubicacion se ha cargado, pulsando sobre este boton accedes a tu ubicacion en tiempo real.</string>

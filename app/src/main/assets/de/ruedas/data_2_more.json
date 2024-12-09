@@ -4,6 +4,10 @@
         "value": "Das Einäscherungsritual fand in einem gemeinsamen Ustrinum im nahegelegenen Gebiet Los Cenizales statt, etwa dreihundert Meter westlich von Las Ruedas. Es wird geschätzt, dass etwa vierundzwanzig Generationen von vacceischen und römischen Bewohnern Pintias auf dem Friedhof bestattet wurden, sodass dieser mehr als hunderttausend Gräber beherbergen könnte."
     },
     {
+        "type": "pregunta",
+        "value": "Was war das wichtigste Begräbnisritual der Vaccaei in der Nekropole von Las Ruedas?|Die Einäscherung mit persönlichen Beigaben"
+      },
+    {
         "type": "image",
         "value": "ruedas_img/02_b_RitualNormativo_recreacion_cremacion.jpg"
     }

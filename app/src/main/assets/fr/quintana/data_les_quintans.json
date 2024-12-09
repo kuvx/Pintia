@@ -1,0 +1,23 @@
+[
+
+  {
+    "type": "text",
+    "value": "La tranchée de Las Quintanas révélera la stratigraphie de la ville dans cette zone, avec 1200 ans d'histoire continue, de la fin du Ve siècle av. J.-C. au VIIe siècle ap. J.-C. Les phases tardo-romaines-wisigothiques (IVe au VIIe siècle ap. J.-C.) sont représentées par la ciste en pierre de la sépulture wisigothique ; il ne reste aucune trace des niveaux romains, mais les niveaux indigènes ou vaccéens sont représentés par cinq niveaux d'incendie qui, des plus superficiels aux plus profonds, correspondent à la 2e moitié du IIe siècle av. J.-C., la première moitié du IIe siècle av. J.-C., le IIIe siècle av. J.-C., le IVe siècle av. J.-C. et le moment de la fondation, à la base, à la fin du Ve siècle av. J.-C. Pour chacun de ces niveaux, nous laissons une zone en réserve, où l'on peut observer des murs, des foyers, des fours, des métiers à tisser, etc."
+  },
+  {
+    "type": "pregunta",
+    "value": "Quel peuple a fondé l’établissement de Pintia ?|Les Vacéens"
+  },
+  {
+    "type": "image",
+    "value": "ruedas_img/fondo_quintana.png"
+  },
+  {
+    "type": "pregunta",
+    "value": "Quel événement a causé la destruction de la ville de Las Quintanas ?|Un incendie, probablement lors de la conquête romaine"
+  },
+  {
+    "type": "image",
+    "value": "https://pintiavaccea.es/imagenes_seccion/img201105091237.jpg"
+  }
+]

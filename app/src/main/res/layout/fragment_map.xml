@@ -77,7 +77,7 @@
                     android:layout_marginLeft="8dp"
                     android:text="@string/myUbi"
                     android:textColor="@color/surface"
-                    android:textSize="14sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <!-- Botón 2: Pintia -->
@@ -104,7 +104,7 @@
                     android:layout_marginLeft="8dp"
                     android:text="@string/ubiPintia"
                     android:textColor="@color/surface"
-                    android:textSize="14sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <!-- Botón 3: Cómo llegar -->
@@ -131,7 +131,7 @@
                     android:layout_marginStart="8dp"
                     android:text="@string/comoLlegar"
                     android:textColor="@color/surface"
-                    android:textSize="14sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
         </LinearLayout>

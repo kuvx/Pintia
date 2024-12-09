@@ -106,7 +106,6 @@ class LasRuedasFragment : Fragment() {
             marker.setOnMarkerClickListener { _, _ ->
                 if (index != 0 && index != 18) {
                     (requireActivity() as MainActivity).changeFragment(punto.fragment)
-
                     true
                 }
                 // Mostrar mensaje Toast (opcional)
@@ -121,6 +120,7 @@ class LasRuedasFragment : Fragment() {
             println("img")
         }
 
+        // Configura el tutorial con los pasos
         tutorialOverlay = rootView.findViewById(R.id.tutorialOverlay)
 
         // Lista de pasos del tutorial
@@ -145,7 +145,7 @@ class LasRuedasFragment : Fragment() {
         return rootView
     }
 
-    // Define la fuente de tiles personalizados para Mapbox
+    // Define la fuente de tiles personalizados para Mapbox en este caso es con el mapa satelital
     private val mapboxTileSource = object : OnlineTileSourceBase(
         "Mapbox", // Nombre del tile source
         1, 22, 512, ".png", // Zoom mínimo, máximo, tamaño de tile, extensión

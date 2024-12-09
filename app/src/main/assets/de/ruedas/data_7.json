@@ -4,6 +4,10 @@
         "value": "Die Ausgrabungen haben es ermöglicht, eine beträchtliche Anzahl von Grabstelen in einer Position nahe ihrer ursprünglichen Lage zu exhumieren."
     },
     {
+        "type": "pregunta",
+        "value": "Was bedeuteten die Kalkstein-Stelen in der Nekropole von Las Ruedas?|Sie markierten die Lage der Gräber"
+    },
+    {
         "type": "image",
         "value": "ruedas_img/07_a_UnPaisaje_conjunto_estelas_caidas.jpg"
     }

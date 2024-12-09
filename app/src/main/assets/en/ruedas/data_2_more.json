@@ -4,6 +4,10 @@
     "value": "The cremation ritual took place in a common ustrinum, located in the nearby area of Los Cenizales, about three hundred meters west of Las Ruedas. It is estimated that around twenty-four generations of Vaccean and Roman Pintians might have been buried in the cemetery, which could therefore contain more than one hundred thousand graves."
   },
   {
+    "type": "pregunta",
+    "value": "What was the main funerary ritual of the Vaccaei in the necropolis of Las Ruedas?|Cremation with personal belongings"
+  },
+  {
     "type": "image",
     "value": "ruedas_img/02_b_RitualNormativo_recreacion_cremacion.jpg"
   }
