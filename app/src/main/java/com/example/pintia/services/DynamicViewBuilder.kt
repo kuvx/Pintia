@@ -6,22 +6,17 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
-import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.graphics.text.LineBreaker
-import android.opengl.Visibility
 import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.setMargins
-import androidx.core.view.setPadding
 import com.bumptech.glide.Glide
 import com.example.pintia.R
+import com.example.pintia.models.ContentItem
 import com.example.pintia.models.Punto
 import com.example.pintia.puntosPrincipales.lasQuintanasViews.YacimientoInfoFragment
 import com.example.pintia.services.model3d.Model3D
@@ -32,21 +27,20 @@ import io.getstream.photoview.PhotoView
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
-import java.io.FileWriter
-import java.io.File
-import java.io.IOException
-import java.io.InputStream
+import java.io.*
 
-// Clase para representar el contenido (puede venir de un JSON)
-data class ContentItem(
-    val type: String, // Puede ser "text" o "image"
-    val value: String,
-    val latitude: Double,
-    val longitude: Double,
-    val icon: Int = R.drawable.point,
-    val action: Class<out AppCompatActivity>?
-)
+private const val fil_name_cache:String ="photos_marker.json"
 
+/**
+ * Clase para representar el contenido de los ficheros json y transformarlo en los diferentes elementos de la app
+ * type : {
+ *  text => contenido de las vistas de informacion
+ *  image => imagenes {http/https| locales} q se muestran en las vistas de informacion
+ *  modelo3D => contenido html <iframe></iframe> con modelos 3D
+ *  pregunta => corresponde con los retos o preguntas, en el caso de la pregunta separa la respuesta mediante '|' (pregunta?|respuesta)
+ *  point => corresponde con un punto del mapa ya sea del cementerio o para futuras incluiones
+ * }
+ */
 object DynamicViewBuilder {
     fun loadContentFromJson(
         context: Context,
@@ -60,7 +54,7 @@ object DynamicViewBuilder {
         // Define la ruta del archivo según el idioma
         println(currentLanguage)
         val fileRoute =
-            if (infoFlag) "$currentLanguage/${fileName}" else fileName    // Por ejemplo, "en/mi_archivo.json"
+            if (infoFlag) "$currentLanguage/${fileName}" else fileName
         var jsonString: String? = null
         try {
             // Accede al archivo en assets
@@ -70,13 +64,12 @@ object DynamicViewBuilder {
                 inputStream.bufferedReader().use { it.readText() }  // Lee el archivo como texto
         } catch (e: IOException) {
             e.printStackTrace()
-            null
         }
         return convertContentItemList(jsonString)
 
     }
 
-    fun convertContentItemList(jsonString: String?): List<ContentItem> {
+    private fun convertContentItemList(jsonString: String?): List<ContentItem> {
         // Convierte el JSON en una lista de ContentItem
         val gson = Gson()
         val listType = object : TypeToken<List<ContentItem>>() {}.type
@@ -84,7 +77,7 @@ object DynamicViewBuilder {
     }
 
     // Método para construir dinámicamente la vista
-    fun populateDynamicDescription(
+    private fun populateDynamicDescription(
         layout: RelativeLayout,
         seccion: String,
         container: LinearLayout,
@@ -158,7 +151,7 @@ object DynamicViewBuilder {
                 "model3D" -> {
                     // Crear un ImageView para la imagen
                     val htmlContent = item.value.trimIndent()
-                    val modelView = Model3D.getWebChromeClient(layout, container)
+                    val modelView = Model3D.getWebChromeClient(layout)
                     modelView.loadData(htmlContent, "text/html", "UTF-8")
                     // Añadir el ImageView al contenedor
                     container.addView(modelView)
@@ -206,7 +199,7 @@ object DynamicViewBuilder {
                         val questionBtn = Button(container.context).apply{
                             text = context.getString(R.string.showMore)
                             setBackgroundResource(R.drawable.round_button_map)
-                            setTextColor(resources.getColor(R.color.on_surface))
+                            setTextColor(ContextCompat.getColor(context, R.color.on_surface))
                             layoutParams =LinearLayout.LayoutParams(
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -241,7 +234,7 @@ object DynamicViewBuilder {
         return salida
     }
 
-    fun loadMarkersCache(context: Context, fileTitle: String): List<ContentItem> {
+    private fun loadMarkersCache(context: Context, fileTitle: String): List<ContentItem> {
         var jsonString: String? = null
         try {
             // Accede al archivo en cache
@@ -262,36 +255,35 @@ object DynamicViewBuilder {
     }
 
     fun removeMarkerOfFile(context: Context, fileTitle: String) {
-        var listMarkers = loadMarkersCache(context, "photos_marker.json").toMutableList()
+        val listMarkers = loadMarkersCache(context, fil_name_cache).toMutableList()
         listMarkers.removeIf { it.value == fileTitle }
-        saveOnFile(context, listMarkers, "photos_marker.json")
+        saveOnFile(context, listMarkers)
 
     }
 
     // Guardar un marcador en un archivo JSON
     fun saveMarkersToFile(marker: Marker, context: Context) {
-        val fileTitle: String = "photos_marker.json"
         // Convierte los marcadores en objetos MarkerData
-        var markerDetails = ContentItem(
+        val markerDetails = ContentItem(
             type = "marker",
             value = marker.snippet,
             latitude = marker.position.latitude,
             longitude = marker.position.longitude,
             action = null
         )
-        val listMarkers = loadMarkersCache(context, fileTitle).toMutableList()
+        val listMarkers = loadMarkersCache(context, fil_name_cache).toMutableList()
 
         listMarkers.add(markerDetails)
-        saveOnFile(context, listMarkers, fileTitle)
+        saveOnFile(context, listMarkers)
     }
 
-    fun saveOnFile(context: Context, listMarkers: List<ContentItem>, file_title: String) {
+    private fun saveOnFile(context: Context, listMarkers: List<ContentItem>) {
         // Convierte a JSON
         val gson = Gson()
         val json = gson.toJson(listMarkers)
 
         // Escribe el JSON en un archivo en almacenamiento interno
-        val file = File(context.cacheDir, file_title)
+        val file = File(context.cacheDir, fil_name_cache)
         FileWriter(file).use { writer ->
             writer.write(json)
         }
@@ -397,10 +389,10 @@ object DynamicViewBuilder {
         layout: RelativeLayout,
         context: Context,
         path: String,
-        titulo_cod: String,
+        tituloCod: String,
         ttsManager: TTSManager
     ) {
-        val contentItems = loadContentFromJson(context, "${path}/data_${titulo_cod}.json", true)
+        val contentItems = loadContentFromJson(context, "${path}/data_${tituloCod}.json", true)
 
         val dynamicContainer = layout.findViewById<LinearLayout>(R.id.dynamic_description_container)
         val tituloTTL = populateDynamicDescription(
@@ -410,36 +402,35 @@ object DynamicViewBuilder {
             contentItems
         )
 
-        val contentItems_moreInfo =
-            loadContentFromJson(context, "${path}/data_${titulo_cod}_more.json", true)
+        val contentItemsMoreInfo =
+            loadContentFromJson(context, "${path}/data_${tituloCod}_more.json", true)
         Log.d("JSONView", contentItems.toString())
 
-        val dynamicContainer_more =
-            layout.findViewById<LinearLayout>(R.id.dynamic_more_info_container)
+        val dynamicContainerMore = layout.findViewById<LinearLayout>(R.id.dynamic_more_info_container)
         val moreTTL = populateDynamicDescription(
             layout,
             context.getString(R.string.more_info_title),
-            dynamicContainer_more,
-            contentItems_moreInfo
+            dynamicContainerMore,
+            contentItemsMoreInfo
         )
 
         // Inicializar el manejador de botones de audio
-        var audioButtonHandler: AudioButtonHandler = AudioButtonHandler(context, ttsManager)
+        val audioButtonHandler = AudioButtonHandler(context, ttsManager)
 
         // Configuración de la velocidad de audio
         val speedSelector: Button = layout.findViewById(R.id.speed_selector)
-        val speedSelector_2: Button = layout.findViewById(R.id.speed_selector_2)
+        val speedSelector2: Button = layout.findViewById(R.id.speed_selector_2)
 
         // Configurar botones de audio
         val audioView1 = layout.findViewById<ImageButton>(R.id.audio_player)
         val audioView2 = layout.findViewById<ImageButton>(R.id.audio_player_2)
 
         audioButtonHandler.changeSpeed(speedSelector, audioView1)
-        audioButtonHandler.changeSpeed(speedSelector_2, audioView2)
+        audioButtonHandler.changeSpeed(speedSelector2, audioView2)
 
         // Configurar cada botón con su respectivo texto
         audioButtonHandler.setupAudioButton(audioView1, tituloTTL, speedSelector)
-        audioButtonHandler.setupAudioButton(audioView2, moreTTL, speedSelector_2)
+        audioButtonHandler.setupAudioButton(audioView2, moreTTL, speedSelector2)
     }
 
 

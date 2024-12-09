@@ -24,7 +24,7 @@ class InfoFragment : Fragment() {
 
         (requireActivity() as MainActivity).updateHeader(getString(R.string.info))
 
-        var layout: RelativeLayout = rootView.findViewById(R.id.component_info_views)
+        val layout: RelativeLayout = rootView.findViewById(R.id.component_info_views)
 
         val context = requireContext()
         ttsManager = TTSManager(context) { success ->
@@ -34,7 +34,7 @@ class InfoFragment : Fragment() {
             }
         }
 
-        var path = "aboutUs"
+        val path = "aboutUs"
         var tituloCod = getString(R.string.info).lowercase().replace(" ", "_")
         tituloCod =
             Normalizer.normalize(tituloCod, Normalizer.Form.NFD).replace(Regex("\\p{M}"), "")

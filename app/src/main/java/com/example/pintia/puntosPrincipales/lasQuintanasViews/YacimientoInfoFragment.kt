@@ -12,7 +12,7 @@ import com.example.pintia.R
 import com.example.pintia.services.TTSManager
 import com.example.pintia.services.DynamicViewBuilder.pueblaActivity
 import com.example.pintia.utils.TutorialManager
-import com.example.pintia.utils.TutorialStep
+import com.example.pintia.models.TutorialStep
 import java.text.Normalizer
 
 class YacimientoInfoFragment : Fragment() {
@@ -66,7 +66,7 @@ class YacimientoInfoFragment : Fragment() {
         (requireActivity() as MainActivity).updateHeader(titulo)
         // Recuperar los datos del Intent
 
-        var layout: RelativeLayout = rootView.findViewById(R.id.component_info_views)
+        val layout: RelativeLayout = rootView.findViewById(R.id.component_info_views)
         ttsManager = TTSManager(context) { success ->
             if (success) {
                 // TTS inicializado correctamente

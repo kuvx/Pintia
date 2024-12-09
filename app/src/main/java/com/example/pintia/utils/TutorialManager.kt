@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.pintia.R
+import com.example.pintia.models.TutorialStep
 
 class TutorialManager(
     private val activity: Activity,

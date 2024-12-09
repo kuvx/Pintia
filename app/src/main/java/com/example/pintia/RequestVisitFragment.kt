@@ -22,9 +22,6 @@ import java.util.Calendar
 import java.util.Locale
 
 class RequestVisitFragment : Fragment() {
-    private fun getMain(): MainActivity {
-        return requireActivity() as MainActivity
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

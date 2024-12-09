@@ -1,7 +1,6 @@
 package com.example.pintia.services
 
 import android.content.Context
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton

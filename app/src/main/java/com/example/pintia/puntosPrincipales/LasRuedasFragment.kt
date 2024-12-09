@@ -15,13 +15,12 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.pintia.MainActivity
 import com.example.pintia.R
-import com.example.pintia.components.Header
 import com.example.pintia.components.Leyenda
+import com.example.pintia.models.TutorialStep
 import com.example.pintia.services.DynamicViewBuilder.generateDrawableWithText
 import com.example.pintia.services.DynamicViewBuilder.loadContentFromJson
 import com.example.pintia.services.DynamicViewBuilder.populateDynamicPoints
 import com.example.pintia.utils.TutorialManager
-import com.example.pintia.utils.TutorialStep
 import com.google.zxing.integration.android.IntentIntegrator
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
@@ -30,13 +29,11 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.util.MapTileIndex
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.*
+import API_TOKEN
 
 class LasRuedasFragment : Fragment() {
 
     private lateinit var mapView: MapView
-    private val API_token =
-        "pk.eyJ1IjoicGludGlhcHJveWVjdDI0IiwiYSI6ImNtMzdqNnNlaTA5emIybHF1NGU2OXI3Y2MifQ.4VtNOpGHNw88xqol5bl7pA"
-
     //Coordenadas Ruedas
     private var latitud = 41.617962
     private var longitud = -4.169421
@@ -104,7 +101,6 @@ class LasRuedasFragment : Fragment() {
             marker.setOnMarkerClickListener { _, _ ->
                 if (index != 0 && index != 18) {
                     (requireActivity() as MainActivity).changeFragment(punto.fragment)
-                    true
                 }
                 // Mostrar mensaje Toast (opcional)
                 Toast.makeText(context, "Marcador clickeado: ${punto.title}", Toast.LENGTH_SHORT)
@@ -153,21 +149,17 @@ class LasRuedasFragment : Fragment() {
             val zoom = MapTileIndex.getZoom(pMapTileIndex)
             val x = MapTileIndex.getX(pMapTileIndex)
             val y = MapTileIndex.getY(pMapTileIndex)
-            return "$baseUrl$zoom/$x/$y.png?access_token=${API_token}"
+            return "$baseUrl$zoom/$x/$y.png?access_token=${API_TOKEN}"
         }
     }
 
     private fun initScanner() {
-        val integrator = IntentIntegrator(requireActivity()).apply {
-            setDesiredBarcodeFormats(IntentIntegrator.QR_CODE)
-            setPrompt("Escanea un código QR")
-            setOrientationLocked(true)
-            setBeepEnabled(true)
-        }
-        integrator.initiateScan()
+        val intentIntegrator = IntentIntegrator.forSupportFragment(this)
+        intentIntegrator.setPrompt("Escanea un código QR")
+        intentIntegrator.setBeepEnabled(true) // Opcional
+        intentIntegrator.initiateScan()
     }
 
-    // TODO revisar creo que no se aplica a lo que estamos haciendo con los fragmentos
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val context = requireContext()
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)

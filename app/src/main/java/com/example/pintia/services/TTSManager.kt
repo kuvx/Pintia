@@ -7,7 +7,6 @@
     import android.util.Log
     import android.widget.ImageButton
     import com.example.pintia.R
-    import java.util.Locale
 
     class TTSManager (private val context: Context, private val onTTSInit:
         (Boolean) -> Unit) : TextToSpeech.OnInitListener  {
@@ -58,6 +57,7 @@
                         }
                     }
 
+                    @Deprecated("Deprecated in Java")
                     override fun onError(utteranceId: String?) {
                         Log.e("TTSManager", "Error while speaking")
                         isSpeaking = false

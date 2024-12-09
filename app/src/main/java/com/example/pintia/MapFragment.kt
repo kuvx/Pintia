@@ -35,6 +35,7 @@ import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import com.example.pintia.models.TutorialStep
 import com.example.pintia.puntosPrincipales.EdificioUVaFragment
 import com.example.pintia.puntosPrincipales.LasQuintanasFragment
 import com.example.pintia.puntosPrincipales.LasRuedasFragment
@@ -43,7 +44,6 @@ import com.example.pintia.services.DynamicViewBuilder.populateDynamicMarkers
 import com.example.pintia.services.DynamicViewBuilder.saveMarkersToFile
 import com.example.pintia.utils.ImageInfoWindow
 import com.example.pintia.utils.TutorialManager
-import com.example.pintia.utils.TutorialStep
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -82,7 +82,7 @@ class MapFragment : Fragment() {
 
         (requireActivity() as MainActivity).updateHeader(getString(R.string.app_name))
 
-        var camara: ImageButton = rootView.findViewById(R.id.btn_camera)
+        val camara: ImageButton = rootView.findViewById(R.id.btn_camera)
         camara.setOnClickListener {
             if (hasCameraPermission()) {
                 openCamera()
@@ -175,7 +175,7 @@ class MapFragment : Fragment() {
             mapView.overlays.add(marker)
         }
 
-        var listMakers: List<Marker> = populateDynamicMarkers(context, mapView)
+        val listMakers: List<Marker> = populateDynamicMarkers(context, mapView)
         for (marker in listMakers) {
             //println(marker.position.toString() +"|"+ marker.snippet)
             mapView.overlays.add(marker)
@@ -264,11 +264,11 @@ class MapFragment : Fragment() {
             }
         }
         // Configura el botón para centrar en la ubicación
-        val centerPintiaButton = rootView.findViewById<LinearLayout>(R.id.btn_center_pintia).apply {
+        rootView.findViewById<LinearLayout>(R.id.btn_center_pintia).apply {
             setOnClickListener {
-                userLocationMarker?.position?.let { position ->
+                userLocationMarker?.position?.let {
                     mapController.setCenter(GeoPoint(latitud, longitud))
-                    mapController.setZoom(15)
+                    mapController.zoomTo(15, 1)
                 }
             }
         }
@@ -335,6 +335,7 @@ class MapFragment : Fragment() {
             enableCenterButtonIfLocationAvailable() // Habilita el botón cuando llega la ubicación en tiempo real
         }
 
+        @Deprecated("Deprecated in Java")
         override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
@@ -366,6 +367,7 @@ class MapFragment : Fragment() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -423,6 +425,7 @@ class MapFragment : Fragment() {
         startActivityForResult(intent, CAMERA_REQUEST_CODE)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
@@ -447,16 +450,15 @@ class MapFragment : Fragment() {
                 latitude = userLocationMarker?.position!!.latitude
                 longitude = userLocationMarker?.position!!.longitude
             }
-            addMarker(location, file.absolutePath, "Hola")
+            addMarker(location, file.absolutePath)
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
-    private fun addMarker(location: Location, photoPath: String, desc: String) {
+    private fun addMarker(location: Location, photoPath: String) {
         val marker = Marker(mapView)
         marker.position = GeoPoint(location.latitude, location.longitude)
-        marker.title = desc
         marker.icon = resources.getDrawable(R.drawable.point)
         marker.snippet = photoPath
 
@@ -470,12 +472,5 @@ class MapFragment : Fragment() {
 
         // Agrega el marcador al mapa
         mapView.overlays.add(marker)
-    }
-
-    // Método para verificar si es la primera vez que se muestra el tutorial
-    private fun isFirstTimeTutorial(): Boolean {
-        val preferences: SharedPreferences =
-            requireContext().getSharedPreferences("TutorialPreferences", Context.MODE_PRIVATE)
-        return preferences.getBoolean("TutorialShown", true) // Por defecto, true (primera vez)
     }
 }

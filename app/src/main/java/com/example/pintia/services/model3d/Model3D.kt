@@ -105,7 +105,7 @@ class CustomWebView(context: Context, layout: RelativeLayout) : WebView(context)
 }
 
 object Model3D {
-    fun getWebChromeClient(layout: RelativeLayout, container: LinearLayout): WebView {
+    fun getWebChromeClient(layout: RelativeLayout): WebView {
 
         return CustomWebView(layout.context, layout).apply {
             layoutParams = LinearLayout.LayoutParams(
