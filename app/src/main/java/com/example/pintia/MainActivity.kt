@@ -14,7 +14,9 @@ import com.example.pintia.utils.settings.LanguageUtils
 
 class MainActivity : AppCompatActivity() {
 
+    // Flag para indicar que se ha realizado la transición y en caso de que se suceda otra se ignore
     private var change = false
+    // Flag para deshabilitar el cambio de fragmento por el temporizador
     private var disableTimer = false
 
     private fun closeLogin() {
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_main)
         window.navigationBarColor = resources.getColor(R.color.primary, theme)
-        changeMain(true)
+        changeMain(init = true, timer = true)
 
         // Ejecuta ajustes de idioma y tamaño de fuente
         findViewById<View>(R.id.main).post {
@@ -48,10 +50,18 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    /**
+     * Cambia el fragmento actual, contenido entre el header y footer, por el nuevo pasado por
+     * parámetro
+     * @param fragment nuevo fragmento a colocar
+     */
     fun changeFragment(fragment: Fragment) {
         replaceFrame(R.id.fragment_container, fragment)
     }
 
+    /**
+     * Regresa al anterior fragmento de la pila de transiciones
+     */
     fun goBack() {
         val fragmentManager = supportFragmentManager
 
@@ -68,8 +78,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun changeMain(timer: Boolean = false) {
-        replaceFrame(R.id.main, MainFragment())
+    private fun changeMain(timer: Boolean = false, init:Boolean = false) {
+        // Si el cambio al fragmento no es la inicial se carga de nuevo el fragmento
+        if (!init)
+            replaceFrame(R.id.main, MainFragment())
         change = false
         if (timer) disableTimer = false
 
@@ -88,12 +100,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Consulta el nombre del fragmento actual almacenado en la pila de transiciones, en caso de no
+     * haber ningúno se devolverá `"No fragment"`
+     */
     fun getActualFragment(): String {
         val backStackCount = supportFragmentManager.backStackEntryCount
-        return supportFragmentManager.getBackStackEntryAt(backStackCount - 1).name ?: "Not found!"
+
+        return if (backStackCount > 0)
+            supportFragmentManager.getBackStackEntryAt(backStackCount - 1).name
+                ?: "No fragment name"
+        else "No fragment"
     }
 
-    fun updateHeader(title:String) {
+    /**
+     * Actualiza el titulo del header siempre y cuando el fragmento activo no sea el main
+     *
+     * @param title titulo del header a establecer
+     */
+    fun updateHeader(title: String) {
+        if (getActualFragment() == MainFragment::class.simpleName) return
         findViewById<Header>(R.id.header).title = title
         findViewById<Footer>(R.id.footer).setFooter()
     }

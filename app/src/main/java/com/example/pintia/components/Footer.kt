@@ -2,7 +2,6 @@ package com.example.pintia.components
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.widget.ImageButton
@@ -49,7 +48,7 @@ class Footer @JvmOverloads constructor(
 
         linearLayout.weightSum = footerEntries.size.toFloat()
 
-        footerEntries.forEachIndexed { index, (drawable, fragment) ->
+        footerEntries.forEach { (drawable, fragment) ->
             val layout = inflater.inflate(
                 R.layout.component_footer_entry,
                 linearLayout,
@@ -58,7 +57,7 @@ class Footer @JvmOverloads constructor(
 
             // El fragmento actual es la entrada que se comprueba
             val selected = fragment::class.simpleName ==
-                (context as MainActivity).getActualFragment()
+                    (context as MainActivity).getActualFragment()
 
             val layoutParams = layout.layoutParams
             if (selected) {
@@ -67,7 +66,7 @@ class Footer @JvmOverloads constructor(
             layout.layoutParams = layoutParams
 
 
-            val item = newImageButton(index, selected, fragment)
+            val item = newImageButton(selected, fragment)
             item.setImageResource(drawable)
 
             layout.addView(item)
@@ -77,7 +76,6 @@ class Footer @JvmOverloads constructor(
     }
 
     private fun newImageButton(
-        index: Int,
         selected: Boolean,
         fragment: Fragment
     ): ImageButton {
@@ -96,9 +94,10 @@ class Footer @JvmOverloads constructor(
         imageButton.setBackgroundResource(resource)
 
         // Configura un OnClickListener para el botón
-
-        imageButton.setOnClickListener {
-            (context as MainActivity).changeFragment(fragment)
+        if (!selected) {
+            imageButton.setOnClickListener {
+                (context as MainActivity).changeFragment(fragment)
+            }
         }
 
         val size =
