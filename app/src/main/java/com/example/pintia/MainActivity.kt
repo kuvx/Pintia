@@ -121,6 +121,6 @@ class MainActivity : AppCompatActivity() {
     fun updateHeader(title: String) {
         if (getActualFragment() == MainFragment::class.simpleName) return
         findViewById<Header>(R.id.header).title = title
-        findViewById<Footer>(R.id.footer).setFooter()
+        findViewById<Footer>(R.id.footer).updateFooter()
     }
 }
