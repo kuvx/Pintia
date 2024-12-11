@@ -32,21 +32,18 @@ class MainMapFragment : Fragment() {
         gridLayout = rootView.findViewById(R.id.buttonGrid)
 
         // Ajuste de columnas según la orientación actual
-        if (savedInstanceState == null) {
-            adjustGridLayoutForOrientation(resources.configuration.orientation)
-        } else {
-            // Si hay un estado guardado, restauramos la columna que se había configurado
-            gridLayout.columnCount = savedInstanceState.getInt("columnCount", 2)
-        }
+        adjustGridLayoutForOrientation(resources.configuration.orientation)
 
+        // Actualizar el encabezado de la actividad
         (requireActivity() as MainActivity).updateHeader(getString(R.string.home))
 
+        // Botón de reserva
         val btnRequest = rootView.findViewById<LinearLayout>(R.id.reserva_btn)
         btnRequest.setOnClickListener {
             getMain().changeFragment(RequestVisitFragment())
         }
 
-        // Pares id, frame objetivo
+        // Pares de id de botones y fragmentos asociados
         val fragments = mapOf(
             R.id.button1 to LasQuintanasFragment(),
             R.id.button2 to MurallaAsedioFragment(),
@@ -54,10 +51,14 @@ class MainMapFragment : Fragment() {
             R.id.button4 to EdificioUVaFragment()
         )
 
+        // Asignar los fragmentos a los botones
         fragments.forEach { (id, fragment) ->
             rootView.findViewById<LinearLayout>(id)
                 .setOnClickListener {
-                    getMain().changeFragment(fragment)
+                    // Verificamos si el fragmento está adjunto antes de realizar la acción
+                    if (isAdded) {
+                        getMain().changeFragment(fragment)
+                    }
                 }
         }
 
@@ -67,10 +68,10 @@ class MainMapFragment : Fragment() {
     // Método para ajustar las columnas del GridLayout según la orientación
     private fun adjustGridLayoutForOrientation(orientation: Int) {
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // Cambiar a una sola fila (1x4)
+            // Cambiar a una sola fila (1x4) en paisaje
             gridLayout.columnCount = 4
         } else if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            // Cambiar a 2x2
+            // Cambiar a 2x2 en retrato
             gridLayout.columnCount = 2
         }
     }
@@ -78,14 +79,6 @@ class MainMapFragment : Fragment() {
     // Cambiar las columnas cuando la orientación cambie
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        // Solo actualizamos el número de columnas, ya que el resto de la actividad se mantiene intacto
         adjustGridLayoutForOrientation(newConfig.orientation)
-    }
-
-    // Guardar el estado de la columna
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        // Guardamos el estado actual de las columnas
-        outState.putInt("columnCount", gridLayout.columnCount)
     }
 }
