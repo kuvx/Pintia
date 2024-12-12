@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide
 import com.example.pintia.R
 import com.example.pintia.models.ContentItem
 import com.example.pintia.models.Punto
-import com.example.pintia.puntosPrincipales.lasQuintanasViews.YacimientoInfoVFragment
+import com.example.pintia.puntosPrincipales.lasQuintanasViews.YacimientoInfoFragment
 import com.example.pintia.services.model3d.Model3D
 import com.example.pintia.utils.ImageInfoWindow
 import com.google.gson.Gson
@@ -304,7 +304,7 @@ object DynamicViewBuilder {
                             item.latitude,
                             item.longitude,
                             item.icon,
-                            YacimientoInfoVFragment.newInstance(item.value, path)
+                            YacimientoInfoFragment.newInstance(item.value, path)
                         )
                         Log.d("Point", "${punto.title}: ${punto.latitude}")
                         // Añadir el TextView al contenedor

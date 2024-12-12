@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
 
-class RequestVisitFragment : Fragment() {
+class RequestVisitVFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -100,7 +100,7 @@ class RequestVisitFragment : Fragment() {
                     openEmailClient(body);
                 }
 
-                Toast.makeText(context, "Visita solicitada exitosamente", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Abra su app de correo electronico favorita y envie el correo autogenerado", Toast.LENGTH_SHORT).show()
 
                 etName.text.clear()
                 etGroupSize.setSelection(0)

@@ -2,6 +2,7 @@ package com.example.pintia.utils
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -19,12 +20,12 @@ class TutorialManager(
 
     private var currentStepIndex = 0
 
-    fun showTutorial() {
+    fun showTutorial(fragmentName:String) {
         tutorialOverlay.visibility = View.VISIBLE
-        showStep(currentStepIndex)
+        showStep(currentStepIndex, fragmentName)
     }
 
-    private fun showStep(index: Int) {
+    private fun showStep(index: Int, fragmentName:String) {
         // Limpiar cualquier contenido previo
         tutorialOverlay.removeAllViews()
 
@@ -47,34 +48,34 @@ class TutorialManager(
         nextButton.setOnClickListener {
             if (currentStepIndex < tutorialSteps.size - 1) {
                 currentStepIndex++
-                showStep(currentStepIndex)
+                showStep(currentStepIndex, fragmentName)
             } else {
-                endTutorial()
+                endTutorial(fragmentName)
             }
         }
 
         // Configurar botón de saltar
         skipButton.setOnClickListener {
-            endTutorial()
+            endTutorial(fragmentName)
         }
 
         // Añadir la vista del paso actual al overlay
         tutorialOverlay.addView(stepView)
     }
 
-    private fun endTutorial() {
+    private fun endTutorial(fragmentName:String) {
         // Ocultar el overlay
         tutorialOverlay.visibility = View.GONE
 
         // Guardar en preferencias que el tutorial ya se mostró
         val preferences = activity.getSharedPreferences("TutorialPreferences", Context.MODE_PRIVATE)
-        preferences.edit().putBoolean("TutorialShown", false).apply()
+        preferences.edit().putBoolean("TutorialShown_${fragmentName}", false).apply()
     }
 
     companion object {
-        fun isFirstTimeTutorial(activity: Activity): Boolean {
+        fun isFirstTimeTutorial(activity: Activity, fragmentName:String): Boolean {
             val preferences = activity.getSharedPreferences("TutorialPreferences", Context.MODE_PRIVATE)
-            return preferences.getBoolean("TutorialShown", true)
+            return preferences.getBoolean("TutorialShown_${fragmentName}", true)
         }
     }
 

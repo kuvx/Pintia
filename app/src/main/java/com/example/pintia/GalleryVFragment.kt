@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.pintia.services.ImageAdapter
 import kotlin.math.min
 
-class GalleryFragment : Fragment() {
+class GalleryVFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var imageAdapter: ImageAdapter

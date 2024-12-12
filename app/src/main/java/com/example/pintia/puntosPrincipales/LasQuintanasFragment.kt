@@ -1,17 +1,17 @@
-package com.example.pintia
+package com.example.pintia.puntosPrincipales
 
 import android.os.Bundle
+import com.example.pintia.R
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
+import com.example.pintia.MainActivity
 import com.example.pintia.services.DynamicViewBuilder.pueblaActivity
 import com.example.pintia.services.TTSManager
-import java.text.Normalizer
 
-class InfoVFragment : Fragment() {
-
+class LasQuintanasFragment : Fragment() {
     private lateinit var ttsManager: TTSManager
     private var idOfAudioPlaying = -1
 
@@ -21,29 +21,32 @@ class InfoVFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_info_views, container, false)
+        val context = requireContext()
 
-        (requireActivity() as MainActivity).updateHeader(getString(R.string.info))
+        val text = getString(R.string.quinanas)
+        (requireActivity() as MainActivity).updateHeader(text)
 
         val layout: RelativeLayout = rootView.findViewById(R.id.component_info_views)
 
-        val context = requireContext()
+        //cambiamos el fondo
+        layout.setBackgroundResource(R.drawable.fondo_quintana)
         ttsManager = TTSManager(context) { success ->
             if (success) {
                 // TTS inicializado correctamente
                 ttsManager.setupListener(requireActivity(), idOfAudioPlaying)
+            } else {
+                // Manejar el error de inicialización
             }
         }
 
-        val path = "aboutUs"
-        var tituloCod = getString(R.string.info).lowercase().replace(" ", "_")
-        tituloCod =
-            Normalizer.normalize(tituloCod, Normalizer.Form.NFD).replace(Regex("\\p{M}"), "")
+
+        val path = "quintana"
+        val tituloCod = text.lowercase().replace(" ", "_")
 
         pueblaActivity(layout, context, path, tituloCod, ttsManager)
 
         return rootView
     }
-
 
     override fun onPause() {
         ttsManager.stop()
@@ -54,5 +57,4 @@ class InfoVFragment : Fragment() {
         ttsManager.shutdown()
         super.onDestroy()
     }
-
 }

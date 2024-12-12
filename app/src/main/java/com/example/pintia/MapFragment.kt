@@ -24,7 +24,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,10 +34,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.pintia.models.TutorialStep
-import com.example.pintia.puntosPrincipales.EdificioUVaVFragment
-import com.example.pintia.puntosPrincipales.LasQuintanasVFragment
-import com.example.pintia.puntosPrincipales.LasRuedasVFragment
-import com.example.pintia.puntosPrincipales.MurallaAsedioVFragment
+import com.example.pintia.puntosPrincipales.EdificioUVaFragment
+import com.example.pintia.puntosPrincipales.LasQuintanasFragment
+import com.example.pintia.puntosPrincipales.LasRuedasFragment
+import com.example.pintia.puntosPrincipales.MurallaAsedioFragment
 import com.example.pintia.services.DynamicViewBuilder.populateDynamicMarkers
 import com.example.pintia.services.DynamicViewBuilder.saveMarkersToFile
 import com.example.pintia.utils.ImageInfoWindow
@@ -50,7 +49,7 @@ import java.util.Date
 import java.util.Locale
 
 
-class MapVFragment : Fragment() {
+class MapFragment : Fragment() {
 
     private lateinit var mapView: MapView
 
@@ -118,35 +117,35 @@ class MapVFragment : Fragment() {
                 41.6239590929,
                 -4.1734857708,
                 R.drawable.ciudad,
-                LasQuintanasVFragment()
+                LasQuintanasFragment()
             ),
             Punto(
                 "La Muralla",
                 41.6228752320,
                 -4.1696152162,
                 R.drawable.defensa,
-                MurallaAsedioVFragment()
+                MurallaAsedioFragment()
             ),
             Punto(
                 "Las Ataque",
                 41.6222774251,
                 -4.1682678963,
                 R.drawable.ataque,
-                MurallaAsedioVFragment()
+                MurallaAsedioFragment()
             ),
             Punto(
                 "Edificio UVa",
                 41.6130494436,
                 -4.1640258634,
                 R.drawable.uva,
-                EdificioUVaVFragment()
+                EdificioUVaFragment()
             ),
             Punto(
                 "Las Ruedas",
                 latitud,
                 longitud,
                 R.drawable.cementerio,
-                LasRuedasVFragment()
+                LasRuedasFragment()
             )
         )
 
@@ -167,8 +166,6 @@ class MapVFragment : Fragment() {
             // Configura el listener de clic para cada marcador
             marker.setOnMarkerClickListener { _, _ ->
                 getMain().changeFragment(punto.fragment)
-                Toast.makeText(context, "Marcador clickeado: ${punto.title}", Toast.LENGTH_SHORT)
-                    .show()
                 true
             }
 
@@ -249,8 +246,9 @@ class MapVFragment : Fragment() {
         tutorialManager = TutorialManager(activity, tutorialOverlay, tutorialSteps)
 
         // Mostrar tutorial si es la primera vez
-        if (TutorialManager.isFirstTimeTutorial(activity)) {
-            tutorialManager.showTutorial()
+        val fragmentName = this::class.simpleName!!
+        if (TutorialManager.isFirstTimeTutorial(activity, fragmentName)) {
+            tutorialManager.showTutorial(fragmentName)
         }
 
         // Configura LocationManager para obtener la ubicación en tiempo real
@@ -273,14 +271,20 @@ class MapVFragment : Fragment() {
                 }
             }
         }
+        startTrackingUserLocation()
 
+        return rootView
+    }
+
+    private fun startTrackingUserLocation() {
         // Intentamos obtener la última ubicación conocida si está disponible
         if (ActivityCompat.checkSelfPermission(
-                context,
+                requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let { location ->
+                addLocatorMarker()
                 updateLocationMarker(location)
                 enableCenterButtonIfLocationAvailable() // Habilita el botón si hay una ubicación
             }
@@ -288,13 +292,11 @@ class MapVFragment : Fragment() {
         } else {
             // Si no hay permisos, solicitarlos
             ActivityCompat.requestPermissions(
-                activity,
+                requireActivity(),
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                 1
             )
         }
-
-        return rootView
     }
 
     // Define la fuente de tiles personalizados para Mapbox
@@ -346,18 +348,20 @@ class MapVFragment : Fragment() {
 
     private var i = 0
 
-    private fun updateLocationMarker(location: Location) {
-        val userLocation = GeoPoint(location.latitude, location.longitude)
-        if (userLocationMarker == null) {
+    private fun addLocatorMarker() {
             // Crear el marcador de ubicación del usuario si no existe
             userLocationMarker = Marker(mapView).apply {
                 icon = ResourcesCompat.getDrawable(resources, R.drawable.user, null)
                 setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
                 mapView.overlays.add(this)
-                Log.d("MapActivity", "Added: ${++i} locations")
             }
             Toast.makeText(context, "Ubicacion a tiempo real cargada", Toast.LENGTH_SHORT).show()
-        }
+
+    }
+
+    private fun updateLocationMarker(location: Location) {
+        val userLocation = GeoPoint(location.latitude, location.longitude)
+
         // Actualizar la posición del marcador y refrescar el mapa
         userLocationMarker?.position = userLocation
         //mapView.invalidate()
@@ -395,6 +399,7 @@ class MapVFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         mapView.onResume()  // Reanuda el mapa cuando la actividad se vuelve interactiva
+        startTrackingUserLocation()
     }
 
     override fun onPause() {
@@ -462,10 +467,8 @@ class MapVFragment : Fragment() {
     private fun addMarker(location: Location, photoPath: String) {
         val marker = Marker(mapView)
         marker.position = GeoPoint(location.latitude, location.longitude)
-        marker.icon = resources.getDrawable(R.drawable.point)
+        marker.icon = ResourcesCompat.getDrawable(resources, R.drawable.point, null)
         marker.snippet = photoPath
-
-        Log.d("PhotoPath", photoPath)
 
         // Crea y asigna la ventana de información personalizada
         val infoWindow = ImageInfoWindow(mapView)

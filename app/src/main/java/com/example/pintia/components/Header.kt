@@ -8,7 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.example.pintia.MainActivity
 import com.example.pintia.R
-import com.example.pintia.RequestVisitFragment
+import com.example.pintia.RequestVisitVFragment
 
 class Header @JvmOverloads constructor(
     context: Context,
@@ -36,7 +36,7 @@ class Header @JvmOverloads constructor(
 
         // Deshabilitar el botón si el fragmento actual es el de reserva
         requestButton.isEnabled =
-            actualFragment != RequestVisitFragment::class.simpleName
+            actualFragment != RequestVisitVFragment::class.simpleName
     }
 
     init {
@@ -50,7 +50,7 @@ class Header @JvmOverloads constructor(
         requestButton = findViewById(R.id.button_reserva)
 
         requestButton.setOnClickListener {
-            (context as MainActivity).changeFragment(RequestVisitFragment())
+            (context as MainActivity).changeFragment(RequestVisitVFragment())
         }
     }
 }

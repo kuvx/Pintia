@@ -15,13 +15,13 @@ import com.example.pintia.utils.TutorialManager
 import com.example.pintia.models.TutorialStep
 import java.text.Normalizer
 
-class YacimientoInfoVFragment : Fragment() {
+class YacimientoInfoFragment : Fragment() {
     companion object {
         private const val ARG_TITULO = "param1"
         private const val ARG_PATH = "param2"
 
-        fun newInstance(titulo: String, path: String): YacimientoInfoVFragment {
-            val fragment = YacimientoInfoVFragment()
+        fun newInstance(titulo: String, path: String): YacimientoInfoFragment {
+            val fragment = YacimientoInfoFragment()
             val args = Bundle()
             args.putString(ARG_TITULO, titulo)
             args.putString(ARG_PATH, path)
@@ -109,8 +109,9 @@ class YacimientoInfoVFragment : Fragment() {
         tutorialManager = TutorialManager(activity, tutorialOverlay, tutorialSteps)
 
         // Mostrar tutorial si es la primera vez
-        if (TutorialManager.isFirstTimeTutorial(activity)) {
-            tutorialManager.showTutorial()
+        val fragmentName= this::class.simpleName!!
+        if (TutorialManager.isFirstTimeTutorial(activity, fragmentName)) {
+            tutorialManager.showTutorial(fragmentName)
         }
 
         return rootView

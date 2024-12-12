@@ -10,7 +10,7 @@ import com.example.pintia.utils.settings.DarkModeUtils
 import com.example.pintia.utils.settings.FontSizeUtils
 import com.example.pintia.utils.settings.LanguageUtils
 
-class SettingsFragment : PreferenceFragmentCompat() {
+class SettingsVFragment : PreferenceFragmentCompat() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,7 +49,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
         LanguageUtils.changeLanguage(requireContext(), languageCode)
 
         // Actualizar el fragmento sin reiniciar
-        (requireActivity() as MainActivity).changeFragment(SettingsFragment())
+        (requireActivity() as MainActivity).changeFragment(SettingsVFragment())
     }
 
     // Font Size

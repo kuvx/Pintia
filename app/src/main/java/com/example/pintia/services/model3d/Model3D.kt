@@ -1,5 +1,6 @@
 package com.example.pintia.services.model3d
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.MotionEvent
 import android.view.View
@@ -9,6 +10,7 @@ import android.webkit.WebView
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import kotlin.math.abs
 
 
 class CustomWebView(context: Context, layout: RelativeLayout) : WebView(context) {
@@ -16,6 +18,7 @@ class CustomWebView(context: Context, layout: RelativeLayout) : WebView(context)
     private var initialY: Float = 0f
     private var isDragging: Boolean = false
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
@@ -28,8 +31,8 @@ class CustomWebView(context: Context, layout: RelativeLayout) : WebView(context)
 
             MotionEvent.ACTION_MOVE -> {
                 // Calcula el desplazamiento
-                val deltaX = Math.abs(event.x - initialX)
-                val deltaY = Math.abs(event.y - initialY)
+                val deltaX = abs(event.x - initialX)
+                val deltaY = abs(event.y - initialY)
 
                 if (!isDragging) {
                     // Determina si es un desplazamiento vertical, horizontal o diagonal

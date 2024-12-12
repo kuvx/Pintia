@@ -10,11 +10,11 @@ import com.example.pintia.components.Footer
 class TemplateFragment : Fragment() {
 
     private val fragmentList = listOf(
-        R.drawable.info to InfoVFragment(),
-        R.drawable.map to MapVFragment(),
-        R.drawable.home to MainMapFragment(),
-        R.drawable.gallery to GalleryFragment(),
-        R.drawable.settings to SettingsFragment()
+        R.drawable.info to InfoFragment(),
+        R.drawable.map to MapFragment(),
+        R.drawable.home to MainMapVFragment(),
+        R.drawable.gallery to GalleryVFragment(),
+        R.drawable.settings to SettingsVFragment()
     )
 
     override fun onCreateView(

@@ -31,7 +31,7 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.*
 import API_TOKEN
 
-class LasRuedasVFragment : Fragment() {
+class LasRuedasFragment : Fragment() {
 
     private lateinit var mapView: MapView
     //Coordenadas Ruedas
@@ -132,8 +132,9 @@ class LasRuedasVFragment : Fragment() {
         tutorialManager = TutorialManager(activity, tutorialOverlay, tutorialSteps)
 
         // Mostrar tutorial si es la primera vez
-        if (TutorialManager.isFirstTimeTutorial(activity)) {
-            tutorialManager.showTutorial()
+        val fragmentName= this::class.simpleName!!
+        if (TutorialManager.isFirstTimeTutorial(activity, fragmentName)) {
+            tutorialManager.showTutorial(fragmentName)
         }
 
         return rootView

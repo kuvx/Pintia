@@ -1,6 +1,7 @@
 package com.example.pintia
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
@@ -8,7 +9,6 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
 import android.widget.Toast
@@ -35,9 +35,10 @@ class MainActivity : AppCompatActivity() {
         disableTimer = true
 
         replaceFrame(R.id.main, TemplateFragment())
-        replaceFrame(R.id.fragment_container, MainMapFragment())
+        changeFragment(MainMapVFragment())
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     private fun lockToVerticalOrientation() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }
@@ -48,9 +49,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        lockToVerticalOrientation()
         requestLocationPermission()
+        lockToVerticalOrientation()
 
         setContentView(R.layout.fragment_main)
         window.navigationBarColor = resources.getColor(R.color.primary, theme)
@@ -74,15 +74,9 @@ class MainActivity : AppCompatActivity() {
     private fun setLockOrientation(newFragmentName: String) {
         val suffix = "VFragment"
         val verticalLock = newFragmentName.endsWith(suffix)
-        Toast.makeText(this, "$suffix $newFragmentName $verticalLock", Toast.LENGTH_SHORT).show()
-        if (!verticalLock) {
-            unlockOrientation()
-            Log.d("ORIENTATION_LOCK", "UNLOCK")
-        }
-        else{
-            lockToVerticalOrientation()
-            Log.d("ORIENTATION_LOCK", "LOCK")
-        }
+
+        if (!verticalLock) unlockOrientation()
+        else lockToVerticalOrientation()
     }
 
     /**
@@ -107,17 +101,21 @@ class MainActivity : AppCompatActivity() {
 
         // Si llegamos a la entrada que generó template fragment avanzamos a la pantalla inicial
         // cambiamos al main, aunque sea menos eficiente es más simple
-        if (lastEntryName == TemplateFragment::class.simpleName)
-            changeMain()
-        else
-            fragmentManager.popBackStack()
+        val isTemplateFragment = lastEntryName == TemplateFragment::class.simpleName
 
+        if (isTemplateFragment) changeMain()
+        else fragmentManager.popBackStack()
+
+        val fragmentName = if (!isTemplateFragment) lastEntryName
+        else MainVFragment::class.simpleName
+
+        setLockOrientation(fragmentName!!)
     }
 
     private fun changeMain(timer: Boolean = false, init: Boolean = false) {
         // Si el cambio al fragmento no es la inicial se carga de nuevo el fragmento
         if (!init)
-            replaceFrame(R.id.main, MainFragment())
+            replaceFrame(R.id.main, MainVFragment())
         change = false
         if (timer) disableTimer = false
 
@@ -155,20 +153,20 @@ class MainActivity : AppCompatActivity() {
      * @param title titulo del header a establecer
      */
     fun updateHeader(title: String) {
-        if (getActualFragment() == MainFragment::class.simpleName) return
+        if (getActualFragment() == MainVFragment::class.simpleName) return
         findViewById<Header>(R.id.header).title = title
         findViewById<Footer>(R.id.footer).updateFooter()
     }
 
     private fun requestLocationPermission() {
         // Intentamos obtener la última ubicación conocida si está disponible
-        val checkLocationPermission = {
+        val isNotLocationPermission = {
             ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         }
-        if (checkLocationPermission()) {
+        if (isNotLocationPermission()) {
             // Si no hay permisos, solicitarlos
             ActivityCompat.requestPermissions(
                 this,
@@ -178,14 +176,8 @@ class MainActivity : AppCompatActivity() {
         }
         val startTime = System.currentTimeMillis()
 
-        Toast.makeText(
-            this,
-            "Starting trying to get the location",
-            Toast.LENGTH_SHORT
-        ).show()
-
         // Si no se ha aceptado se vuelve
-        if (!checkLocationPermission()) return
+        if (isNotLocationPermission()) return
         (getSystemService(Context.LOCATION_SERVICE) as LocationManager)
             .getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let { _ ->
                 val endTime = System.currentTimeMillis()

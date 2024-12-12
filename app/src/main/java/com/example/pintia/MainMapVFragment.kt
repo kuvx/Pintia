@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
-import com.example.pintia.puntosPrincipales.EdificioUVaVFragment
-import com.example.pintia.puntosPrincipales.LasQuintanasVFragment
-import com.example.pintia.puntosPrincipales.LasRuedasVFragment
-import com.example.pintia.puntosPrincipales.MurallaAsedioVFragment
+import com.example.pintia.puntosPrincipales.EdificioUVaFragment
+import com.example.pintia.puntosPrincipales.LasQuintanasFragment
+import com.example.pintia.puntosPrincipales.LasRuedasFragment
+import com.example.pintia.puntosPrincipales.MurallaAsedioFragment
 
-class MainMapFragment : Fragment() {
+class MainMapVFragment : Fragment() {
 
     private fun getMain(): MainActivity {
         return requireActivity() as MainActivity
@@ -28,16 +28,16 @@ class MainMapFragment : Fragment() {
 
         val btnRequest = rootView.findViewById<LinearLayout>(R.id.reserva_btn)
         btnRequest.setOnClickListener {
-            getMain().changeFragment(RequestVisitFragment())
+            getMain().changeFragment(RequestVisitVFragment())
         }
 
 
         // Pares id, frame objetivo
         val fragments = mapOf(
-            R.id.button1 to LasQuintanasVFragment(),
-            R.id.button2 to MurallaAsedioVFragment(),
-            R.id.button3 to LasRuedasVFragment(),
-            R.id.button4 to EdificioUVaVFragment()
+            R.id.button1 to LasQuintanasFragment(),
+            R.id.button2 to MurallaAsedioFragment(),
+            R.id.button3 to LasRuedasFragment(),
+            R.id.button4 to EdificioUVaFragment()
         )
 
         fragments.forEach { (id, fragment) ->
