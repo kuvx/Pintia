@@ -15,13 +15,13 @@ import com.example.pintia.utils.TutorialManager
 import com.example.pintia.models.TutorialStep
 import java.text.Normalizer
 
-class YacimientoInfoFragment : Fragment() {
+class YacimientoInfoVFragment : Fragment() {
     companion object {
         private const val ARG_TITULO = "param1"
         private const val ARG_PATH = "param2"
 
-        fun newInstance(titulo: String, path: String): YacimientoInfoFragment {
-            val fragment = YacimientoInfoFragment()
+        fun newInstance(titulo: String, path: String): YacimientoInfoVFragment {
+            val fragment = YacimientoInfoVFragment()
             val args = Bundle()
             args.putString(ARG_TITULO, titulo)
             args.putString(ARG_PATH, path)

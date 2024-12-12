@@ -31,7 +31,7 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.*
 import API_TOKEN
 
-class LasRuedasFragment : Fragment() {
+class LasRuedasVFragment : Fragment() {
 
     private lateinit var mapView: MapView
     //Coordenadas Ruedas

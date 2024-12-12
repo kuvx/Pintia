@@ -11,7 +11,7 @@ import com.example.pintia.MainActivity
 import com.example.pintia.services.DynamicViewBuilder.pueblaActivity
 import com.example.pintia.services.TTSManager
 
-class LasQuintanasFragment : Fragment() {
+class LasQuintanasVFragment : Fragment() {
     private lateinit var ttsManager: TTSManager
     private var idOfAudioPlaying = -1
 

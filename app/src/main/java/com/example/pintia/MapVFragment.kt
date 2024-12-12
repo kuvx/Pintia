@@ -21,7 +21,6 @@ import org.osmdroid.views.overlay.*
 import android.Manifest
 import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
@@ -36,10 +35,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.example.pintia.models.TutorialStep
-import com.example.pintia.puntosPrincipales.EdificioUVaFragment
-import com.example.pintia.puntosPrincipales.LasQuintanasFragment
-import com.example.pintia.puntosPrincipales.LasRuedasFragment
-import com.example.pintia.puntosPrincipales.MurallaAsedioFragment
+import com.example.pintia.puntosPrincipales.EdificioUVaVFragment
+import com.example.pintia.puntosPrincipales.LasQuintanasVFragment
+import com.example.pintia.puntosPrincipales.LasRuedasVFragment
+import com.example.pintia.puntosPrincipales.MurallaAsedioVFragment
 import com.example.pintia.services.DynamicViewBuilder.populateDynamicMarkers
 import com.example.pintia.services.DynamicViewBuilder.saveMarkersToFile
 import com.example.pintia.utils.ImageInfoWindow
@@ -51,7 +50,7 @@ import java.util.Date
 import java.util.Locale
 
 
-class MapFragment : Fragment() {
+class MapVFragment : Fragment() {
 
     private lateinit var mapView: MapView
 
@@ -88,6 +87,8 @@ class MapFragment : Fragment() {
                 openCamera()
             } else {
                 requestCameraPermission()
+                if (hasCameraPermission())
+                    openCamera()
             }
         }
 
@@ -111,41 +112,41 @@ class MapFragment : Fragment() {
         mapController.setCenter(GeoPoint(latitud, longitud))  // Pintia
 
         // Define la lista de puntos para los marcadores
-        val puntos:List<Punto> = listOf(
+        val puntos: List<Punto> = listOf(
             Punto(
                 "Las Quintana",
                 41.6239590929,
                 -4.1734857708,
                 R.drawable.ciudad,
-                LasQuintanasFragment()
+                LasQuintanasVFragment()
             ),
             Punto(
                 "La Muralla",
                 41.6228752320,
                 -4.1696152162,
                 R.drawable.defensa,
-                MurallaAsedioFragment()
+                MurallaAsedioVFragment()
             ),
             Punto(
                 "Las Ataque",
                 41.6222774251,
                 -4.1682678963,
                 R.drawable.ataque,
-                MurallaAsedioFragment()
+                MurallaAsedioVFragment()
             ),
             Punto(
                 "Edificio UVa",
                 41.6130494436,
                 -4.1640258634,
                 R.drawable.uva,
-                EdificioUVaFragment()
+                EdificioUVaVFragment()
             ),
             Punto(
                 "Las Ruedas",
                 latitud,
                 longitud,
                 R.drawable.cementerio,
-                LasRuedasFragment()
+                LasRuedasVFragment()
             )
         )
 
@@ -336,12 +337,14 @@ class MapFragment : Fragment() {
         }
 
         @Deprecated("Deprecated in Java")
-        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
+        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+        }
+
         override fun onProviderEnabled(provider: String) {}
         override fun onProviderDisabled(provider: String) {}
     }
 
-    var i = 0
+    private var i = 0
 
     private fun updateLocationMarker(location: Location) {
         val userLocation = GeoPoint(location.latitude, location.longitude)

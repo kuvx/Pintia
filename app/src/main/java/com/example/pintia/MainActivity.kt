@@ -1,11 +1,19 @@
 package com.example.pintia
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.example.pintia.components.Footer
 import com.example.pintia.components.Header
@@ -16,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     // Flag para indicar que se ha realizado la transición y en caso de que se suceda otra se ignore
     private var change = false
+
     // Flag para deshabilitar el cambio de fragmento por el temporizador
     private var disableTimer = false
 
@@ -29,8 +38,20 @@ class MainActivity : AppCompatActivity() {
         replaceFrame(R.id.fragment_container, MainMapFragment())
     }
 
+    private fun lockToVerticalOrientation() {
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+    }
+
+    private fun unlockOrientation() {
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        lockToVerticalOrientation()
+        requestLocationPermission()
+
         setContentView(R.layout.fragment_main)
         window.navigationBarColor = resources.getColor(R.color.primary, theme)
         changeMain(init = true, timer = true)
@@ -50,12 +71,27 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
+    private fun setLockOrientation(newFragmentName: String) {
+        val suffix = "VFragment"
+        val verticalLock = newFragmentName.endsWith(suffix)
+        Toast.makeText(this, "$suffix $newFragmentName $verticalLock", Toast.LENGTH_SHORT).show()
+        if (!verticalLock) {
+            unlockOrientation()
+            Log.d("ORIENTATION_LOCK", "UNLOCK")
+        }
+        else{
+            lockToVerticalOrientation()
+            Log.d("ORIENTATION_LOCK", "LOCK")
+        }
+    }
+
     /**
      * Cambia el fragmento actual, contenido entre el header y footer, por el nuevo pasado por
      * parámetro
      * @param fragment nuevo fragmento a colocar
      */
     fun changeFragment(fragment: Fragment) {
+        setLockOrientation(fragment::class.simpleName!!)
         replaceFrame(R.id.fragment_container, fragment)
     }
 
@@ -78,7 +114,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun changeMain(timer: Boolean = false, init:Boolean = false) {
+    private fun changeMain(timer: Boolean = false, init: Boolean = false) {
         // Si el cambio al fragmento no es la inicial se carga de nuevo el fragmento
         if (!init)
             replaceFrame(R.id.main, MainFragment())
@@ -122,5 +158,42 @@ class MainActivity : AppCompatActivity() {
         if (getActualFragment() == MainFragment::class.simpleName) return
         findViewById<Header>(R.id.header).title = title
         findViewById<Footer>(R.id.footer).updateFooter()
+    }
+
+    private fun requestLocationPermission() {
+        // Intentamos obtener la última ubicación conocida si está disponible
+        val checkLocationPermission = {
+            ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        }
+        if (checkLocationPermission()) {
+            // Si no hay permisos, solicitarlos
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                1
+            )
+        }
+        val startTime = System.currentTimeMillis()
+
+        Toast.makeText(
+            this,
+            "Starting trying to get the location",
+            Toast.LENGTH_SHORT
+        ).show()
+
+        // Si no se ha aceptado se vuelve
+        if (!checkLocationPermission()) return
+        (getSystemService(Context.LOCATION_SERVICE) as LocationManager)
+            .getLastKnownLocation(LocationManager.GPS_PROVIDER)?.let { _ ->
+                val endTime = System.currentTimeMillis()
+                Toast.makeText(
+                    this,
+                    "Ubicacion a tiempo real cargada desde el main [${(endTime - startTime) / 1_000_000f} seg]",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
     }
 }

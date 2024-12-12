@@ -11,9 +11,7 @@ import com.example.pintia.R
 import com.example.pintia.services.DynamicViewBuilder.pueblaActivity
 import com.example.pintia.services.TTSManager
 
-
-class EdificioUVaFragment : Fragment() {
-
+class MurallaAsedioVFragment : Fragment() {
     private lateinit var ttsManager: TTSManager
     private var idOfAudioPlaying = -1
 
@@ -23,19 +21,29 @@ class EdificioUVaFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_info_views, container, false)
+        val context = requireContext()
 
-        (requireActivity() as MainActivity).updateHeader(getString(R.string.titulo_principal))
+        val text = getString(R.string.muralla)
+        (requireActivity() as MainActivity).updateHeader(text)
 
-        var layout: RelativeLayout = rootView.findViewById(R.id.component_info_views)
-        ttsManager = TTSManager(requireContext()) { success ->
+        val layout: RelativeLayout = rootView.findViewById(R.id.component_info_views)
+
+        //cambiamos el fondo
+        layout.setBackgroundResource(R.drawable.fondo_defensa)
+        ttsManager = TTSManager(context) { success ->
             if (success) {
                 // TTS inicializado correctamente
                 ttsManager.setupListener(requireActivity(), idOfAudioPlaying)
+            } else {
+                // Manejar el error de inicialización
             }
         }
 
-        val path = "edificio"
-        pueblaActivity(layout,requireContext(), path, path,ttsManager)
+
+        val path = "muralla"
+        val tituloCod = text.lowercase().replace(" ", "_")
+
+        pueblaActivity(layout, context, path, tituloCod, ttsManager)
 
         return rootView
     }
@@ -49,5 +57,5 @@ class EdificioUVaFragment : Fragment() {
         ttsManager.shutdown()
         super.onDestroy()
     }
-
 }
+
