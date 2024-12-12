@@ -1,40 +1,57 @@
 package com.example.pintia.components
 
 import android.content.Context
-import android.content.Intent
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import com.example.pintia.MainMap
+import com.example.pintia.MainActivity
 import com.example.pintia.R
+import com.example.pintia.RequestVisitVFragment
 
 class Header @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
-    ) : LinearLayout(context, attrs, defStyleAttr) {
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr) {
 
-    var title:String = ""
+    var title: String = ""
         set(value) {
             field = value
             updateTitle()
         }
 
     private fun updateTitle() {
-        val titleComponent:TextView = findViewById(R.id.header_title)
+        val titleComponent: TextView = findViewById(R.id.header_title)
         titleComponent.text = context.getString(R.string.header, title)
+
+        updateRequestButton()
+    }
+
+    private val requestButton: ImageButton
+
+    private fun updateRequestButton() {
+        val actualFragment = (context as MainActivity).getActualFragment()
+
+        // Deshabilitar el botón si el fragmento actual es el de reserva
+        requestButton.isEnabled =
+            actualFragment != RequestVisitVFragment::class.simpleName
     }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.component_header, this, true)
-        val backButton:ImageButton = findViewById(R.id.back_button_header)
-        backButton.setOnClickListener {
-            Toast.makeText(context, "Botton redondo presionado", Toast.LENGTH_SHORT).show()
-            val intent = Intent(context, MainMap::class.java)
-            context.startActivity(intent)
+
+        (findViewById<ImageButton>(R.id.back_button_header)!!)
+            .setOnClickListener {
+                (context as MainActivity).goBack()
+            }
+
+        requestButton = findViewById(R.id.button_reserva)
+
+        requestButton.setOnClickListener {
+            (context as MainActivity).changeFragment(RequestVisitVFragment())
         }
     }
 }
+

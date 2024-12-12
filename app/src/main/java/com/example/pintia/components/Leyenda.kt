@@ -1,63 +1,80 @@
 package com.example.pintia.components
 
-import android.os.Bundle
+import android.content.Context
+import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.LinearLayout
+import android.widget.TextView
 import androidx.cardview.widget.CardView
+import com.example.pintia.MainActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.pintia.R
+import com.example.pintia.models.Punto
 
 /**
  * Para q sea mas facil la informacion contenida en la leyenda sera obtenida del back
  * Y los diferentes botones seran generados en este mismo archivo en funcion de los valores
  */
-class Leyenda : @JvmOverloads constructor(
+class Leyenda @JvmOverloads constructor(
     context: Context,
-        attrs: AttributeSet? = null,
-        defStyleAttr: Int = 0
-    ) : LinearLayout(context, attrs, defStyleAttr) {
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : LinearLayout(context, attrs, defStyleAttr) {
 
-    private val points: Array<ImageBooton> by lazy{
-        arrayOf(
-            findViewById(R.id.point_1),
-            findViewById(R.id.point_2),
-            findViewById(R.id.point_3),
-            findViewById(R.id.point_4),
-            findViewById(R.id.point_5)
-        )
-    }
+    // Pares Vista actividad/null por defecto (cada vista que lo use debería reemplazarlos)
+    var myMap : Map<String, Punto> = emptyMap()
+
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.component_footer, this, true)
-        val toggleButton: FloatingActionButton = findViewById(R.id.toggleButton)
-        val legendCardView: CardView = findViewById(R.id.legendCardView)
+        LayoutInflater.from(context).inflate(R.layout.component_leyenda, this, true)
 
-        points.forEachIndexed { index, button ->
-            button.setOnClickListener {
-                changeView(index)
-            }
-        }
+        updateMenuEntries()
+
+        // Obtiene el LinearLayout del layout principal donde se agregarán los TextViews
+        val toggleButton: FloatingActionButton = findViewById(R.id.toggleButton)
 
         toggleButton.setOnClickListener {
             // Cambiar la visibilidad del CardView
-            if (legendCardView.visibility == View.GONE) {
-                legendCardView.visibility = View.VISIBLE
-            } else {
-                legendCardView.visibility = View.GONE
-            }
+            alterMenuVisibility()
         }
     }
 
-    fun changeView(index:Int) {
-        val activityClass: Class<out AppCompatActivity> = when (index) {
-            0 -> HomePointActivity::class.java
-            1 -> RuedasMapPointActivity::class.java
-            2 -> MurallaPointActivity::class.java
-            3 -> CatapultasPointActivity::class.java
-            4 -> YacimientoPointActivity::class.java
-            // No debería llegar aquí
-            else -> MainActivity::class.java
+    private fun updateMenuEntries() {
+        // Itera sobre la lista y agrega un TextView para cada elemento
+        val inflater = LayoutInflater.from(context)
+        val linearLayout = findViewById<LinearLayout>(R.id.leyend_layout)
+        linearLayout.removeAllViews()
+
+        for ((title, punto) in myMap) {
+            // Infla el diseño del TextView desde item_text_view.xml
+            val textView = inflater.inflate(R.layout.leyend_entry, linearLayout, false) as TextView
+            textView.text = title // Establece el texto del TextView
+            textView.setOnClickListener { // Cuando se clicke se cambia de vista
+                (context as MainActivity).changeFragment(punto.fragment)
+            }
+
+            // Agrega el TextView al LinearLayout
+            linearLayout.addView(textView)
         }
-        val intent = Intent(context, activityClass)
-        context.startActivity(intent)
+    }
+
+    private fun alterMenuVisibility(open: Boolean = false, close: Boolean = false) {
+        val legendCardView: CardView = findViewById(R.id.legendCardView)
+        val toggleButton: FloatingActionButton = findViewById(R.id.toggleButton)
+        val openMenu = legendCardView.visibility == View.GONE || open
+        val closeMenu = legendCardView.visibility == View.VISIBLE || close
+        if (openMenu) {
+            legendCardView.visibility = View.VISIBLE
+            toggleButton.setImageResource(R.drawable.retract)
+        } else if (closeMenu) {
+            legendCardView.visibility = View.GONE
+            toggleButton.setImageResource(R.drawable.expand)
+        }
+    }
+
+    fun setMap(newMap : Map<String, Punto>){
+        myMap = newMap
+        updateMenuEntries()
     }
 }

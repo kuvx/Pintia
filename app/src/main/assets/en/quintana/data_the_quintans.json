@@ -1,0 +1,23 @@
+[
+
+  {
+    "type": "text",
+    "value": "The trench of Las Quintanas will reveal the stratigraphy of the city in this area, with 1200 years of continuous history, from the end of the 5th century BC to the 7th century AD. The late Roman-Visigothic phases (4th to 7th century AD) are represented by the stone cist of the Visigothic burial; there are no remains of the Roman levels, but the indigenous or Vaccaean levels are represented by five fire levels which, from the most superficial to the deepest, correspond to the 2nd half of the 2nd century BC, the first half of the 2nd century BC, the 3rd century BC, the 4th century BC and the founding moment, at the base, at the end of the 5th century BC. For each of these levels, we leave a reserved area where walls, hearths, ovens, looms, etc. can be observed."
+  },
+  {
+    "type": "pregunta",
+    "value": "Which people founded the settlement of Pintia?|The Vaccaei"
+  },
+  {
+    "type": "image",
+    "value": "ruedas_img/fondo_quintana.png"
+  },
+  {
+    "type": "pregunta",
+    "value": "What materials were used to build the houses of the Vaccaei city?|Adobe"
+  },
+  {
+    "type": "image",
+    "value": "https://pintiavaccea.es/imagenes_seccion/img201105091237.jpg"
+  }
+]

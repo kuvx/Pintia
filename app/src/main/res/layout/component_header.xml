@@ -3,31 +3,65 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingTop="26dp"
+    android:paddingTop="4dp"
     android:paddingHorizontal="16dp"
-    android:background="@color/azul">
+    android:background="@color/primary"
+    android:weightSum="6">
 
     <ImageButton
         android:id="@+id/back_button_header"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:padding="12dp"
         android:scaleType="fitCenter"
         android:src="@drawable/back"
+        android:layout_weight="1"
         android:background="@drawable/round_button_background"
         />
 
-    <TextView
-        android:id="@+id/header_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:layout_marginStart="-50dp"
-        android:textColor="@color/white"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:layout_weight="1"
-        android:text="@string/header"
-        />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/header_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/on_primary"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:text="@string/header"
+                android:ellipsize="none"
+                />
+        </LinearLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/button_reserva"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:src="@drawable/request"
+                android:background="@drawable/round_button_background"
+                />
+        </LinearLayout>
+
+    </FrameLayout>
+
 
 </LinearLayout>

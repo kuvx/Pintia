@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,11 +9,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/ic_menu"
-        android:backgroundTint="@color/orange"
-        android:contentDescription="Toggle Legend" />
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/secondary_variant"
+        android:contentDescription="Toggle Legend"
+        android:src="@drawable/expand" />
 
     <!-- Contenedor de la leyenda (CardView) -->
     <androidx.cardview.widget.CardView
@@ -22,38 +21,30 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="16dp"
         android:layout_marginTop="72dp"
+        android:layout_marginEnd="16dp"
+        android:backgroundTint="@color/secondary_variant"
         android:padding="16dp"
-        android:visibility="gone"
-        android:backgroundTint="@color/orange"
-        app:cardCornerRadius="8dp">
+        android:visibility="gone">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <!-- Elementos de la leyenda (cambia según lo que necesites) -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Elemento 1"
-                android:textColor="@android:color/white"
-                android:drawableStart="@drawable/ic_marker1"
-                android:drawablePadding="8dp"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Elemento 2"
-                android:textColor="@android:color/white"
-                android:drawableStart="@drawable/ic_marker2"
-                android:drawablePadding="8dp"/>
-
-            <!-- Agrega más elementos de leyenda según sea necesario -->
-
-        </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/leyend_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@android:color/transparent"
+                    android:dividerPadding="20dp"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:showDividers="middle" />
+            </FrameLayout>
+        </ScrollView>
     </androidx.cardview.widget.CardView>
-
 </RelativeLayout>

@@ -1,0 +1,34 @@
+[
+  {
+    "type": "text",
+    "value": "La prospección aérea desarrollada en diversos enclaves vacceos resulta igualmente expresiva y delata complejos sistemas de defensa que incluyen murallas y fosos en lugares como Valoria la Buena, Palenzuela, el teso de Cuestracastro (Mota del Marqués) o la propia Padilla de Duero. Una excavación de urgencia realizada en este último lugar durante el otoño de 2009 permitió acceder, por vez primera, al complejo defensivo de una ciudad vaccea."
+  },
+  {
+    "type": "pregunta",
+    "value": "¿Puedes identificar algún vestigio de la muralla que rodeaba la ciudad?"
+  },
+  {
+    "type": "image",
+    "value": "https://pintiavaccea.es/imagenes_seccion/img201105090130.jpg"
+  },
+  {
+    "type": "text",
+    "value": "En el caso de Pintia, se trataría de un sistema de considerable envergadura, constituido, cuando menos, por una muralla de algo más de un kilómetro de longitud, de casi siete metros de anchura y una altura conservada de metro y medio; además, este muro se reforzaría con sólidos bastiones en los puntos más neurálgicos. \nTras una berma de unos seis metros, se dispondrían hasta tres fosos consecutivos, separados entre sí por resaltes y estacadas, que proporcionan, en su conjunto, una anchura próxima a los treinta metros. Por tanto, el desnivel al que se enfrentaría un potencial atacante, desde el fondo del foso más profundo, no sería inferior a unos diez metros. Este foso fue rellenado en la etapa romana de la ciudad, en los inicios del siglo II a. C., tal y como atestiguan los materiales encontrados en el mismo, tirando la muralla abajo y aportando numerosos escombros y tierras, con fines más sanitarios que de expansión urbana. Entre el material de relleno se recuperó un fragmento de cerámica tipo Clunia con una cervatilla pintada de una gran calidad estética."
+  },
+  {
+    "type": "image",
+    "value": "https://pintiavaccea.es/imagenes_seccion/img201903120116.jpg"
+  },
+  {
+    "type": "text",
+    "value": "La muralla de Pintia debe ponerse en relación asimismo con otro descubrimiento producido en 2000, a una distancia de 150 metros respecto a la muralla de la ciudad. \nEn el lugar que se conoce como Los Hoyos, justo en el cruce del camino, pudo documentarse entonces cómo la arqueta situada sobre el mismo rompía literalmente por el medio una construcción monumental de un muro de mampostería trabado con barro, de unos 4-5 m de anchura. Tal estructura, acompañada de un foso profundo por delante mirando hacia la ciudad de Las Quintanas, debió de construirse para el asedio de la ciudad, en la que era la zona natural de paso, tal vez como consecuencia de los conflictos sertorianos (primer cuarto del siglo I a. C.).\nEn este sentido, no puede pasarse por alto las condiciones topográficas del entorno de Las Quintanas, una mesopotamia entre el río Duero y el arroyo de La Vega de configuración pantanosa, que aún hoy guarda en su toponimia de Las Navas una expresiva referencia. \nAsí, un estudio minucioso del terreno nos permite entender que el muro de asedio romano se situó en el único acceso practicable hacia la ciudad y, más allá, hacia el vado natural que comunicaba ambas orillas del Duero y daba acceso al barrio alfarero de Carralaceña."
+  },
+  {
+    "type": "model3D",
+    "value": "<div class=\"sketchfab-embed-wrapper\"> <iframe title=\"Roman fortification\" frameborder=\"0\" allowfullscreen mozallowfullscreen=\"true\" webkitallowfullscreen=\"true\" allow=\"autoplay; fullscreen; xr-spatial-tracking\" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src=\"https://sketchfab.com/models/5168a5df20e74eb185115a8d7fa8b673/embed?ui_infos=0\"> </iframe> </div>"
+  },
+  {
+    "type": "model3D",
+    "value": "<div class=\"sketchfab-embed-wrapper\"> <iframe title=\"Catapult\" frameborder=\"0\" allowfullscreen mozallowfullscreen=\"true\" webkitallowfullscreen=\"true\" allow=\"autoplay; fullscreen; xr-spatial-tracking\" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src=\"https://sketchfab.com/models/7a9e2ada9fa449efa62899d8e14bdb85/embed\"> </iframe> </div>"
+  }
+]

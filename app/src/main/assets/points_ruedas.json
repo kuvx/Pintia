@@ -1,0 +1,122 @@
+[
+  {
+    "type": "point",
+    "value": "0. Aparcamiento",
+    "latitude": 41.616422,
+    "longitude": -4.169313
+  },
+  {
+    "type": "point",
+    "value": "1. Panel informativo, inicio visita",
+    "latitude": 41.617324, 
+    "longitude": -4.169337
+  },
+  {
+    "type": "point",
+    "value": "2. Pira funeraria",
+    "latitude": 41.617469,
+    "longitude":  -4.169260
+  },
+  {
+    "type": "point",
+    "value": "3. Estratigrafia horizontal",
+    "latitude": 41.617664,
+    "longitude":  -4.169378
+  },
+  {
+    "type": "point",
+    "value": "4. Recuerdo de Pintia",
+    "latitude": 41.617819, 
+    "longitude": -4.169227
+  },
+  {
+    "type": "point",
+    "value": "5. Tumbas in situ (127 y 128) y bustum",
+    "latitude": 41.617990, 
+    "longitude": -4.169510
+  },
+  {
+    "type": "point",
+    "value": "6. Hitos-placa de tumbas exhumadas",
+    "latitude": 41.618223,
+    "longitude":  -4.169554
+  },
+  {
+    "type": "point",
+    "value": "7. Paisaje de estelas funerarias",
+    "latitude": 41.618610, 
+    "longitude": -4.169424
+  },
+  {
+    "type": "point",
+    "value": "8. Escollera y paleocauce, limite Este.",
+    "latitude": 41.618597,
+    "longitude":  -4.169080
+  },
+  {
+    "type": "point",
+    "value": "9. Cementerio también en el siglo XXI",
+    "latitude": 41.618812, 
+    "longitude":-4.169383
+  },
+  {
+    "type": "point",
+    "value": "10. Rituales de exposición a los buitres",
+    "latitude": 41.618618, 
+    "longitude": -4.169645
+  },
+  {
+    "type": "point",
+    "value": "11. Estela con inscultura de zoomorfo cenital",
+    "latitude": 41.618375, 
+    "longitude":-4.170020
+  },
+  {
+    "type": "point",
+    "value": "12. Escultura «<el guardián de la bellota>>",
+    "latitude": 41.618168, 
+    "longitude": -4.169884
+  },
+  {
+    "type": "point",
+    "value": "13. Estela funeraria de Annia Doidena",
+    "latitude": 41.618137, 
+    "longitude": -4.170326
+  },
+  {
+    "type": "point",
+    "value": "14. Las Ruedas, un topónimo",
+    "latitude": 41.617974, 
+    "longitude": -4.170548
+  },
+  {
+    "type": "point",
+    "value": "15. Memorial vacceo, columbario",
+    "latitude": 41.617865, 
+    "longitude": -4.170757
+  },
+  {
+    "type": "point",
+    "value": "16. Un mirador con vistas al presente y al pasado",
+    "latitude": 41.617641, 
+    "longitude": -4.171049
+  },
+  {
+    "type": "point",
+    "value": "17. Monolito a Federico Wattenberg y cenotafios",
+    "latitude": 41.617761, 
+    "longitude": -4.169983
+  },
+  {
+    "type": "point",
+    "value": "18. Tienda, almacén y graderío",
+    "latitude": 41.617593, 
+    "longitude": -4.169703 
+  },
+  {
+    "type": "point",
+    "value": "19. «Tintinnarbula» y area de replicas",
+    "latitude": 41.617257, 
+    "longitude": -4.169111
+  }
+]

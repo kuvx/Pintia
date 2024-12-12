@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="100dp"
+        android:padding="16dp"
+        android:background="@drawable/rounded"
+        android:layout_centerInParent="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/visit_request_name"
+                android:textColor="@color/on_primary"
+                android:textColorHint="@color/on_secondary"
+                android:inputType="textPersonName"
+                android:autofillHints="name" />
+
+            <Spinner
+                android:id="@+id/et_group_size"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/visit_request_group_size"
+                android:textColor="@color/on_secondary"
+                android:textColorHint="@color/on_secondary"
+                android:inputType="number" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+
+                />
+
+            <EditText
+                android:id="@+id/et_phone"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/visit_request_phone"
+                android:textColor="@color/on_primary"
+                android:textColorHint="@color/on_secondary"
+                android:inputType="phone"
+                android:autofillHints="phone"
+                />
+
+            <EditText
+                android:id="@+id/et_date"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/visit_request_date"
+                android:inputType="date"
+                android:textColor="@color/on_primary"
+                android:textColorHint="@color/on_secondary"
+                android:focusable="false"
+                android:clickable="true"
+                />
+
+            <EditText
+                android:id="@+id/et_time"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="@string/visit_request_time"
+                android:inputType="time"
+                android:textColor="@color/on_primary"
+                android:textColorHint="@color/on_secondary"
+                android:focusable="false"
+                android:clickable="true"
+                />
+
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:backgroundTint="@color/secondary_variant"
+                android:textColor="@color/surface"
+                android:text="@string/visit_request_submit_text" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</RelativeLayout>

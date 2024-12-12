@@ -3,10 +3,14 @@
     <string-array name="language_entries">
         <item>Español</item>
         <item>English</item>
+        <item>Français</item>
+        <item>Deutsch</item>
     </string-array>
     <string-array name="language_values">
         <item>es</item>
         <item>en</item>
+        <item>fr</item>
+        <item>de</item>
     </string-array>
     <string-array name="font_size_entries">
         <item>Pequeño</item>
